@@ -1,73 +1,234 @@
 body{
-    background: rgb(252, 247, 244);
+    margin: 0;
+    background-color: hsl(0, 0%, 91%);
 }
 
-
-#imgportada{
-    background: url(../img/pintura.jpg);
-    background-size: cover;
-    width: 100%;
-    height: 300px;
-    margin-top: 130px;
-}
-#imgportada>span{
-    float: left;
-    margin: 0 auto;
-    /*left: auto;*/
-    /*margin-top: 130px;*/
-    text-align: center;
-    background: transparent;
-    border: double 5px white;
-    font-size: 1.5em;
-    color: white;
-    width: 160px;
-    height: 40px;
-    line-height: 40px;
-    
-}
-#imgportada>span:hover{
-    background: whitesmoke;
-    border: double 5px rgb(75, 24, 143);
-    color: rgb(75, 24, 143);
-}
-
-#index{
-    /*margin-top: -20px;*/
-}
-
+/* Pagina del login */
 #login{
-    margin-top: -50px;
-    right: 0;
-    margin-right: 5px;
-    position: absolute;
-    float: right;
+    margin: 200px auto;
     width: 300px;
-    background-color: white;
-    z-index: 10;
-    box-sizing: border-box;
-    border: 2px solid #a1a1a1;
+    
+    border-radius: 15px;
 }
 
-#login dt{
-    padding: 15px;
-    border-bottom: 1px solid #cecccc;
+#cabecera_login{
     text-align: center;
-    font-size: 1.25em;
+    font-family: Overpass;
+    padding: 20px;
+    color: #E1E1E1;
+    background-color: black;
+    border: 3px solid black;
+    border-bottom: none;
+    border-radius: 15px 15px 0 0;
+}
+
+#formlogin{
     width: 100%;
+    height: auto;
+    background: #f3f7fd; 
+    padding: 20px;
+    border: 3px solid black;
+    border-top: none;
+    border-radius: 0 0 15px 15px;
     box-sizing: border-box;
 }
 
-#login dd{
+#formlogin label{
+    float: left;
+    width: 40%;
+}
+
+#formlogin input{
+    float:  left;
+    width: 55%;
+}
+#boton_login{
     padding-bottom: 20px;
 }
-
-#login dd input{
-    width: 80%;
-    margin-top: 20px;
+#boton_login>input{
+    font-family: Overpass;
+    color: black;
+    float: right;
     height: 30px;
+    width: 30%;
+    border-radius: 10px; 
+    background: #FFC800;
+    border: 1px solid #c59a00;
+}
+
+/*Mensaje de Error del login*/
+#msgDNI{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.295);
+    z-index: 8;
+    box-sizing: border-box;
+}
+
+#msgDNI>div{
+    margin: 25px auto;
+    width: 600px;
+    height: 150px;
+    background: whitesmoke;
+    border-radius: 0 0 5px 5px;
+}
+
+#msgDNI div>div:nth-child(1){
+    border-top: 5px solid #5c5c5c;
+    height: 20%;
+    box-sizing: border-box;
+}
+
+#msgDNI div>div:nth-child(2){
+    color: #8a8a8a;
+    border-top: 1px solid #b1b1b1;
+    border-bottom: 1px solid #b1b1b1;
+    height: 40%;
+    padding: 15px 10px;
+    border-radius: 0 0 5px 5px;
+    box-sizing: border-box;
+}
+
+#msgDNI input{
+    float: right;
+    color: whitesmoke;
+    margin: 15px 10px;
+    height: 30px;
+    width: 80px;
+    background-color: #5c5c5c;
     border-radius: 5px;
 }
 
-#login dd input[type="submit"]{
-    background-color: hsla(300, 41%, 50%, 0.824);
+/*Cabecera*/
+#cabecera {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #E1E1E1;
+    height: 30px;
+    z-index: 4;
+}
+
+
+#navegador_cabecera{
+    margin-right: 50px;
+    float: right;
+    font-size: 13px;
+    font-family: Overpass;
+}
+#navegador_cabecera a{
+    text-decoration: none;
+    color: #a2a2a2;
+}
+
+#navegador_cabecera>ul{
+    margin: 0;
+    padding: 0;
+    display: block;
+    list-style: none;
+}
+
+.menu_cabecera{
+    display: inline-block;
+    line-height: 30px;
+    padding: 0 10px;
+}
+
+.menu_cabecera:hover{
+    color: black;
+}
+
+#fondo_cabecera{
+    text-align: center;
+    margin-top: 30px;
+    height: 200px;
+    font-family: Urban_Labels;
+    color: black;
+    line-height: 200px;
+    font-size: 7em;
+    background-image: url("../img/rascacielos.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: -50px;
+}
+
+/*Navegador Principal*/
+#navegador_principal{
+    position: fixed;
+    top: 230px;
+    height: 50px;
+    width: 100%;
+    background: black;
+    color: aliceblue;
+    z-index: 4;
+    box-sizing: border-box;
+    font-family: Overpass;
+}
+
+#navegador_principal>ul{
+    margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+
+.menu_principal{
+    position:relative;
+    float:left;
+    margin:0;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 20px;
+}
+
+.menu_principal:hover{
+    background-color: #E1E1E1;
+    color: #a2a2a2;
+}
+
+/*Secciones*/
+section{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 280px;
+    padding: 40px;
+    background: whitesmoke;
+    height: 1200px;
+}
+/*Productos*/
+#productos_Cliente{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.productoCliente{
+    text-align: center;
+    flex-flow: row;
+    border: 1px solid #a2a2a2;
+    margin-bottom: 30px;
+    font-family: robotos;
+}
+
+.productoCliente img{
+    height: 270px;
+    width: 270px;
+}
+
+#datoMarca{
+    font-size: 1.2em;
+}
+
+#datoNombre{
+    font-size: 0.9em;
+    color: #a2a2a2;
+}
+
+#datoPrecio{
+    font-size: 1.5em;
 }

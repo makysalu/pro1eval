@@ -13,7 +13,6 @@
         <link rel="stylesheet" href="./css/font.css">
         <link rel="stylesheet" href="./css/header.css">
         <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="./css/registro.css">
         
     </head>
     <body>

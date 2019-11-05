@@ -1,53 +1,46 @@
-
-        <!--<div id="login">
-            <dt>
-                INICIAR SESION
-            </dt>
-            <Dd>
-                <form action="" method="post">
-                    <input type="text" placeholder=" Email"/>
-                    <input type="text" placeholder=" Constraseña"/>
-                    <input type="submit" value="Iniciar Sesion"/>
-                </form>
-            </Dd>
-        </div>-->
   <?php 
+    session_start();
         require "./assets/inicioHTML.php";
-        include "./assets/header.php";
-    ?>
-        <script>
-             pintarlogin();
-             function pintarlogin(){
-    var div = document.createElement("div");
-    div.id="login";
-        var dt=document.createElement("dt");
-        dt.innerHTML="INICIAR SESION";
-        var dd=document.createElement("dd");
-        var form=document.createElement("form");
-        dd.appendChild(form);
-            var input=document.createElement("input");
-            input.setAttribute("type","text");
-            input.setAttribute("placeholder"," Email");
-            form.appendChild(input);
-            var input=document.createElement("input");
-            input.setAttribute("type","text");
-            input.setAttribute("placeholder"," Constraseña");
-            form.appendChild(input);
-            var input=document.createElement("input");
-            input.setAttribute("type","submit");
-            input.setAttribute("value","Enviar");
-            form.appendChild(input);
-
-    
-    div.appendChild(dt);
-    div.appendChild(dd);
-    document.write(div);
-    console.log(div);
-    
-}
-        </script>
-    <?php    
+         if(isset($_POST["Loguear"])){
+             $datos=limpiardatos($_POST);
+             require "../src/Modelo.php";
+             $base=new BBDD;
+             $usuario=Usuario::ComprobarCliente($base->conexion,$datos["DNI"],$datos["Password"]);
+             if ($usuario===false) {
+                require "./assets/msgCuenta.php";
+                require "./assets/login.php";
+             }
+             else{
+                if($usuario["admin"]==1){
+                    $_SESSION["dni"]=$usuario["dniCliente"];
+                    $_SESSION["nombre"]=$usuario["nombre"];
+                    $_SESSION["admin"]=$usuario["admin"];
+                    header("location:panelAdmin.php");
+                    //var_dump($_SESSION["admin"]);
+                }
+                else{
+                    $_SESSION["dni"]=$usuario["dniCliente"];
+                    $_SESSION["nombre"]=$usuario["nombre"];
+                    $_SESSION["total"]=0;
+                    header("location:index.php");
+                }
+             }
+         }
+         else {
+            require "./assets/login.php";
+         }
+        
         require "./assets/cierreHTML.php";
+
+        function limpiardatos($post){
+            $datos=array();
+            foreach ($post as $key => $value){  
+                if($key!="Enviar"){
+                    $datos[$key]=htmlentities($value);
+                }
+            }
+            return $datos;
+        }
     ?>
     
-       
+    

@@ -17,3 +17,8 @@
     font-family: Urban_Labels;
     src: url(../fonts/Urban_labels/UrbanLabels.ttf);
 }
+
+@font-face{
+    font-family: robotos;
+    src: url(../fonts/Robots/Roboto-Bold.ttf);
+}

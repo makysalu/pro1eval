@@ -1,14 +1,17 @@
 
     <?php 
-        require "./assets/inicioHTML.php";
-        include "./assets/header.php";
+        session_start();
+        if(isset($_SESSION["dni"])){
+            require "./assets/inicioHTML.php";
+            include "./assets/header.php";
+            require "../src/Modelo.php";
+            $base = new BBDD;
+            $productos=Producto::SelectAll($base->conexion);
+            include "./assets/productos.php";
+            require "./assets/cierreHTML.php";
+        }
+        else{
+            header("location:login.php");
+        }
     ?>
-        <section id="imgportada">
-        <span>Visitar Galeria</span>
-        </section>
-        <section id="index">
-        </section>
-    <?php    
-        require "./assets/cierreHTML.php";
-    ?>
-    
+    <img src="" alt="">
