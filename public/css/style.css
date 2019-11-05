@@ -1,0 +1,73 @@
+body{
+    background: rgb(252, 247, 244);
+}
+
+
+#imgportada{
+    background: url(../img/pintura.jpg);
+    background-size: cover;
+    width: 100%;
+    height: 300px;
+    margin-top: 130px;
+}
+#imgportada>span{
+    float: left;
+    margin: 0 auto;
+    /*left: auto;*/
+    /*margin-top: 130px;*/
+    text-align: center;
+    background: transparent;
+    border: double 5px white;
+    font-size: 1.5em;
+    color: white;
+    width: 160px;
+    height: 40px;
+    line-height: 40px;
+    
+}
+#imgportada>span:hover{
+    background: whitesmoke;
+    border: double 5px rgb(75, 24, 143);
+    color: rgb(75, 24, 143);
+}
+
+#index{
+    /*margin-top: -20px;*/
+}
+
+#login{
+    margin-top: -50px;
+    right: 0;
+    margin-right: 5px;
+    position: absolute;
+    float: right;
+    width: 300px;
+    background-color: white;
+    z-index: 10;
+    box-sizing: border-box;
+    border: 2px solid #a1a1a1;
+}
+
+#login dt{
+    padding: 15px;
+    border-bottom: 1px solid #cecccc;
+    text-align: center;
+    font-size: 1.25em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#login dd{
+    padding-bottom: 20px;
+}
+
+#login dd input{
+    width: 80%;
+    margin-top: 20px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+#login dd input[type="submit"]{
+    background-color: hsla(300, 41%, 50%, 0.824);
+}

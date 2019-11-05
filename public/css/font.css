@@ -1,0 +1,19 @@
+@font-face{
+    font-family: Absolute_pink;
+    src: url(../fonts/absolute_pink/Absolute.otf);
+}
+
+@font-face{
+    font-family: Acratica;
+    src: url(../fonts/acratica/Acratica-demo-font-FFP.otf);
+}
+
+@font-face{
+    font-family: Overpass;
+    src: url(../fonts/Overpass-Bold.ttf/Overpass-Bold.ttf);
+}
+
+@font-face{
+    font-family: Urban_Labels;
+    src: url(../fonts/Urban_labels/UrbanLabels.ttf);
+}
