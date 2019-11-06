@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -35,21 +35,12 @@ Class Usuario{
         $this->email=$email;
         $this->pwd=$pwd;
         }
+
     public function getAll($conexion){
         $consulta="SELECT * FROM clientes";
         return $result=$conexion->query($consulta);
     }
-    public function ComprobarDNI($conexion){
-        $consulta="SELECT c.dniCliente from clientes c WHERE c.dniCliente=".$this->dniCliente;
-        $resultado=$conexion->query($consulta);
-        $row_cnt = $resultado->num_rows;
-        if ($row_cnt==0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+
     public function ComprobarCliente($conexion,$dni,$pwd){
         $consulta="SELECT * FROM clientes WHERE dniCliente = "."'".$dni."'"." AND pwd = "."'".$pwd."'";
         $resultado=$conexion->query($consulta);
@@ -62,30 +53,7 @@ Class Usuario{
             return $cliente;
         }
     }
-    public function SelectAll($conexion){
-        $consulta="SELECT * from clientes";
-        $resultado=$conexion->query($consulta);
-        return $resultado;
-    }
-    public function SelectClient($conexion,$dni){
-        $consulta="SELECT * from clientes WHERE dniCliente =".$dni;
-        $resultado=$conexion->query($consulta);
-        $cliente=$resultado->fetch_assoc();
-        return $cliente;
-    }
-    public function InserClient($conexion){
-        $consulta="insert into clientes values ("."'".$this->dniCliente."'".","."'".$this->nombre."'".","."'".$this->direccion."'".","."'".$this->email."'".","."'".$this->pwd."'".")";
-        $conexion->query($consulta);
-        return true;
-    }
-    public function UpadateCliente($conexion){
-        $consulta="UPDATE clientes SET nombre="."'".$this->nombre."'".", direccion="."'".$this->direccion."'".", email="."'".$this->email."'"." WHERE dniCliente="."'".$this->dniCliente."'";
-        $conexion->query($consulta);
-    }
-    function deleteClient($conexion){
-        $consulta="DELETE FROM clientes WHERE dniCliente="."'".$this->dniCliente."'";
-        $conexion->query($consulta);
-    }
+
 }
 
  class Producto{
@@ -112,4 +80,18 @@ Class Usuario{
         $resultado=$conexion->query($consulta);
         return $resultado;
     }
+
+    public function SelectProducto($conexion, $id){
+        $consulta="SELECT * from productos WHERE productos.idProducto=$id";
+        $resultado=$conexion->query($consulta);
+        $row_cnt = $resultado->num_rows;
+        if ($row_cnt==0){
+            return false;
+        }
+        else{
+            $producto=$resultado->fetch_assoc();
+            return $producto;
+        }
+    }
+
  }

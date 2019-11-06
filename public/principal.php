@@ -11,7 +11,6 @@
             require "./assets/cierreHTML.php";
         }
         else{
-            header("location:login.php");
+            header("location:validar.php");
         }
     ?>
-    <img src="" alt="">

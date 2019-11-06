@@ -7,7 +7,6 @@ body{
 #login{
     margin: 200px auto;
     width: 300px;
-    
     border-radius: 15px;
 }
 
@@ -147,7 +146,7 @@ body{
     font-family: Urban_Labels;
     color: black;
     line-height: 200px;
-    font-size: 7em;
+    font-size: 7vw;
     background-image: url("../img/rascacielos.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -192,15 +191,13 @@ body{
 section{
     width: 80%;
     margin: 0 auto;
-    margin-top: 280px;
-    padding: 40px;
+    margin-top: 260px;
+    padding: 60px;
     background: whitesmoke;
-    height: 1200px;
 }
 /*Productos*/
 #productos_Cliente{
     width: 100%;
-    margin: 0 auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -215,9 +212,49 @@ section{
     font-family: robotos;
 }
 
-.productoCliente img{
-    height: 270px;
-    width: 270px;
+@media screen and (min-width:551px) and (max-width:1100px){
+    .productoCliente img{
+        height: 200px;
+        width: 200px;
+    }
+    #fondo_cabecera{ 
+        font-size: 7.5vw;
+    }
+}
+
+@media screen and (min-width:1101px) and (max-width:1600px){
+    .productoCliente img{
+        height: 270px;
+        width: 270px;
+    }
+    #fondo_cabecera{ 
+        font-size: 7.5vw;
+    }
+}
+
+@media screen and (min-width:1601px){
+    .productoCliente img{
+        height: 330px;
+        width: 330px;
+    }
+}
+
+@media screen and (max-width:550px){
+    #fondo_cabecera{ 
+        font-size: 10vw;
+    }
+    section{
+        width: 100%;
+    }
+    .productoCliente img{
+        height: 330px;
+        width: 330px;
+    }
+}
+
+.productoCliente a{
+    color: black;
+    text-decoration: none;
 }
 
 #datoMarca{
@@ -231,4 +268,144 @@ section{
 
 #datoPrecio{
     font-size: 1.5em;
+}
+
+#imgProducto{
+    margin: auto;
+}
+
+#detalles_Producto{
+    width: 100%;
+    padding: 40px;
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 1fr;
+    box-sizing: border-box;
+}
+#ImgProducto img{
+    width: 30vw;
+    height: 30vw;
+}
+
+#valores_Producto{
+    padding: 20px 40px;
+    box-sizing: border-box;
+    font-family: robotos;
+}
+#valores_Producto div:nth-of-type(1){
+    padding-bottom: 30px;
+    border-bottom: 1px solid silver;
+}
+
+#valores_Producto div:nth-of-type(2){
+    padding-top: 30px;
+}
+
+#valores_Producto input[type="text"]{
+    background: none;
+    border: none;
+}
+#valores_Producto span{
+    font-size: 1vw;
+}
+
+#valores_Producto span:nth-of-type(2){
+    font-size: 0.70vw;
+}
+
+#valores_Producto label{
+    font-size: 1vw;
+}
+#valores_Producto input[type="number"]{
+    padding: 0;
+    margin-left: 10px;
+    height: 2vw;
+    width: 50px;
+}
+
+
+#valores_Producto input[type="submit"], #valores_Producto input[type="button"]{
+    margin-left: 10%;
+    width: 80%;
+    height: 40px;
+    border-radius: 5px;
+}
+
+#valores_Producto input:hover{
+    background-color: whitesmoke;
+    color: #888686;
+}
+
+@media screen and (min-width:551px) and (max-width:1200px){
+    #valores input:nth-of-type(1){
+        font-size: 2vw;
+    }
+    
+    #valores input:nth-of-type(2){
+        font-size: 1vw;
+        color: #a2a2a2;
+    }
+    
+    #valores input:nth-of-type(3){
+        font-size: 2vw;
+    }
+    
+    #valores input:nth-of-type(4){
+        font-size: 0.75vw;
+    }
+}
+
+@media screen and (min-width:1201px){
+    #valores input:nth-of-type(1){
+        font-size: 2vw;
+    }
+    
+    #valores input:nth-of-type(2){
+        font-size: 1vw;
+        color: #a2a2a2;
+    }
+    
+    #valores input:nth-of-type(3){
+        font-size: 2vw;
+    }
+    
+    #valores input:nth-of-type(4){
+        font-size: 0.75vw;
+    }
+}
+
+@media screen and (max-width:550px){
+    #ImgProducto img{
+        width: 80vw;
+        height: 80vw;
+    }
+
+    #valores input:nth-of-type(1){
+        font-size: 2.5vw;
+    }
+    
+    #valores input:nth-of-type(2){
+        font-size: 1.5vw;
+        color: #a2a2a2;
+    }
+    
+    #valores input:nth-of-type(3){
+        font-size: 2.5vw;
+    }
+    
+    #valores input:nth-of-type(4){
+        font-size: 1vw;
+    }
+    #detalles_Producto{
+        width: 100%;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
+
+    #valores_Producto{
+        padding: 40px;
+    }
 }

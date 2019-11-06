@@ -7,6 +7,7 @@
              $base=new BBDD;
              $usuario=Usuario::ComprobarCliente($base->conexion,$datos["DNI"],$datos["Password"]);
              if ($usuario===false) {
+                $base->cerrarconexion();
                 require "./assets/msgCuenta.php";
                 require "./assets/login.php";
              }
@@ -15,6 +16,7 @@
                     $_SESSION["dni"]=$usuario["dniCliente"];
                     $_SESSION["nombre"]=$usuario["nombre"];
                     $_SESSION["admin"]=$usuario["admin"];
+                    $base->cerrarconexion();
                     header("location:panelAdmin.php");
                     //var_dump($_SESSION["admin"]);
                 }
@@ -22,7 +24,8 @@
                     $_SESSION["dni"]=$usuario["dniCliente"];
                     $_SESSION["nombre"]=$usuario["nombre"];
                     $_SESSION["total"]=0;
-                    header("location:index.php");
+                    $base->cerrarconexion();
+                    header("location:principal.php");
                 }
              }
          }

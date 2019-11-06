@@ -7,7 +7,7 @@ if(isset($_SESSION["admin"])){
     require "./assets/cierreHTML.php";
 }
 else{
-    header("location:login.php");
+    header("location:validar.php");
 }
                     
               
