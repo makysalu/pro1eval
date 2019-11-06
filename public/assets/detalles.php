@@ -1,11 +1,12 @@
-<section>
+<section id="seccion_detalles">
     <article id="detalles_Producto">
         <div id="imgProducto">
             <img src="./img/productos/<?php echo $producto['foto'];?>" alt="">
         </div>
         <form id="valores_Producto" class="valores" action="Vercarrito.php" method="post" enctype="multipart/form-data" onsubmit="return comprobarLogin('fromlogin')">
             <div id="valores">
-                <input type="hidden" name="idProducto" value="<?php echo $producto['idProducto'];?>" readonly><br>
+                <input type="hidden" name="idProducto" value="<?php echo $producto['idProducto'];?>" readonly>
+                <input type="hidden" name="foto" value="<?php echo $producto['foto'];?>" readonly>
                 <input type="text" name="marca" value="<?php echo $producto['marca'];?>" readonly><br>
                 <input type="text" name="nombre" value="<?php echo $producto['nombre'];?>" readonly>
                 <br><br>

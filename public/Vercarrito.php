@@ -1,22 +1,22 @@
 <?php 
         session_start();
         if(isset($_SESSION["dni"])){
-            var_dump($_SESSION["Carro"]);
             if(isset($_POST["Comprar"])){
-               if(isset($_SESSION["Carro"][$_POST["idProducto"]])){
-                    $_SESSION["Carro"][$_POST["idProducto"]]=["nombre"=>$_POST["nombre"],"precio"=>$_POST["precio"],"cantidad"=>$_POST["cantidad"]];
-               }
-               else{
-                    $_SESSION["Carro"][$_POST["idProducto"]]=["nombre"=>$_POST["nombre"],"precio"=>$_POST["precio"],"cantidad"=>$_POST["cantidad"]];
-                }
+                $valor=$_SESSION["total"];
+                $valor+=1;
+                $_SESSION["total"]=$valor;
+                $_SESSION["Carro"]["idProducto"][$_SESSION["total"]]=$_POST["idProducto"];
+                $_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
+                $_SESSION["Carro"]["nombre"][$_SESSION["total"]]=$_POST["nombre"];
+                $_SESSION["Carro"]["precio"][$_SESSION["total"]]=$_POST["precio"];
+                $_SESSION["Carro"]["cantidad"][$_SESSION["total"]]=$_POST["cantidad"];
             }
             require "./assets/inicioHTML.php";
-            //include "./assets/header.php";
+            include "./assets/header.php";
             if(isset($_SESSION["Carro"])){
                 include "./assets/carro.php";
             }
             require "./assets/cierreHTML.php";
-
         }
         else{
             

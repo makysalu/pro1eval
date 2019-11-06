@@ -172,6 +172,9 @@ body{
 	list-style: none;
 }
 
+#navegador_principal a{
+    color: aliceblue;
+}
 
 .menu_principal{
     position:relative;
@@ -193,6 +196,7 @@ section{
     margin: 0 auto;
     margin-top: 260px;
     padding: 60px;
+    padding-bottom: 0;
     background: whitesmoke;
 }
 /*Productos*/
@@ -279,7 +283,7 @@ section{
     padding: 40px;
     padding-top: 0;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     box-sizing: border-box;
 }
@@ -408,4 +412,19 @@ section{
     #valores_Producto{
         padding: 40px;
     }
+}
+
+#productos_carro{
+    width: 100%;
+    padding: 40px;
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 1fr 1fr;
+    grid-template-rows: min-content 1fr;
+    box-sizing: border-box;
+}
+
+#productos_carro img{
+    height: auto;
+    width: 180px;
 }
