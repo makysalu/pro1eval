@@ -2,7 +2,7 @@ window.onscroll = function() {myFunction()};
 
 function myFunction() {
   
-  if (document.body.scrollTop > 5|| document.documentElement.scrollTop > 5) {
+  if (document.documentElement.scrollTop > 5) {
     $("#cabecera").css('display', 'none');
     $("#navegador_principal").css('top',0);
     $("section").css('margin-top',40);
@@ -10,8 +10,8 @@ function myFunction() {
     
   } else {
     $("#cabecera").css('display', 'block');
-    $("#navegador_principal").css('top',230);
-    $("section").css('margin-top',260);
-    $("section").css('padding-top',"40px");
+    $("#navegador_principal").css('top',200);
+    $("section").css('margin-top',230);
+    $("section").css('padding-top',"60px");
   }
 }

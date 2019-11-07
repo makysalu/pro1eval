@@ -1,4 +1,4 @@
-<section id="login">
+<div id="login">
     <header id="cabecera_login">
         Iniciar Sesion
     </header>
@@ -11,4 +11,4 @@
             </div>
         </form>
     </article>
-</section>
+</div>

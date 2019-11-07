@@ -16,6 +16,7 @@
                     require "./assets/inicioHTML.php";
                     include "./assets/header.php";
                     include "./assets/detalles.php";
+                    //include "./assets/admin/footer_admin.php";
                     require "./assets/cierreHTML.php";
                  }     
             }

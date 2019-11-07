@@ -1,10 +1,10 @@
 <?php
 session_start();
-var_dump($_SESSION["admin"]);
 if(isset($_SESSION["admin"])){
-    require "./assets/inicioHTML.php";
-    echo "Administraccion";
-    require "./assets/cierreHTML.php";
+    require "./assets/admin/inicioHTML.php";
+    require "./assets/admin/header_admin.php";
+    require "./assets/admin/footer_admin.php";
+    require "./assets/admin/cierreHTML.php";
 }
 else{
     header("location:validar.php");

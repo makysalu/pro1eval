@@ -3,11 +3,23 @@ body{
     background-color: hsl(0, 0%, 91%);
 }
 
+/*Secciones*/
+section{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 200px;
+    padding: 40px;
+    background: whitesmoke;
+}
+
 /* Pagina del login */
 #login{
-    margin: 200px auto;
+    margin: 100px auto;
     width: 300px;
+    padding: 180px 100px;
     border-radius: 15px;
+    background-image: url("../img/rascacielos.jpg");
+    border: 3px groove black;
 }
 
 #cabecera_login{
@@ -142,10 +154,10 @@ body{
 #fondo_cabecera{
     text-align: center;
     margin-top: 30px;
-    height: 200px;
+    height: 170px;
     font-family: Urban_Labels;
     color: black;
-    line-height: 200px;
+    line-height: 170px;
     font-size: 7vw;
     background-image: url("../img/rascacielos.jpg");
     background-repeat: no-repeat;
@@ -156,7 +168,7 @@ body{
 /*Navegador Principal*/
 #navegador_principal{
     position: fixed;
-    top: 230px;
+    top: 170px;
     height: 50px;
     width: 100%;
     background: black;
@@ -190,15 +202,25 @@ body{
     color: #a2a2a2;
 }
 
-/*Secciones*/
-section{
-    width: 80%;
-    margin: 0 auto;
-    margin-top: 260px;
-    padding: 60px;
-    padding-bottom: 0;
-    background: whitesmoke;
+/* pie de pagina*/
+
+#footer_client {
+	position: fixed;
+	width: 100%;
+	background: #333333;
+	color: white;
+	text-align: center;
+	position: absolute;
+    bottom: 0;
 }
+#footer_client  p {
+	margin: 10px;
+}
+
+#footer_client a {
+	color: white;
+}
+
 /*Productos*/
 #productos_Cliente{
     width: 100%;
@@ -281,15 +303,14 @@ section{
 #detalles_Producto{
     width: 100%;
     padding: 40px;
-    padding-top: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     box-sizing: border-box;
 }
 #ImgProducto img{
-    width: 30vw;
-    height: 30vw;
+    width: 25vw;
+    height: 25vw;
 }
 
 #valores_Producto{
@@ -422,9 +443,34 @@ section{
     grid-template-columns: 200px 1fr 1fr 1fr 1fr;
     grid-template-rows: min-content 1fr;
     box-sizing: border-box;
+    font-family: robotos;
 }
-
+.atributo_elemento, .imagen_elemento{
+    padding: 5px;
+    background: hsl(0, 0%, 91%);
+    
+}
+.atributo_elemento{
+    line-height: 100px;
+}
 #productos_carro img{
     height: auto;
-    width: 180px;
+    width: 90px;
+}
+
+#productos_carro span{
+    text-align: center;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 1em;
+}
+
+.titulo_elemento{
+    height: 50px;
+    text-align: center;
+    background: hsl(0, 1%, 29%);
+    line-height: 50px;
+    box-sizing: border-box;
+    font-size: 1.5em;
+    color: white;
 }

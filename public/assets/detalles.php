@@ -11,7 +11,7 @@
                 <input type="text" name="nombre" value="<?php echo $producto['nombre'];?>" readonly>
                 <br><br>
                 <input type="text" name="precio" value="<?php echo $producto['precio'];?>€" readonly><br>
-                <span><label for="cantidad">Contraseña: <input type="number" name="cantidad" min="1" max="100" value="" required><br></span>
+                <span><label for="cantidad">Contraseña: <input type="number" name="cantidad" min="1" max="100" value="1" required><br></span>
                 <span>Incl Iva más envío</span>
             </div>
             <div>
