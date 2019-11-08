@@ -308,7 +308,7 @@ section{
     grid-template-rows: 1fr;
     box-sizing: border-box;
 }
-#ImgProducto img{
+#imgProducto img{
     width: 25vw;
     height: 25vw;
 }

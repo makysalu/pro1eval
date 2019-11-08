@@ -2,7 +2,6 @@
     <?php 
         session_start();
         if(isset($_SESSION["dni"])){
-            var_dump($_GET);
             if(isset($_GET["idProducto"])){
                 require "../src/Modelo.php";
                 $id=$_GET["idProducto"];

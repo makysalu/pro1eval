@@ -9,7 +9,7 @@ function listarClientes() {
     $.ajax({
         type:"POST",
         url:"./controladores/listar_clientes.php",
-        data: {cliente:"listar"},
+        data: {accion:"listar"},
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
@@ -79,15 +79,15 @@ function añadir_cliente() {
     console.log(dnicliente);
     
     $.ajax({
-        type:"POST",
+        type:"GET",
         url:"./controladores/listar_clientes.php",
-        data: {cliente:"datos",dniCliente,nombre,direccion,email},
+        data: {accion:"añadir",dniCliente,nombre,direccion,email},
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
         }
     });
-    listarClientes();
+   
 }
 
 function MODeditar_cliente(boton){
@@ -109,7 +109,7 @@ function datoscliente(dniCliente) {
     $.ajax({
         type:"POST",
         url:"./controladores/listar_clientes.php",
-        data: {cliente:"datos",dniCliente:dniCliente},
+        data: {accion:"datos",dniCliente:dniCliente},
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);

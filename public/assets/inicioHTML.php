@@ -11,7 +11,6 @@
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <link rel="stylesheet" href="./css/normalize.css">
         <link rel="stylesheet" href="./css/font.css">
-        <link rel="stylesheet" href="./css/header.css">
         <link rel="stylesheet" href="./css/style.css">
         
     </head>

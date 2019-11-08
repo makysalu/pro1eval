@@ -5,7 +5,11 @@
              $datos=limpiardatos($_POST);
              require "../src/Modelo.php";
              $base=new BBDD;
-             $usuario=Usuario::ComprobarCliente($base->conexion,$datos["DNI"],$datos["Password"]);
+             $usuario= new Usuario;
+             $usuario->dniCliente=$datos["DNI"];
+             $usuario->pwd=$datos["Password"];
+             var_dump($usuario->dniCliente);
+             $usuario->ComprobarCliente($base->conexion);
              if ($usuario===false) {
                 $base->cerrarconexion();
                 require "./assets/msgCuenta.php";
