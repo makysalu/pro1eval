@@ -5,6 +5,7 @@
     }
     require "./assets/admin/inicioHTML.php";
     require "./assets/admin/header_admin.php";
+    require "./assets/admin/modal_cliente.php";
 ?>
    <section id='listado_usuario'>
         <table id="lista_clientes">
@@ -15,6 +16,7 @@
                 <th>Operaciones</th>
             </tr>               
         </table>
+        <input class="boton_nuevo" type="button" value="Nuevo Cliente">
     </section>
 <?php 
     require "./assets/admin/footer_admin.php";

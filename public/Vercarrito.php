@@ -6,7 +6,7 @@
                 $valor+=1;
                 $_SESSION["total"]=$valor;
                 $_SESSION["Carro"]["idProducto"][$_SESSION["total"]]=$_POST["idProducto"];
-                /*$_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];*/
+                //$_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
                 $_SESSION["Carro"]["nombre"][$_SESSION["total"]]=$_POST["nombre"];
                 $_SESSION["Carro"]["precio"][$_SESSION["total"]]=$_POST["precio"];
                 $_SESSION["Carro"]["cantidad"][$_SESSION["total"]]=$_POST["cantidad"];

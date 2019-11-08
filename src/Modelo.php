@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -54,6 +54,18 @@ Class Usuario{
         }
     }
 
+    public function SacarDatos($conexion,$dni){
+        $consulta="SELECT * FROM clientes WHERE dniCliente = "."'".$dni."'";
+        $resultado=$conexion->query($consulta);
+        $cliente=$resultado->fetch_assoc();
+        return $cliente;
+    }
+
+    public function InserCliente($conexion){
+        $consulta="insert into clientes values ("."'".$this->dniCliente."'".","."'".$this->nombre."'".","."'".$this->direccion."'".","."'".$this->email."'".","."'".$this->pwd."'".")";
+        $link->query($consulta);
+        return true;
+    }
 }
 
  class Producto{

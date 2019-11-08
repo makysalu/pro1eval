@@ -139,7 +139,8 @@ section {
         width:90%;
         display:table;
         border-collapse:collapse;
-        border-spacing:0
+        border-spacing:0;
+        margin-bottom: 20px;
     }
     
     tr{
@@ -163,10 +164,70 @@ section {
         border-radius: 5px;
     }
 
-    #boton_editar{
-        background: green;
+    .boton_editar, .boton_modificar{
+        background: hsl(120, 39%, 75%);
+        border: 2px solid green;
+        color: green;
     }
 
-    #boton_eliminar{
-        background: red;
+    .boton_eliminar, .boton_cancelar{
+        background: rgb(226, 167, 167);
+        border: 2px solid red;
+        color: rgb(92, 7, 7);
     }
+
+    .boton_nuevo, .boton_añadir{
+        background: #adadf8;
+        border: 2px solid blue;
+        color: rgb(7, 7, 138);
+    }
+
+    /*Modal*/
+#modal_cliente{
+    position: absolute;
+    display: none;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.295);
+    z-index: 8;
+    box-sizing: border-box;
+}
+
+#modal_cliente form{
+    margin: 225px auto;
+    width: 400px;
+    background: whitesmoke;
+    border-radius: 15px;
+    padding: 20px 60px;
+    padding-bottom: 50px;
+}
+
+#modal_cliente form h2{
+    text-align: center;
+}
+
+#modal_cliente form label{
+    float: left;
+    width: 40%;
+}
+
+#modal_cliente form input{
+    float:  left;
+    width: 55%;
+}
+
+#modal_cliente form span{
+    float: right;
+    width: 100%;
+}
+
+#modal_cliente form input[type="button"]{
+    font-family: Overpass;
+    color: black;
+    float: right;
+    height: 25px;
+    width: 20%;
+    margin: 0 5px;
+    border-radius: 10px;
+}
