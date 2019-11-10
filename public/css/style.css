@@ -197,11 +197,30 @@ section{
     padding: 0px 20px;
 }
 
+.imagen_carro{
+    padding-top: 5px;
+    position: relative;
+    float: right;
+}
+
+.imagen_carro img{
+    width: 40px;
+    filter: invert(100%);
+}
+
 .menu_principal:hover{
     background-color: #E1E1E1;
     color: #a2a2a2;
 }
 
+.imagen_carro:hover img{
+    filter: invert(0%);
+    
+}
+.imagen_carro:hover{
+    padding-top: 0;
+ }
+ 
 /* pie de pagina*/
 
 #footer_client {
@@ -445,9 +464,9 @@ section{
     box-sizing: border-box;
     font-family: robotos;
 }
-.atributo_elemento, .imagen_elemento{
+.atributo_elemento, .imagen_elemento, .total_carro{
     padding: 5px;
-    background: hsl(0, 0%, 91%);
+    background: rgb(238, 236, 236);
     
 }
 .atributo_elemento{
@@ -455,14 +474,13 @@ section{
 }
 #productos_carro img{
     height: auto;
-    width: 90px;
+    width: 100px;
 }
 
-#productos_carro span{
+#productos_carro div{
     text-align: center;
     margin-bottom: 5px;
     padding: 5px;
-    font-size: 1em;
 }
 
 .titulo_elemento{
@@ -474,3 +492,120 @@ section{
     font-size: 1.5em;
     color: white;
 }
+
+#logo_close{
+    width: 30px !important;
+    margin-top: 30px;
+}
+
+.total_carro{
+   padding: 15px !important;
+   box-sizing: border-box;
+   font-size: 0.8vw;
+}
+
+.titulo_carroTotal{
+    float: left;
+    text-align: left;
+    width: 60%;  
+}
+
+#Total_Carro{
+    font-size: 1.2vw;
+}
+
+#boton_actualizarCarro{
+    width: 30%;
+    float: left;
+}
+
+#boton_confirmarCarro{
+    float: right;
+    width: 40%;
+}
+
+.total_carro input{
+    border-radius: 5px;
+    font-size: 0.8vw;
+    padding: 3px 2px;
+    color: whitesmoke;
+    background-color: #525252;
+    border: 1px solid black;
+    margin: 5px;
+}
+
+.total_carro input:hover{
+    background-color: whitesmoke;
+    color: hsl(0, 0%, 18%);
+    border: 1px solid rgb(124, 124, 124);
+}
+
+#boton_seguirComprando{
+    margin: 20px;
+    padding: 5px;
+    width: 150px;
+}
+.titulo_pedido{
+    font-size: 2vw;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+.tabla_pedido{
+    width: 60%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border-spacing: 0px;
+    background: hsl(0, 0%, 18%);
+    margin-bottom: 50px;
+    font-size: 1vw;
+    font-family: robotos;
+}
+
+.titulo_pedido{
+    font-size: 1.5vw;
+    text-align: center;
+    padding: 20px;
+}
+
+.tabla_pedido td, .tabla_pedido th{
+    padding: 10px 40px;
+    background-color: #e2e2e2;
+   
+}
+
+#valores_pedido th{
+    background-color: #525252;
+    border: 2px solid #1b1b1b;
+    color: hsl(0, 0%, 91%);
+}
+
+    #lienas_pedido th{
+        background-color: #979797;
+        color: hsl(0, 0%, 35%);
+    }
+    #lienas_pedido td{
+        border-top: 1px solid grey;
+    }
+
+    #lienas_pedido{
+        text-align: center;
+    }
+
+    #confirmar_vacio{
+        border-top: none !important;
+        background-color: whitesmoke;
+    }
+
+    #confirmar_total, #confirmar_totalres{
+        font-size: 1.2vw;
+    }
+
+    #confirmar_total{
+        font-weight: bold;
+    }
+    
+
+
+
+

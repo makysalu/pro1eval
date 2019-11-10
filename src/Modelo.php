@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -32,6 +32,7 @@ class Usuario{
     private $direccion;
     private $email;
     private $pwd;
+    private $admin;
     
     public function __get($var){
         return $this->$var;
@@ -55,25 +56,44 @@ class Usuario{
         }
         else{
             $cliente=$resultado->fetch_assoc();
-            $this->dniCliente = $cliente[dniCliente""];
-            $this->nombre = $cliente[dniCliente""];
-            private $direccion;
-            private $email;
-            private $pwd;
+            $this->dniCliente = $cliente["dniCliente"];
+            $this->nombre = $cliente["nombre"];
+            $this->direccion=$cliente["direccion"];
+            $this->email=$cliente["email"];
+            $this->pwd=$cliente["pwd"];
+            $this->admin=$cliente["admin"];
         }
     }
 
-    public function SacarDatos($conexion,$dni){
-        $consulta="SELECT * FROM clientes WHERE dniCliente = "."'".$dni."'";
+    public function SacarDatos($conexion){
+        $consulta="SELECT * FROM clientes WHERE dniCliente = "."'".$this->dniCliente."'";
         $resultado=$conexion->query($consulta);
         $cliente=$resultado->fetch_assoc();
         return $cliente;
     }
 
     public function InsertCliente($conexion){
-        $consulta="insert into clientes values ("."'".$this->dniCliente."'".","."'".$this->nombre."'".","."'".$this->direccion."'".","."'".$this->email."'".","."'".$this->pwd."'".")";
+        $consulta="SELECT * FROM clientes WHERE dniCliente = "."'".$this->dniCliente."'";
+        $resultado=$conexion->query($consulta);
+        $row_cnt = $resultado->num_rows;
+        if($row_cnt==0){
+            $consulta="insert into clientes (dniCliente,nombre,direccion,email,pwd) values ("."'".$this->dniCliente."'".","."'".$this->nombre."'".","."'".$this->direccion."'".","."'".$this->email."'".","."'".$this->pwd."'".")";
+            $conexion->query($consulta);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function deleteClient($conexion){
+        $consulta="DELETE FROM clientes WHERE dniCliente = "."'".$this->dniCliente."'";
         $conexion->query($consulta);
-        return true;
+    }
+
+    public function updateClient($conexion){
+        $consulta="UPDATE clientes SET nombre = "."'".$this->nombre."'".", direccion="."'".$this->direccion."'".", email="."'".$this->email."'"." WHERE dniCliente="."'".$this->dniCliente."'";
+        $conexion->query($consulta);
     }
 }
 
@@ -86,16 +106,6 @@ class Usuario{
      private $unidades;
      private $precio;
 
-    function __construct($idProducto,$nombre,$foto,$marca,$categoria,$unidades,$precio){
-        $this->idProducto=$idProducto;
-        $this->nombre=$nombre;
-        $this->foto=$foto;
-        $this->marca=$marca;
-        $this->categoria=$categoria;
-        $this->unidades=$unidades;
-        $this->precio=$precio;
-    }
-
     public function __get($var){
         return $this->$var;
     }
@@ -104,14 +114,19 @@ class Usuario{
       $this->$var=$valor;
     }
 
-    static function SelectAll($conexion){
-        $consulta="SELECT * from productos";
-        $resultado=$conexion->query($consulta);
-        return $resultado;
+    static function listarProductos($conexion){
+        $consulta="SELECT * FROM productos";
+        return $result=$conexion->query($consulta);
     }
 
-    public function SelectProducto($conexion, $id){
-        $consulta="SELECT * from productos WHERE productos.idProducto=$id";
+    public function InsertProducto($conexion){
+        $consulta="insert INTO productos (nombre,foto,marca,categoria,precio) VALUES ("."'".$this->nombre."'".","."'".$this->foto."'".","."'".$this->marca."'".","."'".$this->categoria."'".","."'".$this->precio."'".")";
+        $resultado=$conexion->query($consulta);
+        return true;
+    }
+
+    public function SelectProducto($conexion){
+        $consulta="SELECT * from productos WHERE productos.idProducto=".$this->idProducto;
         $resultado=$conexion->query($consulta);
         $row_cnt = $resultado->num_rows;
         if ($row_cnt==0){
@@ -119,8 +134,24 @@ class Usuario{
         }
         else{
             $producto=$resultado->fetch_assoc();
-            return $producto;
+            $this->idProducto=$producto["idProducto"];
+            $this->nombre=$producto["nombre"];
+            $this->foto=$producto["foto"];
+            $this->marca=$producto["marca"];
+            $this->categoria=$producto["categoria"];
+            $this->unidades=$producto["unidades"];
+            $this->precio=$producto["precio"];
         }
+    }
+
+    public function deleteProducto($conexion){
+        $consulta="DELETE FROM productos WHERE idProducto = "."'".$this->idProducto."'";
+        $conexion->query($consulta);
+    }
+
+    public function updateproducto($conexion){
+        $consulta="UPDATE productos SET nombre = "."'".$this->nombre."'".", marca="."'".$this->marca."'".", categoria="."'".$this->categoria."'".", precio="."'".$this->precio."'"." WHERE idProducto=".$this->idProducto;
+        $conexion->query($consulta);
     }
 
  }
@@ -129,7 +160,7 @@ class Usuario{
 
     static function añadirLinea($idProducto,$nombre,$precio,$cantidad){
         $_SESSION["Carro"]["idProducto"][$_SESSION["total"]]=$_POST["idProducto"];
-        //$_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
+        $_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
         $_SESSION["Carro"]["nombre"][$_SESSION["total"]]=$_POST["nombre"];
         $_SESSION["Carro"]["precio"][$_SESSION["total"]]=$_POST["precio"];
         $_SESSION["Carro"]["cantidad"][$_SESSION["total"]]=$_POST["cantidad"];
@@ -159,7 +190,7 @@ class Usuario{
  class Pedido{
      private $idPedido;
      private $fecha;
-     private $direntrega;
+     private $dirEntrega;
      private $nTarjeta;
      private $fechaCaducidad;
      private $matriculaRepartidor;
@@ -173,13 +204,33 @@ class Usuario{
       $this->$var=$valor;
     }
 
-     public function altaPedido($dniCliente, $conexion){
+    public function mostrarPedido($conexion){
+        $consulta="SELECT * FROM pedidos WHERE idPedido=".$this->idPedido;
+        $resultado=$conexion->query($consulta);
+        $pedido=$resultado->fetch_assoc();
+        $this->fecha=$pedido["fecha"];
+        $this->dirEntrega=$pedido["dirEntrega"];
+        $this->nTarjeta=$pedido["nTarjeta"];
+        $this->fechaCaducidad=$pedido["fechaCaducidad"];
+        $this->matriculaRepartidor=$pedido["matriculaRepartidor"];
+        $this->dniCliente=$pedido["dniCliente"];
+    }
+    
+    public function altaPedido($conexion){
         $consulta="SELECT MAX(idPedido) AS idPedido FROM pedidos";
         $idPedido=$conexion->query($consulta);
         $idPedido=$idPedido->fetch_assoc();
         $newId=($idPedido["idPedido"]+1);
+        $this->idPedido=$newId;
 
-        $consulta="INSERT INTO pedidos (idPedido,fecha,dniCliente) VALUES ("."'".$newId."'".",NOW(),"."'".$dniCliente."'".")";
+        $consulta="INSERT INTO pedidos (idPedido,fecha,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dniCliente."'".")";
         $conexion->query($consulta);
-     }
+    }
+
+    public function altaLineaPedido($conexion){
+         for ($cont=$_SESSION["total"]-1; $cont > 0 ; $cont--) { 
+             $consulta="INSERT INTO lineaspedidos (idPedido,nlinea,idProducto,cantidad) VALUES ("."'".$this->idPedido."'".","."'".$cont."'".","."'".$_SESSION["Carro"]["idProducto"][$cont]."'".","."'".$_SESSION["Carro"]["cantidad"][$cont]."'".")";
+             $conexion->query($consulta);
+         }
+    }
  }

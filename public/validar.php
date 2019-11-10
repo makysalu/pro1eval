@@ -8,7 +8,6 @@
              $usuario= new Usuario;
              $usuario->dniCliente=$datos["DNI"];
              $usuario->pwd=$datos["Password"];
-             var_dump($usuario->dniCliente);
              $usuario->ComprobarCliente($base->conexion);
              if ($usuario===false) {
                 $base->cerrarconexion();
@@ -16,17 +15,17 @@
                 require "./assets/login.php";
              }
              else{
-                if($usuario["admin"]==1){
-                    $_SESSION["dni"]=$usuario["dniCliente"];
-                    $_SESSION["nombre"]=$usuario["nombre"];
-                    $_SESSION["admin"]=$usuario["admin"];
+                if($usuario->admin==1){
+                    $_SESSION["dni"]=$usuario->dniCliente;
+                    $_SESSION["nombre"]=$usuario->nombre;
+                    $_SESSION["admin"]=$usuario->admin;
                     $base->cerrarconexion();
                     header("location:panelAdmin.php");
                     //var_dump($_SESSION["admin"]);
                 }
                 else{
-                    $_SESSION["dni"]=$usuario["dniCliente"];
-                    $_SESSION["nombre"]=$usuario["nombre"];
+                    $_SESSION["dni"]=$usuario->dniCliente;
+                    $_SESSION["nombre"]=$usuario->nombre;
                     $_SESSION["total"]=0;
                     $base->cerrarconexion();
                     header("location:principal.php");

@@ -83,7 +83,7 @@ nav ul {
     padding:0
 
 }
-.menu_admin:hover{
+.menu_admin:hover, .menu_select{
     filter: invert(100%);
     background: rgb(44, 38, 38);
 }
@@ -130,36 +130,35 @@ section {
 	margin-left: 20%;
     padding: 20px 40px;
     box-sizing: border-box;
-}
-    table,th,td{
-        border:none
+}  
+
+/*tabla*/
+ #lista_admin{
+    width: 100%;
+    padding: 40px;
+    padding-top: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: min-content 1fr;
+    box-sizing: border-box;
+    font-family: robotos;
     }
     
-    table{
-        width:90%;
-        display:table;
-        border-collapse:collapse;
-        border-spacing:0;
-        margin-bottom: 20px;
-    }
-    
-    tr{
-        border-bottom:1px solid rgba(0,0,0,0.12)
-    }
-
-    th{
-        font-size: 1.5em;
-    }
-
-    td,th{
+    #lista_admin div{
         padding:15px 25px;
-        display:table-cell;
         text-align:left;
-        vertical-align:middle;
-        border-radius:2px
+        border-radius:2px;
+        border-bottom:1px solid rgba(0,0,0,0.12);
     }
-    
-    #listado_usuario input{
+
+    .Titulo_lista{
+        font-size: 1.5em;
+        background-color: rgba(0,0,0,0.12);
+    }
+    #lista_admin input{
+        width: 40%;
+    }
+    #lista_admin input{
         margin-left: 10px;
         border-radius: 5px;
     }
@@ -183,7 +182,7 @@ section {
     }
 
     /*Modal*/
-#modal_cliente{
+.modal_form{
     position: absolute;
     display: none;
     top: 0;
@@ -194,35 +193,37 @@ section {
     box-sizing: border-box;
 }
 
-#modal_cliente form{
+.modal_form form{
     margin: 225px auto;
     width: 400px;
+    height: 250px;
     background: whitesmoke;
     border-radius: 15px;
     padding: 20px 60px;
     padding-bottom: 50px;
 }
 
-#modal_cliente form h2{
+.modal_form form h2{
     text-align: center;
 }
 
-#modal_cliente form label{
+.modal_form form label{
     float: left;
     width: 40%;
 }
 
-#modal_cliente form input{
+.modal_form form input{
     float:  left;
     width: 55%;
 }
 
-#modal_cliente form span{
+.modal_form form span{
     float: right;
     width: 100%;
+    margin: 5px 0;
 }
 
-#modal_cliente form input[type="button"]{
+.modal_form form input[type="button"]{
     font-family: Overpass;
     color: black;
     float: right;
@@ -230,4 +231,51 @@ section {
     width: 20%;
     margin: 0 5px;
     border-radius: 10px;
+}
+
+/*Modal de Mensaje*/
+#modalMSG{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.295);
+    z-index: 8;
+    box-sizing: border-box;
+    display: none;
+}
+
+#modalMSG>div{
+    margin: 325px auto;
+    width: 600px;
+    height: 150px;
+    background: whitesmoke;
+    border-radius: 0 0 5px 5px;
+}
+
+#modalMSG div>div:nth-child(1){
+    border-top: 5px solid #5c5c5c;
+    height: 20%;
+    box-sizing: border-box;
+}
+
+#modalMSG div>div:nth-child(2){
+    color: #8a8a8a;
+    border-top: 1px solid #b1b1b1;
+    border-bottom: 1px solid #b1b1b1;
+    height: 40%;
+    padding: 15px 10px;
+    border-radius: 0 0 5px 5px;
+    box-sizing: border-box;
+}
+
+#modalMSG input{
+    float: right;
+    color: whitesmoke;
+    margin: 15px 10px;
+    height: 30px;
+    width: 80px;
+    background-color: #5c5c5c;
+    border: none;
+    border-radius: 5px;
 }

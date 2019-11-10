@@ -1,39 +1,46 @@
 <?php
-    if(isset($_POST["accion"])){
-        if($_POST["accion"]=="listar"){
+    
+
+    if(isset($_POST['funcion'])){
+        if($_POST["funcion"]=="listar"){
             listar_cliente();
         }
-        if($_POST["accion"]=="datos"){
+        if($_POST["funcion"]=="datos"){
             if(isset($_POST["dniCliente"])){
                 datos_cliente($_POST["dniCliente"]);
             }
         }
-        if($_POST["accion"]=="añadir"){
-            var_dump($_POST);
-            echo "<br>";
+        if($_POST["funcion"]=="añadir"){
+            $error= array();
+            foreach ($_POST as $key => $value) {     
+                if(empty($_POST[$key])){
+                    array_push($error,$key);
+                }
+            }
+            if (empty($error)){
+                añadir_cliente($_POST);
+            }
+            else{
+                echo "Existen campos vacios";
+            }
+        }
+        if($_POST["funcion"]=="eliminar"){
             if(isset($_POST["dniCliente"])){
-                echo $_POST["dniCliente"];
+                eliminar_cliente($_POST["dniCliente"]);
+            }
+        }
+        if($_POST["funcion"]=="modificar"){
+            $error= array();
+            foreach ($_POST as $key => $value) {     
+                if(empty($_POST[$key])){
+                    array_push($error,$key);
+                }
+            }
+            if (empty($error)){
+                modificar_cliente($_POST);
             }
             else{
-                echo "error dni";
-            }
-            if(isset($_POST["nombre"])){
-                echo $_POST["nombre"];
-            }
-            else{
-                echo "error nombre";
-            }
-            if(isset($_POST["direccion"])){
-                echo $_POST["direccion"];
-            }
-            else{
-                echo "error direccion";
-            }
-            if(isset($_POST["email"])){
-                echo $_POST["email"];
-            }
-            else{
-                echo "error email";
+                echo "Existen campos vacios";
             }
         }
     }
@@ -41,11 +48,11 @@
 
     function listar_cliente(){
         require "../../src/Modelo.php";
-        $base = new BBDD();
-        $clientes= Usuario::getAll($base->conexion);
+        $base = new BBDD;
+        $clientes= Usuario::listarClientes($base->conexion);
         $listclientes= array();
-        foreach ($clientes as $accion) {
-            array_push($listclientes,$accion);
+        foreach ($clientes as $funcion) {
+            array_push($listclientes,$funcion);
         }
         echo json_encode($listclientes);
     }
@@ -53,18 +60,49 @@
     function datos_cliente($dniCliente){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $accion= Usuario::SacarDatos($base->conexion,$dniCliente);
-        echo json_encode($accion);
+        $usuario=new Usuario();
+        $usuario->dniCliente=$dniCliente;
+        echo json_encode($usuario->SacarDatos($base->conexion));
     }
     
     function añadir_cliente($datos){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $datos=$_POST;
-        $accion= new Usuario($datos["dniCliente"],$datos["nombre"],$datos["direccion"],$datos["email"],"1111");
-        $accion->InserCliente($base->conexion);
-        if ($accion==false) {
-            echo json_encode("Error en la introducion del Cliente");
+        //var_dump($datos);
+        $usuario= new Usuario;
+            $usuario->dniCliente = $datos["dniCliente"];
+            $usuario->nombre = $datos["nombre"];
+            $usuario->direccion=$datos["direccion"];
+            $usuario->email=$datos["email"];
+            $usuario->pwd=$datos["pwd"];
+            $usuario->admin=0;
+        $estado=$usuario->InsertCliente($base->conexion);
+        if (!$estado) {
+            echo "Error en la introducion del Cliente";
+        }
+        else{
+            echo "Se Introducido sin problemas";
         }
     }
-     
+    
+    function eliminar_cliente($dniCliente){
+        require "../../src/Modelo.php";
+        $base = new BBDD();
+        $usuario=new Usuario();
+        $usuario->dniCliente=$dniCliente;
+        $usuario->deleteClient($base->conexion);
+        echo "Se elimino el cliente ".$dniCliente;
+    }
+
+    function modificar_cliente($datos){
+        require "../../src/Modelo.php";
+        $base = new BBDD();
+        $usuario= new Usuario;
+            $usuario->dniCliente = $datos["dniCliente"];
+            $usuario->nombre = $datos["nombre"];
+            $usuario->direccion=$datos["direccion"];
+            $usuario->email=$datos["email"];
+        $usuario->updateClient($base->conexion);
+        echo "se modifico el cliente ".$usuario->nombre." con DNI ".$usuario->dniCliente;
+        //echo json_encode($usuario->SacarDatos($base->conexion));
+    }

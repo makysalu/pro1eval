@@ -6,7 +6,7 @@
             include "./assets/header.php";
             require "../src/Modelo.php";
             $base = new BBDD;
-            $productos=Producto::SelectAll($base->conexion);
+            $productos=Producto::listarProductos($base->conexion);
             include "./assets/productos.php";
             require "./assets/cierreHTML.php";
         }

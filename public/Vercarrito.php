@@ -9,6 +9,14 @@
                 require "../src/Modelo.php";
                 Carrito::ActualizarCarro($_POST["cantidad"]);
             }
+            if(isset($_SESSION["Carro"])){
+                $total=0;
+                for ($cont=0; $cont < $_SESSION["total"]; $cont++) {
+                    $precio=$_SESSION["Carro"]["precio"][$cont];
+                    $cantidad=$_SESSION["Carro"]["cantidad"][$cont];
+                    $total=$total+($precio*$cantidad);
+                }
+            }
             require "./assets/inicioHTML.php";
             include "./assets/header.php";
             include "./assets/carro.php";

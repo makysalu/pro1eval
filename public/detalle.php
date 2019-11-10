@@ -6,7 +6,9 @@
                 require "../src/Modelo.php";
                 $id=$_GET["idProducto"];
                 $base= new BBDD;
-                $producto=Producto::SelectProducto($base->conexion, $id);
+                $producto=new Producto;
+                $producto->idProducto=$id;
+                $producto->SelectProducto($base->conexion);
                 if ($producto===false) {
                     $base->cerrarconexion();
                     header("location:principal.php");

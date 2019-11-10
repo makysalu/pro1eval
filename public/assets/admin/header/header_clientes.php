@@ -9,7 +9,7 @@
 </header>
 <nav>
   <ul>
-      <a href="admin_clientes.php"><li class="menu_admin" id="menu_clientes"><img src="img/target.png" class="imagenes">Gestion Clientes</li></a>
+      <a href="admin_clientes.php"><li class="menu_admin menu_select" id="menu_adminclientes"><img src="img/target.png" class="imagenes">Gestion Clientes</li></a>
       <a href="admin_productos.php"><li class="menu_admin" id="menu_productos"><img src="img/box.png" class="imagenes">Gestion Productos</li></a>
       <a href="admin_pedidos.php"><li class="menu_admin" id="menu_pedidos"><img src="img/choices.png" class="imagenes">Gestion Pedidos</li></a>
   </ul>
