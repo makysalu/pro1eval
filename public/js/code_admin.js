@@ -7,6 +7,10 @@ window.onload = function() {
         $("#menu_productos").addClass("menu_select");
         listarProductos();
     }
+    if($("#gestion_pedidos").length){
+        $("#menu_pedidos").addClass("menu_select");
+        listarPedidos();
+    }
     
 
 }
@@ -206,6 +210,7 @@ function modificar_cliente() {
 function ocultar_modal() {
     $(".modal_form").css("display","none");
     $("#modalMSG").css("display","none");
+    $("#modalIMG").css("display","none");
 }
 
 
@@ -243,9 +248,10 @@ function listarProductos() {
             for(let i in respuesta){
                 div = document.createElement("div");
                 div.className="img_producto";
+                div.id=respuesta[i].foto;
                     let div2=document.createElement("div")
                         img=document.createElement("img");     
-                        img.setAttribute("src","img/productos/"+respuesta[i].foto);
+                        img.setAttribute("src","img/productos/"+respuesta[i].foto);          
                     div2.append(img);
                 div.append(div2);
                 table.append(div);
@@ -285,12 +291,19 @@ function listarProductos() {
 }
 
 function botones_producto(){
+    $(".img_producto").click(function(){Mostrar_producto(this)});
     $(".boton_editar").click(function(){MODeditar_producto(this)});
     $(".boton_eliminar").click(function(){eliminar_producto(this)});
     $(".boton_nuevo").click(function(){MODañadir_producto(this)});
     $(".boton_añadir").click(añadir_producto);
     $(".boton_modificar").click(modificar_producto);
     $(".boton_cancelar").click(ocultar_modal);
+}
+
+function Mostrar_producto(boton){
+    console.log(boton.id);
+    $("#imagen_modal").attr("src","img/productos/"+boton.id);
+    $("#modalIMG").css('display','block');
 }
 
 function MODañadir_producto(boton) {
@@ -412,4 +425,167 @@ function modificar_producto() {
             listarProductos();
         }
     });
+}
+
+function listarPedidos() {
+    //$("#contenido").html("");
+    $.ajax({
+        type:"POST",
+        url:"./controladores/gestion_pedidos.php",
+        data:{funcion: "listar"},
+        datatype:"json",
+        success: function(response){   
+            let respuesta=JSON.parse(response);       
+            let table=document.createElement("div");
+            table.id="lista_admin";
+                div = document.createElement("div");
+                div.innerText="ID Pedido";
+                div.className="Titulo_lista";
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText="Fecha";
+                div.className="Titulo_lista";
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText="Direccion";
+                div.className="Titulo_lista";
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText="Cliente";
+                div.className="Titulo_lista";
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText="Operaciones";
+                div.className="Titulo_lista";
+                table.append(div);
+                
+            for(let i in respuesta){
+                div = document.createElement("div");
+                div.innerText=respuesta[i].idPedido;
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText=respuesta[i].fecha;
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText=respuesta[i].dirEntrega;
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText=respuesta[i].dniCliente+"€";
+                table.append(div);
+                div = document.createElement("div");
+                    let input = document.createElement("input");
+                    input.id="boton_editar."+respuesta[i].idPedido;
+                    input.className = "boton_editar";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Modificar");
+                div.append(input);
+                    input = document.createElement("input");
+                    input.id="boton_eliminar."+respuesta[i].idPedido;
+                    input.className = "boton_eliminar";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Eliminar");
+                div.append(input);
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/menu.png");
+                    img.id="menu-lineas";
+                    div.append(img);
+                        table.append(div);
+
+                div = document.createElement("div");
+                div.className="Detalles_pedido";
+                div.id="detalle-"+respuesta[i].idPedido;
+                table.append(div);
+            }  
+                    input = document.createElement("input");
+                    input.className = "boton_nuevo";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Nuevo Pedido");
+                $("#gestion_pedidos").append(table);
+                $("#gestion_pedidos").append(input);
+            botones_pedido();
+        }
+    });
+}
+
+function botones_pedido(){
+    /*$(".img_producto").click(function(){Mostrar_pedido(this)});*/
+    $(".boton_editar").click(function(){MODeditar_pedido(this)});
+    /*$(".boton_eliminar").click(function(){eliminar_pedido(this)});
+    $(".boton_nuevo").click(function(){MODañadir_pedido(this)});
+    $(".boton_añadir").click(añadir_pedido);
+    $(".boton_modificar").click(modificar_pedido);
+    $(".boton_cancelar").click(ocultar_modal);*/
+}
+
+function MODeditar_pedido(pedido){
+    pedido=pedido.id;
+    let iddiv=pedido;
+    console.log(iddiv);
+    
+    pedido = pedido.split(".");
+    idPedido=pedido[1];
+    
+    $.ajax({
+        type:"POST",
+        url:"./controladores/gestion_pedidos.php",
+        data: {funcion: "listar_productos",idPedido},
+        datatype:"json",
+        success: function(response){
+            console.log(response);
+            let respuesta=JSON.parse(response);       
+            let table=document.createElement("div");
+            table.id="lista_lineas";
+                div = document.createElement("div");
+                div.innerText="ID Pedido";
+                div.className="Titulo_lineas";
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText="Producto";
+                div.className="Titulo_lineas";
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText="Cantidad";
+                div.className="Titulo_lineas";
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText="Operaciones";
+                div.className="Titulo_lineas";
+                table.append(div);
+                
+            for(let i in respuesta){
+                div = document.createElement("div");
+                div.innerText=respuesta[i].idPedido;
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText=respuesta[i].idProducto;
+                table.append(div);
+                div = document.createElement("div");
+                div.innerText=respuesta[i].cantidad;
+                table.append(div);
+                div = document.createElement("div");
+                    input = document.createElement("input");
+                    input.id="boton_eliminar."+respuesta[i].idPedido;
+                    input.className = "boton_eliminar";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Eliminar");
+                    div.append(input);
+                table.append(div);
+            }     
+            $("#detalle-"+idPedido).append(table);
+        
+            
+            console.log($('#detalle-'+idPedido));
+            
+            $('#detalle-'+idPedido).css('display','block')
+           // $(".Detalles_pedido").css('display','block')
+            //let respuesta=JSON.parse(response);
+            /*$("#modal_idProducto").val(idProducto);
+            $("#modal_nombre").val(respuesta["nombre"]);
+            $("#modal_marca").val(respuesta["marca"]);
+            $("#modal_categoria").val(respuesta["categoria"]);
+            $("#modal_precio").val(respuesta["precio"]);*/
+            
+        }
+    });
+    
 }

@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -48,7 +48,7 @@ class Usuario{
     }
 
     public function ComprobarCliente($conexion){
-        $consulta="SELECT * FROM clientes WHERE dniCliente = "."'".$this->dniCliente."'"." AND pwd = "."'".$this->pwd."'";
+        $consulta="SELECT * FROM clientes WHERE dniCliente = "."'".$this->dniCliente."'";
         $resultado=$conexion->query($consulta);
         $row_cnt = $resultado->num_rows;
         if ($row_cnt==0){
@@ -202,6 +202,17 @@ class Usuario{
 
     public function __set($var,$valor){
       $this->$var=$valor;
+    }
+
+    static function listarPedidos($conexion){
+        $consulta="SELECT * FROM pedidos";
+        return $result=$conexion->query($consulta);
+    }
+
+    public function listarLineasPedidos($conexion){
+        $consulta="SELECT * FROM lineaspedidos WHERE idPedido=".$this->idPedido;
+       // var_dump($consulta);
+        return $result=$conexion->query($consulta);
     }
 
     public function mostrarPedido($conexion){

@@ -68,13 +68,13 @@
     function añadir_cliente($datos){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        //var_dump($datos);
         $usuario= new Usuario;
             $usuario->dniCliente = $datos["dniCliente"];
             $usuario->nombre = $datos["nombre"];
             $usuario->direccion=$datos["direccion"];
             $usuario->email=$datos["email"];
-            $usuario->pwd=$datos["pwd"];
+            $password=password_hash($datos["pwd"], PASSWORD_DEFAULT);
+            $usuario->pwd=$password;
             $usuario->admin=0;
         $estado=$usuario->InsertCliente($base->conexion);
         if (!$estado) {
