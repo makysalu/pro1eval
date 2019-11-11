@@ -145,13 +145,39 @@ section {
     }
     
     #lista_admin div{
-        padding:15px 25px;
+        padding:35px 25px;
         text-align:left;
         border-radius:2px;
         border-bottom:1px solid rgba(0,0,0,0.12);
+        /*line-height: 50px;*/
     }
 
+    .img_producto{
+        padding:5px 5px !important;
+    }
+
+    .img_producto div{
+        padding: 0 !important;
+        border: none !important;
+        width: 80px;
+        height: auto;
+    }
+
+    #lista_admin img{
+        width: 100%;
+        height: auto;
+      }
+
+      @supports(object-fit: cover){
+        #lista_admin img{
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+          }
+      }
+
     .Titulo_lista{
+        padding:15px 25px !important;
         font-size: 1.5em;
         background-color: rgba(0,0,0,0.12);
     }

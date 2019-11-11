@@ -221,7 +221,6 @@ function listarProductos() {
             let table=document.createElement("div");
             table.id="lista_admin";
                 let div = document.createElement("div");
-                div.innerText="Foto";
                 div.className="Titulo_lista";
                 table.append(div);
                 div = document.createElement("div");
@@ -243,8 +242,12 @@ function listarProductos() {
                 
             for(let i in respuesta){
                 div = document.createElement("div");
-                div.innerText=respuesta[i].foto;
-                div.id="columna_dni";
+                div.className="img_producto";
+                    let div2=document.createElement("div")
+                        img=document.createElement("img");     
+                        img.setAttribute("src","img/productos/"+respuesta[i].foto);
+                    div2.append(img);
+                div.append(div2);
                 table.append(div);
                 div = document.createElement("div");
                 div.innerText=respuesta[i].nombre;
