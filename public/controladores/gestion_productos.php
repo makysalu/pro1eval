@@ -1,5 +1,5 @@
 <?php
-
+    
     if(isset($_POST['funcion'])){
         if($_POST["funcion"]=="listar"){
             listar_productos();
@@ -38,14 +38,26 @@
             }
         }
         if($_POST["funcion"]=="modificar"){
+            var_dump($_POST);
             $error= array();
             foreach ($_POST as $key => $value) {     
                 if(empty($_POST[$key])){
                     array_push($error,$key);
                 } 
             }
+            if(($_FILES['file']['name'])===""){
+                array_push($error,"file");
+            }
             if (empty($error)){
-                modificar_producto($_POST);
+                $foto=introducirarchivo();
+                if($foto){
+                    var_dump($_FILES);
+                    //var_dump($_POST);
+                    //modificar_producto($_POST,$foto);
+                }
+                else{
+                    echo "no se puedo introducir la imagen";
+                }
             }
             else{
                 echo "Existen campos vacios";
@@ -137,7 +149,7 @@
         echo "Se elimino el cliente ".$idProducto;
     }
 
-    function modificar_producto($datos){
+    function modificar_producto($datos,$foto){
         require "../../src/Modelo.php";
         $base = new BBDD();
         $producto= new Producto;
@@ -146,6 +158,8 @@
             $producto->marca=$datos["marca"];
             $producto->categoria=$datos["categoria"];
             $producto->precio=$datos["precio"];
+            $producto->foto=$foto;
+        
         $producto->updateproducto($base->conexion);
         /*$producto->SelectProducto($base->conexion);
         $datosproducto["idProducto"]=$producto->idProducto;
@@ -154,5 +168,5 @@
         $datosproducto["categoria"]=$producto->categoria;
         $datosproducto["precio"]=$producto->precio;
         echo json_encode($datosproducto);*/
-        echo "Se ha eliminado el producto ".$producto->nombre;
+        //echo "Se ha modificado el producto ".$producto->nombre;
     }

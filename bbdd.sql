@@ -13,7 +13,7 @@
 
 -- Volcando datos para la tabla virtualmarket.clientes: ~10 rows (aproximadamente)
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` (`dniCliente`, `nombre`, `direccion`, `email`, `pwd`, `admin`) VALUES
+/*INSERT INTO `clientes` (`dniCliente`, `nombre`, `direccion`, `email`, `pwd`, `admin`) VALUES
 	('1', 'diego', 'Maximiliano THousx', 'dimoal@gmail.com', '$2y$10$jGPbMlHEEA1vB0q0tPDcTeuavMM8fKfCrMwj4ctkMdMs.nB7b.556', 1),
 	('11111111', 'antonios', 'C/ valeras 22', 'antonio@midominio.es', '2117', 0),
 	('11111112', 'Diego', 'C/maximiliano thous', 'dimoal01@gmail.com', '2117', 1),
@@ -44,7 +44,7 @@ INSERT INTO `lineaspedidos` (`idPedido`, `nlinea`, `idProducto`, `cantidad`) VAL
 
 -- Volcando datos para la tabla virtualmarket.pedidos: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` (`idPedido`, `fecha`, `dirEntrega`, `nTarjeta`, `fechaCaducidad`, `matriculaRepartidor`, `dniCliente`) VALUES
+/*INSERT INTO `pedidos` (`idPedido`, `fecha`, `dirEntrega`, `nTarjeta`, `fechaCaducidad`, `matriculaRepartidor`, `dniCliente`) VALUES
 	(1, '2016-01-20', 'C/ Valeras, 22', '111111', '2020-02-02', 'pbf-1144', '11111111'),
 	(2, '2016-02-10', 'C/ Princesa, 15', '333333', '2020-02-02', 'bbc-2589', '33333333'),
 	(3, '2019-11-08', '', NULL, NULL, NULL, '11111111'),
@@ -57,7 +57,7 @@ INSERT INTO `pedidos` (`idPedido`, `fecha`, `dirEntrega`, `nTarjeta`, `fechaCadu
 
 -- Volcando datos para la tabla virtualmarket.productos: ~8 rows (aproximadamente)
 /*!40000 ALTER TABLE `productos` DISABLE KEYS */;
-INSERT INTO `productos` (`idProducto`, `nombre`, `foto`, `marca`, `categoria`, `unidades`, `precio`) VALUES
+/*INSERT INTO `productos` (`idProducto`, `nombre`, `foto`, `marca`, `categoria`, `unidades`, `precio`) VALUES
 	(1, 'Columbia Sportswear', 'ColumbiaSportswear.jpg', 'Columbia', 'camiseta', 100, 79.99),
 	(2, 'C&S WL A Dream Tee', 'CaylerSons.jpg', 'Cayler & Sons', 'camiseta', 100, 24.99),
 	(3, 'KK Signature Stripe Tee', 'KarlKani.jpg', 'Karl Kani', 'camiseta', 100, 34.99),
@@ -65,7 +65,7 @@ INSERT INTO `productos` (`idProducto`, `nombre`, `foto`, `marca`, `categoria`, `
 	(5, 'KK Denim Baggy', 'KKDenimBaggy.jpg', 'Karl Kani', 'pantalon', 100, 79.99),
 	(6, 'Box Logo', 'BoxLogo.jpg', 'Snipes', 'camiseta', 100, 19.99),
 	(8, 'NSW Subset tee', 'NSWsubset.jpg', 'Nike', 'camiseta', 100, 39.99),
-	(9, 'Basketballschuh Air Force 1', 'Basketballschuch.jpg', 'Nike', 'zapatillas', 100, 99.99);
+	(9, 'Basketballschuh Air Force 1', 'Basketballschuch.jpg', 'Nike', 'zapatillas', 100, 99.99);*/
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -150,7 +150,8 @@ class Usuario{
     }
 
     public function updateproducto($conexion){
-        $consulta="UPDATE productos SET nombre = "."'".$this->nombre."'".", marca="."'".$this->marca."'".", categoria="."'".$this->categoria."'".", precio="."'".$this->precio."'"." WHERE idProducto=".$this->idProducto;
+        $consulta="UPDATE productos SET nombre = "."'".$this->nombre."'".", foto="."'".$this->foto."'".", marca="."'".$this->marca."'".", categoria="."'".$this->categoria."'".", precio="."'".$this->precio."'"." WHERE idProducto=".$this->idProducto;
+        echo $consulta;
         $conexion->query($consulta);
     }
 
@@ -230,18 +231,48 @@ class Usuario{
     public function altaPedido($conexion){
         $consulta="SELECT MAX(idPedido) AS idPedido FROM pedidos";
         $idPedido=$conexion->query($consulta);
+        
         $idPedido=$idPedido->fetch_assoc();
         $newId=($idPedido["idPedido"]+1);
         $this->idPedido=$newId;
 
-        $consulta="INSERT INTO pedidos (idPedido,fecha,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dniCliente."'".")";
+        $consulta="INSERT INTO pedidos (idPedido,fecha,dirEntrega,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dirEntrega."'".","."'".$this->dniCliente."'".")";
+        //$consulta="INSERT INTO pedidos (idPedido,fecha,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dniCliente."'".")";
         $conexion->query($consulta);
     }
 
     public function altaLineaPedido($conexion){
          for ($cont=$_SESSION["total"]-1; $cont > 0 ; $cont--) { 
              $consulta="INSERT INTO lineaspedidos (idPedido,nlinea,idProducto,cantidad) VALUES ("."'".$this->idPedido."'".","."'".$cont."'".","."'".$_SESSION["Carro"]["idProducto"][$cont]."'".","."'".$_SESSION["Carro"]["cantidad"][$cont]."'".")";
+             
              $conexion->query($consulta);
          }
     }
+
+    static function añadirLineaPedido($conexion, $idPedido,$idProducto,$cantidad){
+        $consulta="SELECT MAX(nlinea) AS nlinea FROM lineaspedidos WHERE idPedido=".$idPedido;
+        $nlinea=$conexion->query($consulta);
+        $nlinea=$nlinea->fetch_assoc();
+        $newlinea=($nlinea["nlinea"]+1);
+        $consulta="INSERT INTO lineaspedidos (idPedido,nlinea,idProducto,cantidad) VALUES ("."'".$idPedido."'".","."'".$newlinea."'".","."'".$idProducto."'".","."'".$cantidad."'".")";
+        $conexion->query($consulta);
+   }
+
+    public function eliminarLineaPedido($conexion, $nlinea){
+        $consulta="DELETE FROM lineaspedidos WHERE idPedido ='".$this->idPedido."' && nlinea=$nlinea";
+        $conexion->query($consulta);
+    }
+
+    public function deletePedido($conexion){
+        $consulta="DELETE FROM lineaspedidos WHERE idPedido = "."'".$this->idPedido."'";
+        $conexion->query($consulta);
+        $consulta="DELETE FROM pedidos WHERE idPedido = "."'".$this->idPedido."'";
+        $conexion->query($consulta);
+    }
+
+    public function updatepedido($conexion){
+        $consulta="UPDATE pedidos SET dirEntrega = "."'".$this->dirEntrega."'".", dniCliente="."'".$this->dniCliente."'"." WHERE idPedido=".$this->idPedido;
+        $conexion->query($consulta);
+    }
+
  }
