@@ -3,7 +3,7 @@
 ?>
 <div id="modal_cliente">
     
-    <!--<form id="form_modal" action="listar_clientes.php" method="post" enctype="multipart/form-data">
+    <!--<form id="form_modal" action="gestion_clientes.php" method="post" enctype="multipart/form-data">
         <h2 id="titulo_modal">Modificar Cliente</h2>
         <label for="modal_dniCliente"><strong>Funcion </strong></label><input id="modal_dniCliente" name="funcion" type="text" value=""><br><br>
         <span><label for="modal_dniCliente"><strong>DNI: </strong></label><input id="modal_dniCliente" name="dniCliente" type="text" value=""></span>

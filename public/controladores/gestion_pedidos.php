@@ -14,11 +14,13 @@
             }
         }
         if($_POST["funcion"]=="añadir"){
+            $respuesta=array();
             if((isset($_POST["direccion"]))&&(isset($_POST["dniCliente"]))){
-                añadir_pedido($_POST);
+                añadir_pedido($_POST,$respuesta);
             }
             else{
-                echo "Existen campos vacios";
+                array_push($respuesta,false);
+                echo json_encode($respuesta);
             }
         }
         if($_POST["funcion"]=="eliminar"){
@@ -27,6 +29,7 @@
             }
         }
         if($_POST["funcion"]=="modificar"){
+            $respuesta=array();
             $error= array();
             foreach ($_POST as $key => $value) {     
                 if(empty($_POST[$key])){
@@ -34,26 +37,31 @@
                 } 
             }
             if (empty($error)){
-                modificar_pedido($_POST);
+                modificar_pedido($_POST,$respuesta);
             }
             else{
-                echo "Existen campos vacios";
+                array_push($respuesta,false);
+                echo json_encode($respuesta);
             }
         }
         if($_POST["funcion"]=="eliminar_linea"){
+            $respuesta=array();
             if((isset($_POST["idPedido"]))&&(isset($_POST["nlinea"]))){
-                eliminar_linea($_POST);
+                eliminar_linea($_POST,$respuesta);
             }
             else{
-                echo "Existen campos vacios";
+                array_push($respuesta,false);
+                echo json_encode($respuesta);
             }
         }
         if($_POST["funcion"]=="añadir_linea"){
+            $respuesta=array();
             if((isset($_POST["idProducto"]))&&(isset($_POST["cantidad"]))){
-                añadir_linea($_POST);
+                añadir_linea($_POST,$respuesta);
             }
             else{
-                echo "Existen campos vacios";
+                array_push($respuesta,false);
+                echo json_encode($respuesta);
             }
         }
     }
@@ -95,27 +103,30 @@
         echo json_encode($datospedido);
     }
     
-    function añadir_pedido($datos){
+    function añadir_pedido($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
         $pedido= new Pedido;
             $pedido->dirEntrega=$datos["direccion"];
             $pedido->dniCliente=$datos["dniCliente"];
         $pedido->altaPedido($base->conexion);
-        echo "Pedido dado de alta";
+        array_push($respuesta,false);
+        echo json_encode($respuesta);
     }
     
 
     function eliminar_pedido($idPedido){
+        $respuesta=array();
         require "../../src/Modelo.php";
         $base = new BBDD();
         $Pedido=new Pedido();
         $Pedido->idPedido=$idPedido;
         $Pedido->deletePedido($base->conexion);
-        echo "Se elimino el pedido ".$idPedido;
+        array_push($respuesta,true);
+        echo json_encode($respuesta);
     }
 
-    function modificar_pedido($datos){
+    function modificar_pedido($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
         $pedidos= new Pedido;
@@ -123,22 +134,25 @@
             $pedidos->dirEntrega = $datos["direccion"];
             $pedidos->dniCliente = $datos["dniCliente"];
         $pedidos->updatepedido($base->conexion);
-        echo "Se modifico correctamente";
+        array_push($respuesta,true);
+        echo json_encode($respuesta);
     }
 
-    function eliminar_linea($datos){
+    function eliminar_linea($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
         $Pedido= new Pedido();
         $Pedido->idPedido=$datos["idPedido"];
         $Pedido->eliminarLineaPedido($base->conexion,$datos["nlinea"]);
-        echo "Se elimino la linea ".$datos["nlinea"]." del pedido ".$Pedido->idPedido;
+        array_push($respuesta,true);
+        echo json_encode($respuesta);
     }
 
-    function añadir_linea($datos){
+    function añadir_linea($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
         $Pedido= new Pedido();
         Pedido::añadirLineaPedido($base->conexion,$datos["idPedido"],$datos["idProducto"],$datos["cantidad"]);
-        echo "Se introducido un nuevo producto";
+        array_push($respuesta,true);
+        echo json_encode($respuesta);
     }

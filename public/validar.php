@@ -5,27 +5,24 @@
              $datos=limpiardatos($_POST);
              require "../src/Modelo.php";
              $base=new BBDD;
-             $usuario= new Usuario;
-             $usuario->dniCliente=$datos["DNI"];
-             $usuario->ComprobarCliente($base->conexion);
-             if ($usuario===false) {
+             var_dump($_POST);
+             $usuario= new Usuario($datos["DNI"],"","","","","");
+             $estadoLogin=$usuario->ComprobarCliente($base->conexion);
+             if ($estadoLogin===false) {
                 $base->cerrarconexion();
                 require "./assets/msgCuenta.php";
                 require "./assets/login.php";
              }
              else{
                 if(password_verify($datos["Password"],$usuario->pwd)){
+                    $_SESSION["dni"]=$usuario->dniCliente;
+                    $_SESSION["nombre"]=$usuario->nombre;
                     if($usuario->admin==1){
-                        $_SESSION["dni"]=$usuario->dniCliente;
-                        $_SESSION["nombre"]=$usuario->nombre;
                         $_SESSION["admin"]=$usuario->admin;
                         $base->cerrarconexion();
                         header("location:panelAdmin.php");
                     }
                     else{
-                        
-                        $_SESSION["dni"]=$usuario->dniCliente;
-                        $_SESSION["nombre"]=$usuario->nombre;
                         $_SESSION["total"]=0;
                         $base->cerrarconexion();
                         header("location:principal.php");

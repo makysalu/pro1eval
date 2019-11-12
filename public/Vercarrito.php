@@ -1,16 +1,17 @@
 <?php 
         session_start();
+        $total=0;  
         if(isset($_SESSION["dni"])){
+            $total=0;
             if(isset($_POST["Comprar"])){
                 require "../src/Modelo.php";
                 Carrito::añadirLinea($_POST["idProducto"],$_POST["nombre"],$_POST["precio"],$_POST["cantidad"]);
             }
-            if(isset($_POST["actualizar"])){
+            else if(isset($_POST["actualizar"])){
                 require "../src/Modelo.php";
                 Carrito::ActualizarCarro($_POST["cantidad"]);
             }
             if(isset($_SESSION["Carro"])){
-                $total=0;
                 for ($cont=0; $cont < $_SESSION["total"]; $cont++) {
                     $precio=$_SESSION["Carro"]["precio"][$cont];
                     $cantidad=$_SESSION["Carro"]["cantidad"][$cont];

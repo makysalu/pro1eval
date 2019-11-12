@@ -8,8 +8,8 @@
         <div class="titulo_elemento">BORRAR</div>
         <?php
             for ($cont=0; $cont < $_SESSION["total"]; $cont++) {
-                echo "<div class='imagen_elemento'><img src="."'./img/productos/".$_SESSION["Carro"]['foto'][$cont]."' alt='fotoejem'></div>";
-                //echo "<div class='imagen_elemento'><img src='./img/productos/BoxLogo.jpg' alt='fotoejem'></div>";
+                //echo "<div class='imagen_elemento'><img src="."'./img/productos/".$_SESSION["Carro"]['foto'][$cont]."' alt='fotoejem'></div>";
+                echo "<div class='imagen_elemento'><img src='./img/productos/BoxLogo.jpg' alt='fotoejem'></div>";
                 echo "<div class='atributo_elemento'>".$_SESSION["Carro"]["nombre"][$cont]."</div>";
                 echo "<div class='atributo_elemento'><input type='number' name='cantidad[]' min='0' max='100' value='".$_SESSION['Carro']['cantidad'][$cont]."' required></div>";
                 echo "<div class='atributo_elemento'>".$_SESSION["Carro"]["precio"][$cont]."</div>";

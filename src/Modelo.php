@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -34,6 +34,15 @@ class Usuario{
     private $pwd;
     private $admin;
     
+    function __construct($dniCliente,$nombre,$direccion,$email,$pwd,$admin){
+        $this->dniCliente=$dniCliente;
+        $this->nombre=$nombre;
+        $this->direccion=$direccion;
+        $this->email=$email;
+        $this->pwd=$pwd;
+        $this->admin=$admin;
+    }
+
     public function __get($var){
         return $this->$var;
     }
@@ -106,6 +115,16 @@ class Usuario{
      private $unidades;
      private $precio;
 
+     function __construct($idProducto,$nombre,$foto,$marca,$categoria,$unidades,$precio){
+        $this->idProducto=$idProducto;
+        $this->nombre=$nombre;
+        $this->foto=$foto;
+        $this->marca=$marca;
+        $this->categoria=$categoria;
+        $this->unidades=$unidades;
+        $this->precio=$precio;
+    }
+
     public function __get($var){
         return $this->$var;
     }
@@ -160,7 +179,7 @@ class Usuario{
 
     static function añadirLinea($idProducto,$nombre,$precio,$cantidad){
         $_SESSION["Carro"]["idProducto"][$_SESSION["total"]]=$_POST["idProducto"];
-        $_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
+        //$_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
         $_SESSION["Carro"]["nombre"][$_SESSION["total"]]=$_POST["nombre"];
         $_SESSION["Carro"]["precio"][$_SESSION["total"]]=$_POST["precio"];
         $_SESSION["Carro"]["cantidad"][$_SESSION["total"]]=$_POST["cantidad"];
@@ -195,6 +214,15 @@ class Usuario{
      private $fechaCaducidad;
      private $matriculaRepartidor;
      private $dniCliente;
+
+     function __construct($idPedido,$fecha,$dirEntrega,$nTarjeta,$fechaCaducidad,$matriculaRepartidor,$dniCliente){
+        $this->idPedido=$idPedido;
+        $this->fecha=$fecha;
+        $this->nTarjeta=$nTarjeta;
+        $this->fechaCaducidad=$fechaCaducidad;
+        $this->matriculaRepartidor=$matriculaRepartidor;
+        $this->dniCliente=$dniCliente;
+    }
 
      public function __get($var){
         return $this->$var;
@@ -235,8 +263,8 @@ class Usuario{
         $newId=($idPedido["idPedido"]+1);
         $this->idPedido=$newId;
 
-        $consulta="INSERT INTO pedidos (idPedido,fecha,dirEntrega,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dirEntrega."'".","."'".$this->dniCliente."'".")";
-        //$consulta="INSERT INTO pedidos (idPedido,fecha,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dniCliente."'".")";
+        //$consulta="INSERT INTO pedidos (idPedido,fecha,dirEntrega,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dirEntrega."'".","."'".$this->dniCliente."'".")";
+        $consulta="INSERT INTO pedidos (idPedido,fecha,dniCliente) VALUES ("."'".$this->idPedido."'".","."'".$this->fecha."'".","."'".$this->dniCliente."'".")";
         $conexion->query($consulta);
     }
 

@@ -4,11 +4,9 @@
            if(isset($_SESSION["Carro"])){
                require "../src/Modelo.php";
                $base = new BBDD;
-               $pedido=new Pedido;
-               $pedido->dniCliente=$_SESSION["dni"];
+               $pedido=new Pedido("",date("y-m-d"),"","","","","",$_SESSION["dni"]);
                $pedido->altaPedido($base->conexion);
                $pedido->altaLineaPedido($base->conexion);
-               $pedido->mostrarPedido($base->conexion);
                $total=0;
                 for ($cont=0; $cont < $_SESSION["total"]; $cont++) {
                     $precio=$_SESSION["Carro"]["precio"][$cont];

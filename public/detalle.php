@@ -4,10 +4,8 @@
         if(isset($_SESSION["dni"])){
             if(isset($_GET["idProducto"])){
                 require "../src/Modelo.php";
-                $id=$_GET["idProducto"];
                 $base= new BBDD;
-                $producto=new Producto;
-                $producto->idProducto=$id;
+                $producto=new Producto($_GET["idProducto"],"","","","","","");
                 $producto->SelectProducto($base->conexion);
                 if ($producto===false) {
                     $base->cerrarconexion();

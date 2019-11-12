@@ -10,6 +10,7 @@
             }
         }
         if($_POST["funcion"]=="añadir"){
+            $respuesta=array();
             $error= array();
             foreach ($_POST as $key => $value) {     
                 if(empty($_POST[$key])){
@@ -22,14 +23,18 @@
             if (empty($error)){
                 $foto=introducirarchivo();
                 if($foto){
-                    añadir_producto($_POST,$foto);
+                    añadir_producto($_POST,$foto,$respuesta);
                 }
                 else{
-                    echo "no se puedo introducir la imagen";
+                    array_push($respuesta,false);
+                    array_push($respuesta,2);
+                    echo json_encode($respuesta);
                 }
             }
             else{
-                echo "Existen campos vacios";
+                array_push($respuesta,false);
+                array_push($respuesta,1);
+                echo json_encode($respuesta);
             }
         }
         if($_POST["funcion"]=="eliminar"){
@@ -38,6 +43,7 @@
             }
         }
         if($_POST["funcion"]=="modificar"){
+            $respuesta=array();
             $error= array();
             foreach ($_POST as $key => $value) {     
                 if(empty($_POST[$key])){
@@ -50,14 +56,18 @@
             if (empty($error)){
                 $foto=introducirarchivo();
                 if($foto){
-                    modificar_producto($_POST,$foto);
+                    modificar_producto($_POST,$foto,$respuesta);
                 }
                 else{
-                    echo "no se puedo introducir la imagen";
+                    array_push($respuesta,false);
+                    array_push($respuesta,2);
+                    echo json_encode($respuesta);
                 }
             }
             else{
-                echo "Existen campos vacios";
+                array_push($respuesta,false);
+                array_push($respuesta,1);
+                echo json_encode($respuesta);
             }
         }
     }
@@ -81,8 +91,7 @@
     function datos_producto($idProducto){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $producto=new Producto();
-        $producto->idProducto=$idProducto;
+        $producto=new Producto($idProducto,"","","","","","");
         $producto->SelectProducto($base->conexion);
         $datosproducto["idProducto"]=$producto->idProducto;
         $datosproducto["nombre"]=$producto->nombre;
@@ -92,26 +101,23 @@
         echo json_encode($datosproducto);
     }
     
-    function añadir_producto($datos,$foto){
+    function añadir_producto($datos,$foto,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $producto= new Producto;
-            $producto->nombre=$datos["nombre"];
-            $producto->marca=$datos["marca"];
-            $producto->categoria=$datos["categoria"];
-            $producto->precio=$datos["precio"];
-            $producto->foto=$foto;
+        $producto=new Producto("",$datos["nombre"],$foto,$datos["marca"],$datos["categoria"],"",$datos["precio"]);
         $estado=$producto->InsertProducto($base->conexion);
         if (!$estado) {
-            echo "Error en la introducion del Cliente";
+            array_push($respuesta,false);
+            array_push($respuesta,3);
+            echo json_encode($respuesta);
         }
         else{
-            echo "Se Introducido sin problemas";
+            array_push($respuesta,true);
+            echo json_encode($respuesta);
         }
     }
     
     function introducirarchivo(){
-       //echo "type:".$_FILES['file']['type'];
         if (is_uploaded_file ($_FILES['file']['tmp_name'] )){
             $partes=explode('.',$_FILES['file']['name']);
             $npartes=count($partes);
@@ -138,26 +144,22 @@
     }
 
     function eliminar_producto($idProducto){
+        $respuesta=array();
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $Producto=new Producto();
-        $Producto->idProducto=$idProducto;
+        $Producto=new Producto($idProducto,"","","","","","");
         $Producto->deleteproducto($base->conexion);
-        echo "Se elimino el cliente ".$idProducto;
+        array_push($respuesta,true);
+        echo json_encode($respuesta);
     }
 
-    function modificar_producto($datos,$foto){
+    function modificar_producto($datos,$foto,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $producto= new Producto;
-            $producto->idProducto = $datos["idProducto"];
-            $producto->nombre = $datos["nombre"];
-            $producto->marca=$datos["marca"];
-            $producto->categoria=$datos["categoria"];
-            $producto->precio=$datos["precio"];
-            $producto->foto=$foto;
-        
+        $producto=new Producto($datos["idProducto"],$datos["nombre"],$foto,$datos["marca"],$datos["categoria"],"",$datos["precio"]);
         $producto->updateproducto($base->conexion);
+        array_push($respuesta,true);
+        echo json_encode($respuesta);
         /*$producto->SelectProducto($base->conexion);
         $datosproducto["idProducto"]=$producto->idProducto;
         $datosproducto["nombre"]=$producto->nombre;
