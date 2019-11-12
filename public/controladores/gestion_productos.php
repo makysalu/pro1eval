@@ -38,7 +38,6 @@
             }
         }
         if($_POST["funcion"]=="modificar"){
-            var_dump($_POST);
             $error= array();
             foreach ($_POST as $key => $value) {     
                 if(empty($_POST[$key])){
@@ -51,9 +50,7 @@
             if (empty($error)){
                 $foto=introducirarchivo();
                 if($foto){
-                    var_dump($_FILES);
-                    //var_dump($_POST);
-                    //modificar_producto($_POST,$foto);
+                    modificar_producto($_POST,$foto);
                 }
                 else{
                     echo "no se puedo introducir la imagen";

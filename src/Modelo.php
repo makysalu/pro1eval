@@ -151,7 +151,6 @@ class Usuario{
 
     public function updateproducto($conexion){
         $consulta="UPDATE productos SET nombre = "."'".$this->nombre."'".", foto="."'".$this->foto."'".", marca="."'".$this->marca."'".", categoria="."'".$this->categoria."'".", precio="."'".$this->precio."'"." WHERE idProducto=".$this->idProducto;
-        echo $consulta;
         $conexion->query($consulta);
     }
 

@@ -413,15 +413,13 @@ function modificar_producto() {
     let files=$("#modal_file").prop("files")[0];
     
     var formData = new FormData();
-        formData.append('funcion', 'añadir');
+        formData.append('funcion', 'modificar');
         formData.append('idProducto',idProducto);
         formData.append('nombre',nombre);
         formData.append('marca',marca);
         formData.append('categoria',categoria);
         formData.append('precio',precio);
         formData.append('file',$("#modal_file").prop("files")[0]);
-        console.log(formData);
-        
         
     
     $.ajax({
@@ -432,13 +430,13 @@ function modificar_producto() {
         processData: false,
         datatype:"json",
         success: function(response){
-            console.log(response);
             
-           /* $("#contenido_msg").text("");
+            
+            $("#contenido_msg").text("");
             $("#modalMSG").css("display","block");
             $("#contenido_msg").text(response);      
             $(".modal_form").css("display","none");
-            listarProductos();*/
+            listarProductos();
         }
     });
 }
