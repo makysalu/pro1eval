@@ -239,7 +239,9 @@ function lineas_pedido(idPedido){
         data: {funcion: "listar_productos",idPedido},
         datatype:"json",
         success: function(response){
-            let respuesta=JSON.parse(response);       
+            let respuesta=JSON.parse(response);
+            console.log(respuesta);
+                   
             let table=document.createElement("div");
             table.id="lista_lineas";
                 div = document.createElement("div");

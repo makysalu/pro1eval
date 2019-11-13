@@ -4,12 +4,12 @@
         if($_POST["funcion"]=="listar"){
             listar_productos();
         }
-        if($_POST["funcion"]=="datos"){
+        else if($_POST["funcion"]=="datos"){
             if(isset($_POST["idProducto"])){
                 datos_producto($_POST["idProducto"]);
             }
         }
-        if($_POST["funcion"]=="añadir"){
+        else if($_POST["funcion"]=="añadir"){
             $respuesta=array();
             $error= array();
             foreach ($_POST as $key => $value) {     
@@ -37,12 +37,12 @@
                 echo json_encode($respuesta);
             }
         }
-        if($_POST["funcion"]=="eliminar"){
+        else if($_POST["funcion"]=="eliminar"){
             if(isset($_POST["idProducto"])){
                 eliminar_producto($_POST["idProducto"]);
             }
         }
-        if($_POST["funcion"]=="modificar"){
+        else if($_POST["funcion"]=="modificar"){
             $respuesta=array();
             $error= array();
             foreach ($_POST as $key => $value) {     

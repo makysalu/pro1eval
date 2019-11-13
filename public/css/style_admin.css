@@ -137,10 +137,16 @@ section {
     padding: 40px;
     padding-top: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: min-content 1fr;
     box-sizing: border-box;
     font-family: robotos;
+    }
+    
+    #lista_admin span{
+        display: inline;
+        display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
     
     #lista_admin div{

@@ -8,9 +8,9 @@
         <script src="./js/modernizr-custom.js"></script>
         <script src="./js/registro.js"></script>
         
-        <script src="./js/admin_producto.js"></script>
+        <!--<script src="./js/admin_producto.js"></script>-->
         <script src="./js/admin_cliente.js"></script>
-        <script src="./js/admin_pedidos.js"></script>
+        <!--<script src="./js/admin_pedidos.js"></script>-->
         <script src="./js/code_admin.js"></script>
         
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>

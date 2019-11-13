@@ -84,8 +84,13 @@
         $pedido= new Pedido($idPedido,"","","","","","");
         $pedidos=$pedido->listarLineasPedidos($base->conexion);
         $listpedidos= array();
+        $cont=0;
         foreach ($pedidos as $funcion) {
             array_push($listpedidos,$funcion);
+            $producto=new Producto($funcion["idProducto"],"","","","","","");
+            $producto->SelectProducto($base->conexion);
+            $listpedidos[$cont]["idProducto"]=$producto->nombre;
+            $cont++;
         }
         echo json_encode($listpedidos);
     }
