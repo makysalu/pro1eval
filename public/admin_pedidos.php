@@ -7,6 +7,7 @@
     require "./assets/admin/header_admin.php";
     require "./assets/admin/modal_pedido.php";
     require "./assets/admin/modal_linea.php";
+    require "./assets/admin/modal_confirmar.php";
     require "./assets/admin/modal_mensaje.php";
 ?>
     <section id='gestion_pedidos'>

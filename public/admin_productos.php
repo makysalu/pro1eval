@@ -7,6 +7,7 @@
     require "./assets/admin/header_admin.php";
     require "./assets/admin/modal_producto.php";
     require "./assets/admin/modal_img.php";
+    require "./assets/admin/modal_confirmar.php";
     require "./assets/admin/modal_mensaje.php";
     
 ?>

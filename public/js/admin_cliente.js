@@ -1,5 +1,11 @@
 function listarClientes() {
-    $("#gestion_usuario").html("");
+    if($("#lista_admin")){
+        $("#lista_admin").remove();
+        $("#boton_lista").remove();
+    }
+    $(".boton_añadir").unbind("click",añadir_cliente);
+    $(".boton_modificar").unbind("click",modificar_cliente);
+    $(".confirmar_msg").unbind("click",eliminar_cliente);
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
@@ -60,6 +66,7 @@ function listarClientes() {
                         table.append(div);
             }  
                     input = document.createElement("input");
+                    input.id="boton_lista";
                     input.className = "boton_nuevo";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Nuevo Cliente");
@@ -72,11 +79,13 @@ function listarClientes() {
 
 function botones_cliente(){
     $(".boton_editar").click(function(){MODeditar_cliente(this)});
-    $(".boton_eliminar").click(function(){eliminar_cliente(this)});
+    $(".boton_eliminar").click(function(){confirmar_delete(this)});
     $(".boton_nuevo").click(function(){MODañadir_cliente(this)});
+    $(".confirmar_msg").click(eliminar_cliente);
     $(".boton_añadir").click(añadir_cliente);
     $(".boton_modificar").click(modificar_cliente);
     $(".boton_cancelar").click(ocultar_modal);
+    $(".cerrar_msg").click(cerrarMSG);
 }
 
 function MODañadir_cliente(boton) {
@@ -159,10 +168,15 @@ function datoscliente(dniCliente) {
     });
 }
 
-function eliminar_cliente(boton) {
+function confirmar_delete(boton){
     boton=boton.id;
     boton = boton.split(".");
     dniCliente=boton[1];
+    $("#modalconfirmar").css("display","block");
+    $("#confirmar-valor").val(dniCliente);
+}
+function eliminar_cliente() {
+    let dniCliente=$("#confirmar-valor").val();
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
@@ -195,6 +209,7 @@ function modificar_cliente() {
             let respuesta=JSON.parse(response);
             $("#contenido_msg").text("");
             $("#modalMSG").css("display","block");
+            console.log(respuesta);
             if(respuesta[0]==false){
                 $("#contenido_msg").text("Error Campos Vacios");
             }
@@ -209,5 +224,8 @@ function modificar_cliente() {
 
 function ocultar_modal() {
     $(".modal_form").css("display","none");
+}
+
+function cerrarMSG(){
     $("#modalMSG").css("display","none");
 }

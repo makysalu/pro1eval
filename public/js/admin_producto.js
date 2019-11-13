@@ -1,5 +1,11 @@
 function listarProductos() {
-    $("#gestion_productos").html("");
+    if($("#lista_admin")){
+        $("#lista_admin").remove();
+        $("#boton_lista").remove();
+    }
+    $(".boton_añadir").unbind("click",añadir_producto);
+    $(".boton_modificar").unbind("click",modificar_producto);
+    $(".confirmar_msg").unbind("click",eliminar_producto);
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_productos.php",
@@ -64,6 +70,7 @@ function listarProductos() {
                         table.append(div);
             }  
                     input = document.createElement("input");
+                    input.id="boton_lista";
                     input.className = "boton_nuevo";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Nuevo Producto");
@@ -77,11 +84,13 @@ function listarProductos() {
 function botones_producto(){
     $(".img_producto").click(function(){Mostrar_producto(this)});
     $(".boton_editar").click(function(){MODeditar_producto(this)});
-    $(".boton_eliminar").click(function(){eliminar_producto(this)});
+    $(".boton_eliminar").click(function(){confirmar_delete(this)});
     $(".boton_nuevo").click(function(){MODañadir_producto(this)});
+    $(".confirmar_msg").click(eliminar_producto);
     $(".boton_añadir").click(añadir_producto);
     $(".boton_modificar").click(modificar_producto);
     $(".boton_cancelar").click(ocultar_modal);
+    $(".cerrar_msg").click(cerrarMSG);
 }
 
 function Mostrar_producto(boton){
@@ -131,6 +140,7 @@ function añadir_producto() {
             let respuesta=JSON.parse(response);
             $("#contenido_msg").text("");
             $("#modalMSG").css("display","block");
+            
             if(respuesta[0]==false){
                 if(respuesta[1]==1){
                     $("#contenido_msg").text("Error Campos Vacios");
@@ -143,6 +153,9 @@ function añadir_producto() {
                 $("#contenido_msg").text("Producto Creado con Exito");
             }
             listarProductos();
+        },
+        error: function (error) {
+            $("#contenido_msg").text('error; ' + eval(error));
         }
     });
    
@@ -178,11 +191,15 @@ function datosproducto(idProducto) {
         }
     });
 }
-
-function eliminar_producto(boton) {
+function confirmar_delete(boton){
     boton=boton.id;
     boton = boton.split(".");
     idProducto=boton[1];
+    $("#modalconfirmar").css("display","block");
+    $("#confirmar-valor").val(idProducto);
+}
+function eliminar_producto() {
+    let idProducto=$("#confirmar-valor").val();
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_productos.php",
@@ -241,6 +258,9 @@ function modificar_producto() {
                 $("#contenido_msg").text("Producto Modificado con Exito");
             }
             listarProductos();
+        },
+        error: function (error) {
+            $("#contenido_msg").text('error; ' + eval(error));
         }
     });
 }
@@ -249,4 +269,8 @@ function ocultar_modal() {
     $(".modal_form").css("display","none");
     $("#modalMSG").css("display","none");
     $("#modalIMG").css("display","none");
+}
+
+function cerrarMSG(){
+    $("#modalMSG").css("display","none");
 }

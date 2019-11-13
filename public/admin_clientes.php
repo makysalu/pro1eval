@@ -6,6 +6,7 @@
     require "./assets/admin/inicioHTML.php";
     require "./assets/admin/header_admin.php";
     require "./assets/admin/modal_cliente.php";
+    require "./assets/admin/modal_confirmar.php";
     require "./assets/admin/modal_mensaje.php";
 ?>
     <section id='gestion_usuario'>

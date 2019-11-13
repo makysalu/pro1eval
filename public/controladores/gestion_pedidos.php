@@ -81,8 +81,7 @@
     function listar_productos($idPedido){
         require "../../src/Modelo.php";
         $base = new BBDD;
-        $pedido= new Pedido;
-        $pedido->idPedido=$idPedido;
+        $pedido= new Pedido($idPedido,"","","","","","");
         $pedidos=$pedido->listarLineasPedidos($base->conexion);
         $listpedidos= array();
         foreach ($pedidos as $funcion) {
@@ -94,7 +93,7 @@
     function datos_pedido($idPedido){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $pedidos=new Pedido();
+        $pedidos=new Pedido($idPedido,"","","","","","","");
         $pedidos->idPedido=$idPedido;
         $pedidos->mostrarPedido($base->conexion);
         $datospedido["idPedido"]=$pedidos->idPedido;
@@ -106,9 +105,7 @@
     function añadir_pedido($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $pedido= new Pedido;
-            $pedido->dirEntrega=$datos["direccion"];
-            $pedido->dniCliente=$datos["dniCliente"];
+        $pedido=new Pedido("",date("y-m-d"),$datos["direccion"],"1","1","1",$datos["dniCliente"]);
         $pedido->altaPedido($base->conexion);
         array_push($respuesta,false);
         echo json_encode($respuesta);
@@ -119,9 +116,8 @@
         $respuesta=array();
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $Pedido=new Pedido();
-        $Pedido->idPedido=$idPedido;
-        $Pedido->deletePedido($base->conexion);
+        $pedido=new Pedido($idPedido,"","","","","","");
+        $pedido->deletePedido($base->conexion);
         array_push($respuesta,true);
         echo json_encode($respuesta);
     }
@@ -129,10 +125,7 @@
     function modificar_pedido($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $pedidos= new Pedido;
-            $pedidos->idPedido = $datos["idPedido"];
-            $pedidos->dirEntrega = $datos["direccion"];
-            $pedidos->dniCliente = $datos["dniCliente"];
+        $pedidos=new Pedido($datos["idPedido"],"",$datos["direccion"],"","","",$datos["dniCliente"]);
         $pedidos->updatepedido($base->conexion);
         array_push($respuesta,true);
         echo json_encode($respuesta);
@@ -141,8 +134,7 @@
     function eliminar_linea($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $Pedido= new Pedido();
-        $Pedido->idPedido=$datos["idPedido"];
+        $Pedido= new Pedido($datos["idPedido"],"","","","","","");
         $Pedido->eliminarLineaPedido($base->conexion,$datos["nlinea"]);
         array_push($respuesta,true);
         echo json_encode($respuesta);
@@ -151,8 +143,9 @@
     function añadir_linea($datos,$respuesta){
         require "../../src/Modelo.php";
         $base = new BBDD();
-        $Pedido= new Pedido();
+        $Pedido= new Pedido("","","","","","","");
         Pedido::añadirLineaPedido($base->conexion,$datos["idPedido"],$datos["idProducto"],$datos["cantidad"]);
         array_push($respuesta,true);
         echo json_encode($respuesta);
+        $base->cerrarconexion();
     }

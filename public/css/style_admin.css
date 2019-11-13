@@ -196,13 +196,13 @@ section {
         color: green;
     }
 
-    .boton_eliminar, .boton_cancelar{
+    .boton_eliminar, .boton_cancelar, .eliminar_linea{
         background: rgb(226, 167, 167);
         border: 2px solid red;
         color: rgb(92, 7, 7);
     }
 
-    .boton_nuevo, .boton_añadir{
+    .boton_nuevo, .boton_añadir, .mod_linea{
         background: #adadf8;
         border: 2px solid blue;
         color: rgb(7, 7, 138);
@@ -262,7 +262,7 @@ section {
 }
 
 /*Modal de Mensaje*/
-#modalMSG{
+.modalMSG{
     position: fixed;
     top: 0;
     width: 100%;
@@ -273,7 +273,7 @@ section {
     display: none;
 }
 
-#modalMSG>div{
+.modalMSG>div{
     margin: 325px auto;
     width: 600px;
     height: 150px;
@@ -281,13 +281,13 @@ section {
     border-radius: 0 0 5px 5px;
 }
 
-#modalMSG div>div:nth-child(1){
+.modalMSG div>div:nth-child(1){
     border-top: 5px solid #5c5c5c;
     height: 20%;
     box-sizing: border-box;
 }
 
-#modalMSG div>div:nth-child(2){
+.modalMSG div>div:nth-child(2){
     color: #8a8a8a;
     border-top: 1px solid #b1b1b1;
     border-bottom: 1px solid #b1b1b1;
@@ -297,7 +297,7 @@ section {
     box-sizing: border-box;
 }
 
-#modalMSG input{
+.modalMSG input{
     float: right;
     color: whitesmoke;
     margin: 15px 10px;
@@ -360,7 +360,7 @@ section {
   .Detalles_pedido{
     grid-column-start: 1;
     grid-column-end: 6;
-    display: none;
+    display: block;
   }
 
   #lista_lineas{
@@ -379,6 +379,10 @@ section {
         border-radius:2px;
         border-bottom:1px solid rgba(0,0,0,0.12);
         /*line-height: 50px;*/
+    }
+
+    #lista_lineas input{
+        margin: 0 40%;
     }
 
     /*Modal pedido*/

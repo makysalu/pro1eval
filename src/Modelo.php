@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -218,6 +218,7 @@ class Usuario{
      function __construct($idPedido,$fecha,$dirEntrega,$nTarjeta,$fechaCaducidad,$matriculaRepartidor,$dniCliente){
         $this->idPedido=$idPedido;
         $this->fecha=$fecha;
+        $this->dirEntrega=$dirEntrega;
         $this->nTarjeta=$nTarjeta;
         $this->fechaCaducidad=$fechaCaducidad;
         $this->matriculaRepartidor=$matriculaRepartidor;
@@ -263,8 +264,7 @@ class Usuario{
         $newId=($idPedido["idPedido"]+1);
         $this->idPedido=$newId;
 
-        //$consulta="INSERT INTO pedidos (idPedido,fecha,dirEntrega,dniCliente) VALUES ("."'".$this->idPedido."'".",NOW(),"."'".$this->dirEntrega."'".","."'".$this->dniCliente."'".")";
-        $consulta="INSERT INTO pedidos (idPedido,fecha,dniCliente) VALUES ("."'".$this->idPedido."'".","."'".$this->fecha."'".","."'".$this->dniCliente."'".")";
+        $consulta="INSERT INTO pedidos (idPedido,fecha,dirEntrega,dniCliente) VALUES ("."'".$this->idPedido."'".","."'".$this->fecha."'".","."'".$this->dirEntrega."'".","."'".$this->dniCliente."'".")";
         $conexion->query($consulta);
     }
 
