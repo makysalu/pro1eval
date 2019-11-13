@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;

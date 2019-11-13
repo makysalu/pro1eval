@@ -88,9 +88,7 @@ function listarClientes() {
 
 function botones_cliente(){
     $(".boton_editar").click(function(){MODeditar_cliente(this)});
-    $(".boton_eliminar").click(function(){
-        console.log($(this));
-        confirmar_delete(this)});
+    $(".boton_eliminar").click(function(){confirmar_delete($(this))});
     $(".boton_nuevo").click(function(){MODañadir_cliente(this)});
     $(".boton_modificar").click(modificar_cliente);
     $(".boton_cancelar").click(ocultar_modal);
@@ -147,10 +145,8 @@ function añadir_cliente() {
 }
 function PintarCliente(dniCliente,nombre,direccion,email){
     span=document.createElement("span");
-    //span.id="fila-"+"cont";
         div = document.createElement("div");
         div.innerText=dniCliente;
-        //div.id="columna_dni";
         span.append(div);
         div = document.createElement("div");
         div.innerText=nombre;
@@ -162,7 +158,6 @@ function PintarCliente(dniCliente,nombre,direccion,email){
         div.innerText=email;
         span.append(div);
         div = document.createElement("div");
-        //div.id="fila-"+"cont";
             let input = document.createElement("input");
             input.id="boton_editar."+dniCliente;
             input.className = "boton_editar";
@@ -213,19 +208,18 @@ function datoscliente(dniCliente) {
 }
 
 function confirmar_delete(boton){ 
-    dniCliente=boton.id;
+    let dniCliente=boton.attr("id");
     dniCliente = dniCliente.split(".");
     dniCliente=dniCliente[1];
+    
     $("#modalconfirmar").css("display","block");
     $("#confirmar-valor").val(dniCliente);
-    $(".confirmar_msg").click(function(){
-        
-        console.log($(this));
-        eliminar_cliente(boton)});
+    $(".confirmar_msg").click(function(){eliminar_cliente(boton)});   
 }
+
 function eliminar_cliente(boton){
     let dniCliente=$("#confirmar-valor").val();
-    /*$.ajax({
+    $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
         data: {funcion: "eliminar",dniCliente},
@@ -236,18 +230,10 @@ function eliminar_cliente(boton){
                 $("#contenido_msg").text("");
                 $("#modalMSG").css("display","block");
                 $("#contenido_msg").text("As eliminado el Cliente "+dniCliente);
-                
+                boton.parent().parent().remove();
             }
         }
-    });*/
-    console.log(boton);
-    console.log(boton.parent());
-    
-    //boton.parent;
-}
-
-function borrarcliente(boton) {
-    console.log(boton);
+    });
     
 }
 
@@ -284,5 +270,5 @@ function ocultar_modal() {
 }
 
 function cerrarMSG(){
-    $("#modalMSG").css("display","none");
+    $(".modalMSG").css("display","none");
 }

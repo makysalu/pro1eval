@@ -15,27 +15,32 @@ function listarProductos() {
             let respuesta=JSON.parse(response);       
             let table=document.createElement("div");
             table.id="lista_admin";
+            let span=document.createElement("span");
+                span.id="fila-0";
                 let div = document.createElement("div");
                 div.className="Titulo_lista";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText="Nombre";
                 div.className="Titulo_lista";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText="Marca";
                 div.className="Titulo_lista";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText="Precio";
                 div.className="Titulo_lista";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText="Operaciones";
                 div.className="Titulo_lista";
-                table.append(div);
-                
+                span.append(div);
+            table.append(span)
+            let cont=1;
             for(let i in respuesta){
+                span=document.createElement("span");
+                span.id="fila-"+cont;
                 div = document.createElement("div");
                 div.className="img_producto";
                 div.id=respuesta[i].foto;
@@ -44,16 +49,16 @@ function listarProductos() {
                         img.setAttribute("src","img/productos/"+respuesta[i].foto);          
                     div2.append(img);
                 div.append(div2);
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText=respuesta[i].nombre;
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText=respuesta[i].marca;
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText=respuesta[i].precio+"€";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                     let input = document.createElement("input");
                     input.id="boton_editar."+respuesta[i].idProducto;
@@ -67,7 +72,8 @@ function listarProductos() {
                     input.setAttribute("type","button");
                     input.setAttribute("value","Eliminar");
                 div.append(input);
-                        table.append(div);
+                span.append(div);
+                table.append(span);
             }  
                     input = document.createElement("input");
                     input.id="boton_lista";
@@ -84,9 +90,8 @@ function listarProductos() {
 function botones_producto(){
     $(".img_producto").click(function(){Mostrar_producto(this)});
     $(".boton_editar").click(function(){MODeditar_producto(this)});
-    $(".boton_eliminar").click(function(){confirmar_delete(this)});
+    $(".boton_eliminar").click(function(){confirmar_delete($(this))});
     $(".boton_nuevo").click(function(){MODañadir_producto(this)});
-    $(".confirmar_msg").click(eliminar_producto);
     $(".boton_añadir").click(añadir_producto);
     $(".boton_modificar").click(modificar_producto);
     $(".boton_cancelar").click(ocultar_modal);
@@ -151,14 +156,52 @@ function añadir_producto() {
             }
             else{
                 $("#contenido_msg").text("Producto Creado con Exito");
+                PintarProducto("idProducto","foto",nombre,marca,precio);
             }
-            listarProductos();
         },
         error: function (error) {
             $("#contenido_msg").text('error; ' + eval(error));
         }
     });
+    
    
+}
+
+function PintarProducto(idProducto,foto,nombre,marca,precio){
+    span=document.createElement("span");
+                div = document.createElement("div");
+                div.className="img_producto";
+                div.id=foto;
+                    let div2=document.createElement("div")
+                        img=document.createElement("img");     
+                        img.setAttribute("src","img/productos/"+foto);          
+                    div2.append(img);
+                div.append(div2);
+                span.append(div);
+                div = document.createElement("div");
+                div.innerText=nombre;
+                span.append(div);
+                div = document.createElement("div");
+                div.innerText=marca;
+                span.append(div);
+                div = document.createElement("div");
+                div.innerText=precio+"€";
+                span.append(div);
+                div = document.createElement("div");
+                    let input = document.createElement("input");
+                    input.id="boton_editar."+idProducto;
+                    input.className = "boton_editar";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Modificar");
+                div.append(input);
+                    input = document.createElement("input");
+                    input.id="boton_eliminar."+"idProducto";
+                    input.className = "boton_eliminar";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Eliminar");
+                div.append(input);
+                span.append(div);
+    $("#lista_admin").append(span);
 }
 
 function MODeditar_producto(boton){
@@ -192,13 +235,14 @@ function datosproducto(idProducto) {
     });
 }
 function confirmar_delete(boton){
-    boton=boton.id;
-    boton = boton.split(".");
-    idProducto=boton[1];
+    let idProducto=boton.attr("id");
+    idProducto = idProducto.split(".");
+    idProducto=idProducto[1];
     $("#modalconfirmar").css("display","block");
     $("#confirmar-valor").val(idProducto);
+    $(".confirmar_msg").click(function(){eliminar_producto(boton)});
 }
-function eliminar_producto() {
+function eliminar_producto(boton) {
     let idProducto=$("#confirmar-valor").val();
     $.ajax({
         type:"POST",
@@ -211,8 +255,8 @@ function eliminar_producto() {
             $("#modalMSG").css("display","block");
             if(respuesta){
                 $("#contenido_msg").text("Se Elimino el Producto "+idProducto);
+                boton.parent().parent().remove();
             }
-            listarProductos();
         }
     });
 }
@@ -272,5 +316,5 @@ function ocultar_modal() {
 }
 
 function cerrarMSG(){
-    $("#modalMSG").css("display","none");
+    $(".modalMSG").css("display","none");
 }

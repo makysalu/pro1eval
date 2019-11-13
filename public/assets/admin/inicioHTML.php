@@ -8,8 +8,8 @@
         <script src="./js/modernizr-custom.js"></script>
         <script src="./js/registro.js"></script>
         
-        <!--<script src="./js/admin_producto.js"></script>-->
-        <script src="./js/admin_cliente.js"></script>
+        <!--<script src="./js/admin_producto.js"></script>
+        <script src="./js/admin_cliente.js"></script>-->
         <!--<script src="./js/admin_pedidos.js"></script>-->
         <script src="./js/code_admin.js"></script>
         

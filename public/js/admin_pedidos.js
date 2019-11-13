@@ -17,60 +17,66 @@ function listarPedidos() {
             let respuesta=JSON.parse(response);       
             let table=document.createElement("div");
             table.id="lista_admin";
-                div = document.createElement("div");
-                div.innerText="ID Pedido";
-                div.className="Titulo_lista";
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText="Fecha";
-                div.className="Titulo_lista";
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText="Direccion";
-                div.className="Titulo_lista";
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText="Cliente";
-                div.className="Titulo_lista";
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText="Operaciones";
-                div.className="Titulo_lista";
-                table.append(div);
+                let span=document.createElement("span");
+                span.id="fila-0";
+                    div = document.createElement("div");
+                    div.innerText="ID Pedido";
+                    div.className="Titulo_lista";
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText="Fecha";
+                    div.className="Titulo_lista";
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText="Direccion";
+                    div.className="Titulo_lista";
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText="Cliente";
+                    div.className="Titulo_lista";
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText="Operaciones";
+                    div.className="Titulo_lista";
+                span.append(div);
+            table.append(span)
                 
             for(let i in respuesta){
-                div = document.createElement("div");
-                div.innerText=respuesta[i].idPedido;
+                span=document.createElement("span");
+                span.id="fila-"+cont;
+                    div = document.createElement("div");
+                    div.innerText=respuesta[i].idPedido;
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText=respuesta[i].fecha;
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText=respuesta[i].dirEntrega;
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText=respuesta[i].dniCliente;
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.id="fila-"+respuesta[i].idPedido;
+                        img=document.createElement("img");
+                        img.setAttribute("src","img/menu.png");
+                        img.className="menu-lineas";
+                        img.id="menu-lineas."+respuesta[i].idPedido;
+                        div.append(img);
+                        let input = document.createElement("input");
+                        input.id="boton_editar."+respuesta[i].idPedido;
+                        input.className = "boton_editar";
+                        input.setAttribute("type","button");
+                        input.setAttribute("value","Modificar");
+                    div.append(input);
+                        input = document.createElement("input");
+                        input.id="boton_eliminar."+respuesta[i].idPedido;
+                        input.className ="boton_eliminar";
+                        input.setAttribute("type","button");
+                        input.setAttribute("value","Eliminar");
+                    div.append(input);
+                span.append(div);
                 table.append(div);
-                div = document.createElement("div");
-                div.innerText=respuesta[i].fecha;
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText=respuesta[i].dirEntrega;
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText=respuesta[i].dniCliente;
-                table.append(div);
-                div = document.createElement("div");
-                div.id="fila-"+respuesta[i].idPedido;
-                    img=document.createElement("img");
-                    img.setAttribute("src","img/menu.png");
-                    img.className="menu-lineas";
-                    img.id="menu-lineas."+respuesta[i].idPedido;
-                    div.append(img);
-                    let input = document.createElement("input");
-                    input.id="boton_editar."+respuesta[i].idPedido;
-                    input.className = "boton_editar";
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Modificar");
-                div.append(input);
-                    input = document.createElement("input");
-                    input.id="boton_eliminar."+respuesta[i].idPedido;
-                    input.className ="boton_eliminar";
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Eliminar");
-                div.append(input);
-                        table.append(div);
             }  
                     input = document.createElement("input");
                     input.id="boton_lista";
@@ -110,7 +116,7 @@ function añadir_pedido() {
     let direccion=$("#modal_direccion").val();
     let dniCliente=$("#select_dniCliente").val();
     //let dniCliente=$("#modal_dniClienteselect").val();
-    $.ajax({
+    /*$.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
         data: {funcion: "añadir",direccion,dniCliente},
@@ -127,7 +133,7 @@ function añadir_pedido() {
             }
             listarPedidos();
         }
-    });
+    });*/
 }
 
 function MODeditar_pedido(boton){
