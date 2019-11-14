@@ -113,6 +113,8 @@
         }
         else{
             array_push($respuesta,true);
+            $producto->SelectProducto($base->conexion);
+            array_push($respuesta,$producto->idProducto,$producto->foto,$producto->nombre,$producto->marca,$producto->precio);
             echo json_encode($respuesta);
         }
     }

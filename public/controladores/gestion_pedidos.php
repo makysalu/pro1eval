@@ -113,6 +113,7 @@
         $pedido=new Pedido("",date("y-m-d"),$datos["direccion"],"1","1","1",$datos["dniCliente"]);
         $pedido->altaPedido($base->conexion);
         array_push($respuesta,false);
+        array_push($respuesta,$pedido->idPedido,$pedido->fecha,$pedido->dirEntrega,$pedido->dniCliente);
         echo json_encode($respuesta);
     }
     

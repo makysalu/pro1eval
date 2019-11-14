@@ -141,6 +141,7 @@ class Usuario{
     public function InsertProducto($conexion){
         $consulta="insert INTO productos (nombre,foto,marca,categoria,precio) VALUES ("."'".$this->nombre."'".","."'".$this->foto."'".","."'".$this->marca."'".","."'".$this->categoria."'".","."'".$this->precio."'".")";
         $resultado=$conexion->query($consulta);
+        $this->idProducto=mysqli_insert_id($conexion);
         return true;
     }
 

@@ -3,9 +3,6 @@ function listarProductos() {
         $("#lista_admin").remove();
         $("#boton_lista").remove();
     }
-    $(".boton_añadir").unbind("click",añadir_producto);
-    $(".boton_modificar").unbind("click",modificar_producto);
-    $(".confirmar_msg").unbind("click",eliminar_producto);
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_productos.php",
@@ -88,11 +85,14 @@ function listarProductos() {
 }
 
 function botones_producto(){
+    $(".boton_añadir").unbind("click",añadir_producto);
+    $(".boton_modificar").unbind("click",modificar_producto);
+    $(".confirmar_msg").unbind("click",eliminar_producto);
+
     $(".img_producto").click(function(){Mostrar_producto(this)});
     $(".boton_editar").click(function(){MODeditar_producto(this)});
     $(".boton_eliminar").click(function(){confirmar_delete($(this))});
     $(".boton_nuevo").click(function(){MODañadir_producto(this)});
-    $(".boton_añadir").click(añadir_producto);
     $(".boton_modificar").click(modificar_producto);
     $(".boton_cancelar").click(ocultar_modal);
     $(".cerrar_msg").click(cerrarMSG);
@@ -103,7 +103,7 @@ function Mostrar_producto(boton){
     $("#modalIMG").css('display','block');
 }
 
-function MODañadir_producto(boton) {
+function MODañadir_producto() {
     $("#titulo_modal").text("Añadir Producto");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","block");
@@ -115,6 +115,8 @@ function MODañadir_producto(boton) {
     $("#modal_nombre").val("");
     $("#modal_direccion").val("");
     $("#modal_email").val("");
+
+    $(".boton_añadir").click(añadir_producto);
 }
 
 function añadir_producto() {
@@ -143,6 +145,8 @@ function añadir_producto() {
         
         success: function(response){
             let respuesta=JSON.parse(response);
+            console.log(respuesta);
+            
             $("#contenido_msg").text("");
             $("#modalMSG").css("display","block");
             
@@ -156,7 +160,7 @@ function añadir_producto() {
             }
             else{
                 $("#contenido_msg").text("Producto Creado con Exito");
-                PintarProducto("idProducto","foto",nombre,marca,precio);
+                PintarProducto(respuesta[1],respuesta[2],nombre,marca,precio);
             }
         },
         error: function (error) {
@@ -202,6 +206,7 @@ function PintarProducto(idProducto,foto,nombre,marca,precio){
                 div.append(input);
                 span.append(div);
     $("#lista_admin").append(span);
+    botones_producto();
 }
 
 function MODeditar_producto(boton){
@@ -242,6 +247,7 @@ function confirmar_delete(boton){
     $("#confirmar-valor").val(idProducto);
     $(".confirmar_msg").click(function(){eliminar_producto(boton)});
 }
+
 function eliminar_producto(boton) {
     let idProducto=$("#confirmar-valor").val();
     $.ajax({

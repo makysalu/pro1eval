@@ -5,9 +5,6 @@ function listarPedidos() {
         $("#lista_admin").remove();
         $("#boton_lista").remove();
     }
-    $(".boton_añadir").unbind("click",añadir_pedido);
-    $(".boton_modificar").unbind("click",modificar_pedido);
-    $(".confirmar_msg").unbind("click",eliminar_pedido);
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
@@ -40,8 +37,9 @@ function listarPedidos() {
                     div.className="Titulo_lista";
                 span.append(div);
             table.append(span)
+            let cont=1;
                 
-            for(let i in respuesta){
+            for(let i in respuesta){ 
                 span=document.createElement("span");
                 span.id="fila-"+cont;
                     div = document.createElement("div");
@@ -55,7 +53,7 @@ function listarPedidos() {
                     span.append(div);
                     div = document.createElement("div");
                     div.innerText=respuesta[i].dniCliente;
-                    span.append(div);
+                    span.append(div);                
                     div = document.createElement("div");
                     div.id="fila-"+respuesta[i].idPedido;
                         img=document.createElement("img");
@@ -76,7 +74,7 @@ function listarPedidos() {
                         input.setAttribute("value","Eliminar");
                     div.append(input);
                 span.append(div);
-                table.append(div);
+                table.append(span);
             }  
                     input = document.createElement("input");
                     input.id="boton_lista";
@@ -91,12 +89,15 @@ function listarPedidos() {
 }
 
 function botones_pedido(){
+    $(".boton_añadir").unbind("click",añadir_pedido);
+    $(".boton_modificar").unbind("click",modificar_pedido);
+    $(".confirmar_msg").unbind("click",eliminar_pedido);
+
     $(".menu-lineas").click(function(){Mostrar_lineas(this)});
     $(".boton_editar").click(function(){MODeditar_pedido(this)});
-    $(".confirmar_msg").click(eliminar_pedido);
-    $(".boton_nuevo").click(function(){MODañadir_pedido(this)});
-    $(".boton_eliminar").click(function(){confirmar_delete(this)});
-    $(".boton_añadir").click(añadir_pedido);
+    $(".boton_nuevo").click(function(){MODañadir_pedido($(this))});
+    
+    $(".boton_eliminar").click(function(){confirmar_delete($(this))});
     $(".boton_modificar").click(modificar_pedido);
     $(".boton_cancelar").click(ocultar_modal);
     $(".cerrar_msg").click(cerrarMSG);
@@ -110,13 +111,14 @@ function MODañadir_pedido(boton) {
     $("#modal_idPedidoSpan").css("display","none");
     $("#modal_direccion").val("");
     $("#select_dniCliente").val("");
+
+    $(".boton_añadir").click(añadir_pedido);
 }
 
 function añadir_pedido() {
     let direccion=$("#modal_direccion").val();
     let dniCliente=$("#select_dniCliente").val();
-    //let dniCliente=$("#modal_dniClienteselect").val();
-    /*$.ajax({
+    $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
         data: {funcion: "añadir",direccion,dniCliente},
@@ -125,15 +127,47 @@ function añadir_pedido() {
             let respuesta=JSON.parse(response);
             $("#contenido_msg").text("");
             $("#modalMSG").css("display","block");
-            if(respuesta){
+            if(respuesta[0]){
                 $("#contenido_msg").text("Se ha Añadido un Nuevo Pedido");
             }
             else{
                 $("#contenido_msg").text("Error Campos Vacios");
             }
-            listarPedidos();
+            PintarPedido(respuesta[1],respuesta[2],respuesta[3],respuesta[4]);
         }
-    });*/
+    });
+}
+
+function PintarPedido(idPedido,fecha,direccion,dniCliente){
+    span=document.createElement("span");
+                div = document.createElement("div");
+                div.innerText=idPedido;
+                span.append(div);
+                div = document.createElement("div");
+                div.innerText=fecha;
+                span.append(div);
+                div = document.createElement("div");
+                div.innerText=direccion;
+                span.append(div);
+                div = document.createElement("div");
+                div.innerText=dniCliente;
+                span.append(div);
+                div = document.createElement("div");
+                    let input = document.createElement("input");
+                    input.id="boton_editar."+idPedido;
+                    input.className = "boton_editar";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Modificar");
+                div.append(input);
+                    input = document.createElement("input");
+                    input.id="boton_eliminar."+"idPedido";
+                    input.className = "boton_eliminar";
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Eliminar");
+                div.append(input);
+                span.append(div);
+    $("#lista_admin").append(span);
+    botones_pedido();
 }
 
 function MODeditar_pedido(boton){
@@ -168,14 +202,17 @@ function datospedido(idPedido) {
 }
 
 function confirmar_delete(boton){
-    boton=boton.id;
-    boton = boton.split(".");
-    idPedido=boton[1];
+    let idProducto=boton.attr("id");
+    idProducto = idProducto.split(".");
+    idProducto=idProducto[1];
     $("#modalconfirmar").css("display","block");
-    $("#confirmar-valor").val(idPedido);
+    $("#confirmar-valor").val(idProducto);
+    $(".confirmar_msg").click(function(){eliminar_pedido(boton)});
 }
 
 function eliminar_pedido(boton) {
+    console.log(boton);
+    
     let idPedido=$("#confirmar-valor").val();
     $.ajax({
         type:"POST",
@@ -189,9 +226,10 @@ function eliminar_pedido(boton) {
             if(respuesta){
                 $("#contenido_msg").text("El Pedido se Elimino Correctamente");
             } 
-            listarPedidos();
+            boton.parent().parent().remove();
         }
     });
+   
 }
 
 function modificar_pedido() {
@@ -272,7 +310,7 @@ function lineas_pedido(idPedido){
                 div.innerText=respuesta[i].nlinea;
                 table.append(div);
                 div = document.createElement("div");
-                div.innerText=respuesta[i].idProducto;
+                div.innerText=respuesta[i].idPedido;
                 table.append(div);
                 div = document.createElement("div");
                 div.innerText=respuesta[i].cantidad;
@@ -311,7 +349,6 @@ function lineas_pedido(idPedido){
 function botones_linea(){
     $(".eliminar_linea").click(function(){eliminar_linea(this)});
     $(".mod_linea").click(function(){MODañadir_linea(this)});
-    $(".añadir_linea").click(añadir_linea);
     $(".boton_cancelar").click(ocultar_modal);
 
 }
@@ -322,7 +359,6 @@ function eliminar_linea(boton) {
     boton = boton.split(".");
     idPedido=boton[1];
     nlinea=boton[2];
-    console.log(idPedido);
     
     $.ajax({
         type:"POST",
@@ -342,6 +378,7 @@ function eliminar_linea(boton) {
 }
 
 function MODañadir_linea(boton) {
+    
     boton=boton.id;
     boton = boton.split(".");
     idPedido=boton[1];
@@ -349,7 +386,7 @@ function MODañadir_linea(boton) {
     $("#titulo_modal").text("Añadir Producto");
     $(".modal_linea").css("display","block");
     $("#modal_idPedido_linea").val(idPedido);
-    $("#modal_idProducto").val();
+    $("#modal_idPedido").val();
     $("#modal_cantidad").val("");
     
 }
@@ -396,7 +433,7 @@ function SelectDNIs() {
         success: function(response){
             let respuesta=JSON.parse(response);
             for (let i in respuesta){
-                $("#select_dniCliente").append('<option value='+respuesta[i].dniCliente+'>'+respuesta[i].nombre+'</option>');
+                $("#select_dniCliente").append('<option value='+respuesta[i].dniCliente+'>'+respuesta[i].direccion+'</option>');
             }
         }
     });
@@ -411,7 +448,7 @@ function SelectProductos() {
         success: function(response){
             let respuesta=JSON.parse(response);
             for (let i in respuesta){
-                $("#select_Productos").append('<option value='+respuesta[i].idProducto+'>'+respuesta[i].nombre+'</option>');
+                $("#select_Productos").append('<option value='+respuesta[i].idPedido+'>'+respuesta[i].direccion+'</option>');
             }
         }
     });

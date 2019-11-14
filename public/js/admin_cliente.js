@@ -3,9 +3,6 @@ function listarClientes() {
         $("#lista_admin").remove();
         $("#boton_lista").remove();
     }
-    $(".boton_añadir").unbind("click",añadir_cliente);
-    $(".boton_modificar").unbind("click",modificar_cliente);
-    $(".confirmar_msg").unbind("click",eliminar_cliente);
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
@@ -87,6 +84,9 @@ function listarClientes() {
 }
 
 function botones_cliente(){
+    $(".boton_añadir").unbind("click",añadir_cliente);
+    $(".boton_modificar").unbind("click",modificar_cliente);
+    $(".confirmar_msg").unbind("click",eliminar_cliente);
     $(".boton_editar").click(function(){MODeditar_cliente(this)});
     $(".boton_eliminar").click(function(){confirmar_delete($(this))});
     $(".boton_nuevo").click(function(){MODañadir_cliente(this)});
@@ -172,6 +172,7 @@ function PintarCliente(dniCliente,nombre,direccion,email){
         div.append(input);
     span.append(div);
     $("#lista_admin").append(span);
+    botones_cliente();
 }
 
 function MODeditar_cliente(boton){
@@ -213,12 +214,10 @@ function confirmar_delete(boton){
     dniCliente=dniCliente[1];
     
     $("#modalconfirmar").css("display","block");
-    $("#confirmar-valor").val(dniCliente);
-    $(".confirmar_msg").click(function(){eliminar_cliente(boton)});   
+    $(".confirmar_msg").click(function(){eliminar_cliente(boton,dniCliente)});   
 }
 
-function eliminar_cliente(boton){
-    let dniCliente=$("#confirmar-valor").val();
+function eliminar_cliente(boton,dniCliente){
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
