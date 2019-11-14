@@ -371,14 +371,21 @@ section {
 
   #lista_lineas{
     width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 6;
     padding: 0 25px !important;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: min-content 1fr;
     box-sizing: border-box;
     font-family: robotos;
     }
     
+    #lista_lineas span{
+        display: inline;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
     #lista_lineas div{
         padding:10px 25px;
         text-align:center;

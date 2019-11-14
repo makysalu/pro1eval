@@ -56,12 +56,14 @@ function listarClientes() {
                     div.id="fila-"+cont;
                         let input = document.createElement("input");
                         input.id="boton_editar."+respuesta[i].dniCliente;
+                        input.onclick=function(){MODeditar_cliente(this)};
                         input.className = "boton_editar";
                         input.setAttribute("type","button");
                         input.setAttribute("value","Modificar");
                     div.append(input);
                         input = document.createElement("input");
                         input.id="boton_eliminar."+respuesta[i].dniCliente;
+                        input.onclick=function(){confirmar_deleteC($(this))};
                         input.className = "boton_eliminar";
                         input.setAttribute("type","button");
                         input.setAttribute("value","Eliminar");
@@ -73,6 +75,7 @@ function listarClientes() {
                     input = document.createElement("input");
                     input.id="boton_lista";
                     input.className = "boton_nuevo";
+                    input.onclick=function(){MODañadir_cliente(this)};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Nuevo Cliente");
                 
@@ -83,19 +86,10 @@ function listarClientes() {
     });
 }
 
-function botones_cliente(){
-    $(".boton_añadir").unbind("click",añadir_cliente);
-    $(".boton_modificar").unbind("click",modificar_cliente);
-    $(".confirmar_msg").unbind("click",eliminar_cliente);
-    $(".boton_editar").click(function(){MODeditar_cliente(this)});
-    $(".boton_eliminar").click(function(){confirmar_delete($(this))});
-    $(".boton_nuevo").click(function(){MODañadir_cliente(this)});
-    $(".boton_modificar").click(modificar_cliente);
-    $(".boton_cancelar").click(ocultar_modal);
-    $(".cerrar_msg").click(cerrarMSG);
-}
-
 function MODañadir_cliente() {
+    $(".boton_añadir").unbind();
+    $(".boton_añadir").click(añadir_cliente);
+
     $("#titulo_modal").text("Añadir Cliente");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","block");
@@ -109,7 +103,6 @@ function MODañadir_cliente() {
     $("#modal_direccion").val("");
     $("#modal_email").val("");
     $("#modal_pwd").val("");
-    $(".boton_añadir").click(añadir_cliente);
 }
 
 function añadir_cliente() {
@@ -161,11 +154,13 @@ function PintarCliente(dniCliente,nombre,direccion,email){
             let input = document.createElement("input");
             input.id="boton_editar."+dniCliente;
             input.className = "boton_editar";
+            input.onclick=function(){MODeditar_cliente(this)};
             input.setAttribute("type","button");
             input.setAttribute("value","Modificar");
         div.append(input);
             input = document.createElement("input");
             input.id="boton_eliminar."+dniCliente;
+            input.onclick=function(){confirmar_deleteC($(this))};
             input.className = "boton_eliminar";
             input.setAttribute("type","button");
             input.setAttribute("value","Eliminar");
@@ -176,6 +171,8 @@ function PintarCliente(dniCliente,nombre,direccion,email){
 }
 
 function MODeditar_cliente(boton){
+    $(".boton_modificar").unbind();
+    $(".boton_modificar").click(modificar_cliente);
     $("#titulo_modal").text("Modificar Cliente");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","none");
@@ -208,12 +205,13 @@ function datoscliente(dniCliente) {
     });
 }
 
-function confirmar_delete(boton){ 
+function confirmar_deleteC(boton){ 
     let dniCliente=boton.attr("id");
     dniCliente = dniCliente.split(".");
     dniCliente=dniCliente[1];
     
     $("#modalconfirmar").css("display","block");
+    $(".confirmar_msg").unbind();
     $(".confirmar_msg").click(function(){eliminar_cliente(boton,dniCliente)});   
 }
 
@@ -258,10 +256,14 @@ function modificar_cliente() {
             else{
                 $("#contenido_msg").text("Se ha Modificado el Cliente "+dniCliente);
             }  
-            //$(".modal_form").css("display","none");
             listarClientes(); 
         }
     });
+}
+
+function botones_cliente(){
+    $(".boton_cancelar").click(ocultar_modal);
+    $(".cerrar_msg").click(cerrarMSG);
 }
 
 function ocultar_modal() {

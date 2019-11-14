@@ -41,6 +41,7 @@ function listarProductos() {
                 div = document.createElement("div");
                 div.className="img_producto";
                 div.id=respuesta[i].foto;
+                div.onclick=function(){Mostrar_producto(this)};
                     let div2=document.createElement("div")
                         img=document.createElement("img");     
                         img.setAttribute("src","img/productos/"+respuesta[i].foto);          
@@ -59,12 +60,14 @@ function listarProductos() {
                 div = document.createElement("div");
                     let input = document.createElement("input");
                     input.id="boton_editar."+respuesta[i].idProducto;
+                    input.onclick=function(){MODeditar_producto(this)};
                     input.className = "boton_editar";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Modificar");
                 div.append(input);
                     input = document.createElement("input");
                     input.id="boton_eliminar."+respuesta[i].idProducto;
+                    input.onclick=function(){confirmar_deleteP($(this))};
                     input.className = "boton_eliminar";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Eliminar");
@@ -75,6 +78,7 @@ function listarProductos() {
                     input = document.createElement("input");
                     input.id="boton_lista";
                     input.className = "boton_nuevo";
+                    input.onclick=function(){MODañadir_producto(this)};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Nuevo Producto");
                 $("#gestion_productos").append(table);
@@ -85,15 +89,10 @@ function listarProductos() {
 }
 
 function botones_producto(){
-    $(".boton_añadir").unbind("click",añadir_producto);
-    $(".boton_modificar").unbind("click",modificar_producto);
-    $(".confirmar_msg").unbind("click",eliminar_producto);
-
-    $(".img_producto").click(function(){Mostrar_producto(this)});
-    $(".boton_editar").click(function(){MODeditar_producto(this)});
-    $(".boton_eliminar").click(function(){confirmar_delete($(this))});
-    $(".boton_nuevo").click(function(){MODañadir_producto(this)});
-    $(".boton_modificar").click(modificar_producto);
+    
+    
+    
+    
     $(".boton_cancelar").click(ocultar_modal);
     $(".cerrar_msg").click(cerrarMSG);
 }
@@ -104,6 +103,9 @@ function Mostrar_producto(boton){
 }
 
 function MODañadir_producto() {
+    $(".boton_añadir").unbind();
+    $(".boton_añadir").click(añadir_producto);
+
     $("#titulo_modal").text("Añadir Producto");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","block");
@@ -114,9 +116,7 @@ function MODañadir_producto() {
     $("#modal_dniCliente").val("");
     $("#modal_nombre").val("");
     $("#modal_direccion").val("");
-    $("#modal_email").val("");
-
-    $(".boton_añadir").click(añadir_producto);
+    $("#modal_email").val("");   
 }
 
 function añadir_producto() {
@@ -176,6 +176,7 @@ function PintarProducto(idProducto,foto,nombre,marca,precio){
                 div = document.createElement("div");
                 div.className="img_producto";
                 div.id=foto;
+                div.onclick=function(){Mostrar_producto(this)};
                     let div2=document.createElement("div")
                         img=document.createElement("img");     
                         img.setAttribute("src","img/productos/"+foto);          
@@ -194,12 +195,14 @@ function PintarProducto(idProducto,foto,nombre,marca,precio){
                 div = document.createElement("div");
                     let input = document.createElement("input");
                     input.id="boton_editar."+idProducto;
+                    input.click=function(){MODeditar_producto(this)};
                     input.className = "boton_editar";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Modificar");
                 div.append(input);
                     input = document.createElement("input");
                     input.id="boton_eliminar."+"idProducto";
+                    input.onclick=function(){confirmar_deleteP($(this))};
                     input.className = "boton_eliminar";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Eliminar");
@@ -210,11 +213,12 @@ function PintarProducto(idProducto,foto,nombre,marca,precio){
 }
 
 function MODeditar_producto(boton){
+    $(".boton_modificar").unbind();
+    $(".boton_modificar").click(modificar_producto);
     $("#titulo_modal").text("Modificar Producto");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","none");
     $(".boton_modificar").css("display","block");
-    //$("#modal_fileSpan").css('display','none');
     boton=boton.id;
     boton = boton.split(".");
     idProducto=boton[1];
@@ -239,12 +243,13 @@ function datosproducto(idProducto) {
         }
     });
 }
-function confirmar_delete(boton){
+function confirmar_deleteP(boton){
     let idProducto=boton.attr("id");
     idProducto = idProducto.split(".");
     idProducto=idProducto[1];
     $("#modalconfirmar").css("display","block");
     $("#confirmar-valor").val(idProducto);
+    $(".confirmar_msg").unbind();
     $(".confirmar_msg").click(function(){eliminar_producto(boton)});
 }
 
@@ -274,8 +279,12 @@ function modificar_producto() {
     let categoria=$("#modal_categoria").val();
     let precio=$("#modal_precio").val();
     let files=$("#modal_file").prop("files")[0];
-    
-    var formData = new FormData();
+    if(idProducto==undefined){
+        console.log("no");
+        
+    }
+    else{
+        var formData = new FormData();
         formData.append('funcion', 'modificar');
         formData.append('idProducto',idProducto);
         formData.append('nombre',nombre);
@@ -313,6 +322,7 @@ function modificar_producto() {
             $("#contenido_msg").text('error; ' + eval(error));
         }
     });
+    } 
 }
 
 function ocultar_modal() {

@@ -3,17 +3,17 @@
         if($_POST["funcion"]=="listar"){
             listar_pedidos();
         }
-        if($_POST["funcion"]=="listar_productos"){
+        else if($_POST["funcion"]=="listar_productos"){
             if(isset($_POST["idPedido"])){
                 listar_productos($_POST["idPedido"]);
             }
         }
-        if($_POST["funcion"]=="datos"){
+        else if($_POST["funcion"]=="datos"){
             if(isset($_POST["idPedido"])){
                 datos_pedido($_POST["idPedido"]);
             }
         }
-        if($_POST["funcion"]=="añadir"){
+        else if($_POST["funcion"]=="añadir"){
             $respuesta=array();
             if((isset($_POST["direccion"]))&&(isset($_POST["dniCliente"]))){
                 añadir_pedido($_POST,$respuesta);
@@ -23,12 +23,12 @@
                 echo json_encode($respuesta);
             }
         }
-        if($_POST["funcion"]=="eliminar"){
+        else if($_POST["funcion"]=="eliminar"){
             if(isset($_POST["idPedido"])){
                 eliminar_pedido($_POST["idPedido"]);
             }
         }
-        if($_POST["funcion"]=="modificar"){
+        else if($_POST["funcion"]=="modificar"){
             $respuesta=array();
             $error= array();
             foreach ($_POST as $key => $value) {     
@@ -44,7 +44,7 @@
                 echo json_encode($respuesta);
             }
         }
-        if($_POST["funcion"]=="eliminar_linea"){
+        else if($_POST["funcion"]=="eliminar_linea"){
             $respuesta=array();
             if((isset($_POST["idPedido"]))&&(isset($_POST["nlinea"]))){
                 eliminar_linea($_POST,$respuesta);
@@ -112,7 +112,7 @@
         $base = new BBDD();
         $pedido=new Pedido("",date("y-m-d"),$datos["direccion"],"1","1","1",$datos["dniCliente"]);
         $pedido->altaPedido($base->conexion);
-        array_push($respuesta,false);
+        array_push($respuesta,true);
         array_push($respuesta,$pedido->idPedido,$pedido->fecha,$pedido->dirEntrega,$pedido->dniCliente);
         echo json_encode($respuesta);
     }
@@ -150,8 +150,9 @@
         require "../../src/Modelo.php";
         $base = new BBDD();
         $Pedido= new Pedido("","","","","","","");
-        Pedido::añadirLineaPedido($base->conexion,$datos["idPedido"],$datos["idProducto"],$datos["cantidad"]);
+        $linea=Pedido::añadirLineaPedido($base->conexion,$datos["idPedido"],$datos["idProducto"],$datos["cantidad"]);
         array_push($respuesta,true);
+        array_push($respuesta,$linea);
         echo json_encode($respuesta);
         $base->cerrarconexion();
     }

@@ -3,7 +3,7 @@ class BBDD{
   private $conexion;
   function __construct(){
       if(!isset($this->conexion)){
-          $this->conexion=new mysqli('localhost','root','','virtualmarket');
+          $this->conexion=new mysqli('localhost','root','root','virtualmarket');
       }
       if($this->conexion->connect_errno){
           $dato="Fallo al conectar la base de datos".$conexion->connect_error;
@@ -284,6 +284,7 @@ class Usuario{
         $newlinea=($nlinea["nlinea"]+1);
         $consulta="INSERT INTO lineaspedidos (idPedido,nlinea,idProducto,cantidad) VALUES ("."'".$idPedido."'".","."'".$newlinea."'".","."'".$idProducto."'".","."'".$cantidad."'".")";
         $conexion->query($consulta);
+        return $newlinea;
    }
 
     public function eliminarLineaPedido($conexion, $nlinea){

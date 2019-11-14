@@ -36,12 +36,9 @@ function listarPedidos() {
                     div.innerText="Operaciones";
                     div.className="Titulo_lista";
                 span.append(div);
-            table.append(span)
-            let cont=1;
-                
+            table.append(span)       
             for(let i in respuesta){ 
                 span=document.createElement("span");
-                span.id="fila-"+cont;
                     div = document.createElement("div");
                     div.innerText=respuesta[i].idPedido;
                     span.append(div);
@@ -55,21 +52,23 @@ function listarPedidos() {
                     div.innerText=respuesta[i].dniCliente;
                     span.append(div);                
                     div = document.createElement("div");
-                    div.id="fila-"+respuesta[i].idPedido;
                         img=document.createElement("img");
                         img.setAttribute("src","img/menu.png");
                         img.className="menu-lineas";
+                        img.onclick=function(){Mostrar_lineas($(this))};
                         img.id="menu-lineas."+respuesta[i].idPedido;
                         div.append(img);
                         let input = document.createElement("input");
                         input.id="boton_editar."+respuesta[i].idPedido;
                         input.className = "boton_editar";
+                        input.onclick=function(){MODeditar_pedido(this)};
                         input.setAttribute("type","button");
                         input.setAttribute("value","Modificar");
                     div.append(input);
                         input = document.createElement("input");
                         input.id="boton_eliminar."+respuesta[i].idPedido;
                         input.className ="boton_eliminar";
+                        input.onclick=function(){confirmar_deletePe($(this))};
                         input.setAttribute("type","button");
                         input.setAttribute("value","Eliminar");
                     div.append(input);
@@ -79,6 +78,7 @@ function listarPedidos() {
                     input = document.createElement("input");
                     input.id="boton_lista";
                     input.className = "boton_nuevo";
+                    input.onclick=function(){MODañadir_pedido($(this))};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Nuevo Pedido");
                 $("#gestion_pedidos").append(table);
@@ -89,16 +89,6 @@ function listarPedidos() {
 }
 
 function botones_pedido(){
-    $(".boton_añadir").unbind("click",añadir_pedido);
-    $(".boton_modificar").unbind("click",modificar_pedido);
-    $(".confirmar_msg").unbind("click",eliminar_pedido);
-
-    $(".menu-lineas").click(function(){Mostrar_lineas(this)});
-    $(".boton_editar").click(function(){MODeditar_pedido(this)});
-    $(".boton_nuevo").click(function(){MODañadir_pedido($(this))});
-    
-    $(".boton_eliminar").click(function(){confirmar_delete($(this))});
-    $(".boton_modificar").click(modificar_pedido);
     $(".boton_cancelar").click(ocultar_modal);
     $(".cerrar_msg").click(cerrarMSG);
 }
@@ -111,8 +101,10 @@ function MODañadir_pedido(boton) {
     $("#modal_idPedidoSpan").css("display","none");
     $("#modal_direccion").val("");
     $("#select_dniCliente").val("");
-
+    $(".boton_añadir").unbind();
     $(".boton_añadir").click(añadir_pedido);
+
+    
 }
 
 function añadir_pedido() {
@@ -126,14 +118,14 @@ function añadir_pedido() {
         success: function(response){
             let respuesta=JSON.parse(response);
             $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");
+            $("#modalMSG").css("display","block");  
             if(respuesta[0]){
                 $("#contenido_msg").text("Se ha Añadido un Nuevo Pedido");
+                PintarPedido(respuesta[1],respuesta[2],respuesta[3],respuesta[4]);
             }
             else{
                 $("#contenido_msg").text("Error Campos Vacios");
             }
-            PintarPedido(respuesta[1],respuesta[2],respuesta[3],respuesta[4]);
         }
     });
 }
@@ -153,21 +145,27 @@ function PintarPedido(idPedido,fecha,direccion,dniCliente){
                 div.innerText=dniCliente;
                 span.append(div);
                 div = document.createElement("div");
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/menu.png");
+                    img.className="menu-lineas";
+                    img.id="menu-lineas."+idPedido;
+                div.append(img);
                     let input = document.createElement("input");
                     input.id="boton_editar."+idPedido;
                     input.className = "boton_editar";
+                    input.onclick=function(){MODeditar_pedido(this)};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Modificar");
                 div.append(input);
                     input = document.createElement("input");
                     input.id="boton_eliminar."+"idPedido";
                     input.className = "boton_eliminar";
+                    input.onclick=function(){confirmar_deletePe($(this))};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Eliminar");
                 div.append(input);
                 span.append(div);
     $("#lista_admin").append(span);
-    botones_pedido();
 }
 
 function MODeditar_pedido(boton){
@@ -201,18 +199,17 @@ function datospedido(idPedido) {
     });
 }
 
-function confirmar_delete(boton){
+function confirmar_deletePe(boton){
     let idProducto=boton.attr("id");
     idProducto = idProducto.split(".");
     idProducto=idProducto[1];
     $("#modalconfirmar").css("display","block");
     $("#confirmar-valor").val(idProducto);
+    $(".confirmar_msg").unbind();
     $(".confirmar_msg").click(function(){eliminar_pedido(boton)});
 }
 
 function eliminar_pedido(boton) {
-    console.log(boton);
-    
     let idPedido=$("#confirmar-valor").val();
     $.ajax({
         type:"POST",
@@ -258,25 +255,18 @@ function modificar_pedido() {
 }
 
 function Mostrar_lineas(boton){
-    boton=boton.id
-    botonpar = boton.split(".");
-    idPedido=botonpar[1];
-    
-    if($("#detalle-"+idPedido).length){
-        $("#detalle-"+idPedido).remove();
+    let idPedido=boton.attr("id");
+    idPedido = idPedido.split(".");
+    idPedido=idPedido[1];
+    if($("#fila-"+idPedido).length){
+        $("#fila-"+idPedido).remove();
     }
     else{
-        div = document.createElement("div");
-        div.className="Detalles_pedido";
-        div.id="detalle-"+idPedido;
-        $("#fila-"+idPedido).after(div);
-        lineas_pedido(idPedido);
-    }
+        lineas_pedido(idPedido,boton);
+    }   
 }
 
-function lineas_pedido(idPedido){
-    $(".añadir_linea").unbind("click",añadir_linea);
-    $("#detalle-"+idPedido).empty();
+function lineas_pedido(idPedido, boton){
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
@@ -285,81 +275,80 @@ function lineas_pedido(idPedido){
         success: function(response){
             let respuesta=JSON.parse(response);
             console.log(respuesta);
-                   
+            fila=document.createElement("span");
+            fila.id="fila-"+idPedido;
             let table=document.createElement("div");
             table.id="lista_lineas";
+            let span=document.createElement("span");
+                span.id="fila-0";
                 div = document.createElement("div");
                 div.innerText="#ID";
                 div.className="Titulo_lineas";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText="Producto";
                 div.className="Titulo_lineas";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText="Cantidad";
                 div.className="Titulo_lineas";
-                table.append(div);
+                span.append(div);
                 div = document.createElement("div");
                 div.innerText="Operaciones";
                 div.className="Titulo_lineas";
-                table.append(div);
-                
+                span.append(div);
+            table.append(span);
             for(let i in respuesta){
-                div = document.createElement("div");
-                div.innerText=respuesta[i].nlinea;
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText=respuesta[i].idPedido;
-                table.append(div);
-                div = document.createElement("div");
-                div.innerText=respuesta[i].cantidad;
-                table.append(div);
-                div = document.createElement("div");
-                div.id="linea-"+respuesta[i].nlinea;
-                    input = document.createElement("input");
-                    input.id="boton_eliminar."+respuesta[i].idPedido+"."+respuesta[i].nlinea;
-                    input.className="eliminar_linea";
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Eliminar");
+                span=document.createElement("span");
+                    div = document.createElement("div");
+                    div.innerText=respuesta[i].nlinea;
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText=respuesta[i].idProducto;
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.innerText=respuesta[i].cantidad;
+                    span.append(div);
+                    div = document.createElement("div");
+                    div.id="linea-"+respuesta[i].nlinea;
+                        input = document.createElement("input");
+                        input.id="boton_eliminar."+respuesta[i].idPedido+"."+respuesta[i].nlinea;
+                        input.className="eliminar_linea";
+                        input.onclick=function(){eliminar_linea($(this))};
+                        input.setAttribute("type","button");
+                        input.setAttribute("value","Eliminar");
                     div.append(input);
-                table.append(div);
-            }           
-            div = document.createElement("div");
-            table.append(div);
-            div = document.createElement("div");
-            table.append(div);
-            div = document.createElement("div");
-            table.append(div);
-            div = document.createElement("div");
-                input = document.createElement("input");
-                input.className = "mod_linea";
-                input.id="boton_nuevo."+idPedido;
-                input.setAttribute("type","button");
-                input.setAttribute("value","Añadir");
+                span.append(div);
+                table.append(span);
+            }
+            span=document.createElement("span");           
+                div = document.createElement("div");
+                span.append(div);
+                div = document.createElement("div");
+                span.append(div);
+                div = document.createElement("div");
+                span.append(div);
+                div = document.createElement("div");
+                    input = document.createElement("input");
+                    input.className = "mod_linea";
+                    input.id="boton_nuevo."+idPedido;
+                    input.onclick=function(){MODañadir_linea($(this))};
+                    input.setAttribute("type","button");
+                    input.setAttribute("value","Añadir");
                 div.append(input);
-            table.append(div);
-            $("#detalle-"+idPedido).append(table);
-            $('#detalle-'+idPedido).css('display','block');
-            botones_linea();
+                span.append(div);
+            table.append(span);
+            fila.append(table);
+            boton.parent().parent().after(fila);
         }
     });
 }
 
-function botones_linea(){
-    $(".eliminar_linea").click(function(){eliminar_linea(this)});
-    $(".mod_linea").click(function(){MODañadir_linea(this)});
-    $(".boton_cancelar").click(ocultar_modal);
-
-}
-
 function eliminar_linea(boton) {
-    $(".eliminar_linea").unbind("click",eliminar_linea);
-    boton=boton.id;
-    boton = boton.split(".");
-    idPedido=boton[1];
-    nlinea=boton[2];
-    
+    let idPedido=boton.attr("id");
+    idPedido = idPedido.split(".");
+    nlinea=idPedido[2];
+    idPedido=idPedido[1];
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
@@ -372,29 +361,31 @@ function eliminar_linea(boton) {
             if(respuesta){
                 $("#contenido_msg").text("Se a elimininado la linea "+nlinea+" del pedido "+idPedido);
             }
-            lineas_pedido(idPedido);
+            boton.parent().parent().remove();
         }
     });
 }
 
 function MODañadir_linea(boton) {
-    
-    boton=boton.id;
-    boton = boton.split(".");
-    idPedido=boton[1];
-    
+    botonid=boton.attr("id");
+    botonid = botonid.split(".");
+    idPedido=botonid[1];
     $("#titulo_modal").text("Añadir Producto");
     $(".modal_linea").css("display","block");
     $("#modal_idPedido_linea").val(idPedido);
     $("#modal_idPedido").val();
     $("#modal_cantidad").val("");
+    $(".añadir_linea").unbind();
+    $(".añadir_linea").click(function(){añadir_linea(boton)});
     
 }
 
-function añadir_linea() {
+function añadir_linea(boton) {
     let idPedido=$("#modal_idPedido_linea").val();
     let idProducto=$("#select_Productos").val();
+    let nombre=$("#select_Productos option:selected").text();
     let cantidad=$("#modal_cantidad").val();
+    console.log(nombre);
     
     $.ajax({
         type:"POST",
@@ -406,11 +397,38 @@ function añadir_linea() {
             $("#modalMSG").css("display","block");
             let respuesta=JSON.parse(response);
             if(respuesta){
+                let nlinea=respuesta[1];
                 $("#contenido_msg").text("Se a Añadido un producto al "+idPedido);
+                PintarLinea(nlinea,nombre,cantidad,boton);
             }
-            lineas_pedido(idPedido);
+            
         }
     });
+
+   
+}
+
+function PintarLinea(nlinea,idProducto,cantidad,boton){
+    span=document.createElement("span");
+        div = document.createElement("div");
+        div.innerText=nlinea;
+        span.append(div);
+        div = document.createElement("div");
+        div.innerText=idProducto;
+        span.append(div);
+        div = document.createElement("div");
+        div.innerText=cantidad;
+        span.append(div);
+        div = document.createElement("div");
+            input = document.createElement("input");
+            input.id="boton_eliminar."+nlinea;
+            input.className = "boton_eliminar";
+            input.onclick=function(){eliminar_linea($(this))};
+            input.setAttribute("type","button");
+            input.setAttribute("value","Eliminar");
+        div.append(input);
+    span.append(div);
+    boton.parent().parent().before(span);
 }
 
 function ocultar_modal() {
@@ -447,8 +465,8 @@ function SelectProductos() {
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
-            for (let i in respuesta){
-                $("#select_Productos").append('<option value='+respuesta[i].idPedido+'>'+respuesta[i].direccion+'</option>');
+            for (let i in respuesta){ 
+                $("#select_Productos").append('<option value='+respuesta[i]["idProducto"]+'>'+respuesta[i]["nombre"]+'</option>');          
             }
         }
     });
