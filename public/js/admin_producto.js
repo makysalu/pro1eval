@@ -89,10 +89,6 @@ function listarProductos() {
 }
 
 function botones_producto(){
-    
-    
-    
-    
     $(".boton_cancelar").click(ocultar_modal);
     $(".cerrar_msg").click(cerrarMSG);
 }
@@ -105,7 +101,6 @@ function Mostrar_producto(boton){
 function MODañadir_producto() {
     $(".boton_añadir").unbind();
     $(".boton_añadir").click(añadir_producto);
-
     $("#titulo_modal").text("Añadir Producto");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","block");
@@ -124,10 +119,15 @@ function añadir_producto() {
     let marca=$("#modal_marca").val();
     let categoria=$("#modal_categoria").val();
     let precio=$("#modal_precio").val();
-    
     let files=$("#modal_file").prop("files")[0];
     
-    var formData = new FormData();
+    if((nombre=="")||(marca=="")||(categoria=="")||(precio=="")||(files==undefined)){
+        $("#contenido_msg").text("");
+        $("#modalMSG").css("display","block");
+        $("#contenido_msg").text("Error Campos Vacios");   
+    }
+    else{
+        var formData = new FormData();
         formData.append('funcion', 'añadir');
         formData.append('nombre',nombre);
         formData.append('marca',marca);
@@ -135,40 +135,37 @@ function añadir_producto() {
         formData.append('precio',precio);
         formData.append('file',$("#modal_file").prop("files")[0]);
     
-    $.ajax({
-        type:"POST",
-        url:"./controladores/gestion_productos.php",
-        data: formData,
-        contentType: false,
-        processData: false,
-        datatype:"json",
-        
-        success: function(response){
-            let respuesta=JSON.parse(response);
-            console.log(respuesta);
+        $.ajax({
+            type:"POST",
+            url:"./controladores/gestion_productos.php",
+            data: formData,
+            contentType: false,
+            processData: false,
+            datatype:"json",
             
-            $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");
-            
-            if(respuesta[0]==false){
-                if(respuesta[1]==1){
-                    $("#contenido_msg").text("Error Campos Vacios");
+            success: function(response){
+                let respuesta=JSON.parse(response);
+                $("#contenido_msg").text("");
+                $("#modalMSG").css("display","block");
+                
+                if(respuesta[0]==false){
+                    if(respuesta[1]==1){
+                        $("#contenido_msg").text("Error Campos Vacios");
+                    }
+                    if(respuesta[1]==2){
+                        $("#contenido_msg").text("No se puedo Subir la Imagen");
+                    }
                 }
-                if(respuesta[1]==2){
-                    $("#contenido_msg").text("No se puedo Subir la Imagen");
+                else{
+                    $("#contenido_msg").text("Producto Creado con Exito");
+                    PintarProducto(respuesta[1],respuesta[2],nombre,marca,precio);
                 }
+            },
+            error: function (error) {
+                $("#contenido_msg").text('error; ' + eval(error));
             }
-            else{
-                $("#contenido_msg").text("Producto Creado con Exito");
-                PintarProducto(respuesta[1],respuesta[2],nombre,marca,precio);
-            }
-        },
-        error: function (error) {
-            $("#contenido_msg").text('error; ' + eval(error));
-        }
-    });
-    
-   
+        });
+    }
 }
 
 function PintarProducto(idProducto,foto,nombre,marca,precio){
@@ -195,7 +192,9 @@ function PintarProducto(idProducto,foto,nombre,marca,precio){
                 div = document.createElement("div");
                     let input = document.createElement("input");
                     input.id="boton_editar."+idProducto;
-                    input.click=function(){MODeditar_producto(this)};
+                    input.onclick=function(){MODeditar_producto(this)};
+                    console.log(input);
+                    
                     input.className = "boton_editar";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Modificar");
@@ -279,9 +278,10 @@ function modificar_producto() {
     let categoria=$("#modal_categoria").val();
     let precio=$("#modal_precio").val();
     let files=$("#modal_file").prop("files")[0];
-    if(idProducto==undefined){
-        console.log("no");
-        
+    if((nombre=="")||(marca=="")||(categoria=="")||(precio=="")||(files==undefined)){
+        $("#contenido_msg").text("");
+        $("#modalMSG").css("display","block");
+        $("#contenido_msg").text("Error Campos Vacios");   
     }
     else{
         var formData = new FormData();
@@ -292,36 +292,35 @@ function modificar_producto() {
         formData.append('categoria',categoria);
         formData.append('precio',precio);
         formData.append('file',$("#modal_file").prop("files")[0]);
-        
     
-    $.ajax({
-        type:"POST",
-        url:"./controladores/gestion_productos.php",
-        data: formData,
-        contentType: false,
-        processData: false,
-        datatype:"json",
-        success: function(response){
-            let respuesta=JSON.parse(response);
-            $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");
-            if(respuesta[0]==false){
-                if(respuesta[1]==1){
-                    $("#contenido_msg").text("Error Campos Vacios");
+        $.ajax({
+            type:"POST",
+            url:"./controladores/gestion_productos.php",
+            data: formData,
+            contentType: false,
+            processData: false,
+            datatype:"json",
+            success: function(response){
+                let respuesta=JSON.parse(response);
+                $("#contenido_msg").text("");
+                $("#modalMSG").css("display","block");
+                if(respuesta[0]==false){
+                    if(respuesta[1]==1){
+                        $("#contenido_msg").text("Error Campos Vacios");
+                    }
+                    if(respuesta[1]==2){
+                        $("#contenido_msg").text("No se puedo Subir la Imagen");
+                    }
                 }
-                if(respuesta[1]==2){
-                    $("#contenido_msg").text("No se puedo Subir la Imagen");
+                else{
+                    $("#contenido_msg").text("Producto Modificado con Exito");
                 }
+                listarProductos();
+            },
+            error: function (error) {
+                $("#contenido_msg").text('error; ' + eval(error));
             }
-            else{
-                $("#contenido_msg").text("Producto Modificado con Exito");
-            }
-            listarProductos();
-        },
-        error: function (error) {
-            $("#contenido_msg").text('error; ' + eval(error));
-        }
-    });
+        });
     } 
 }
 

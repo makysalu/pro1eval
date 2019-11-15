@@ -110,24 +110,33 @@ function MODañadir_pedido(boton) {
 function añadir_pedido() {
     let direccion=$("#modal_direccion").val();
     let dniCliente=$("#select_dniCliente").val();
-    $.ajax({
-        type:"POST",
-        url:"./controladores/gestion_pedidos.php",
-        data: {funcion: "añadir",direccion,dniCliente},
-        datatype:"json",
-        success: function(response){
-            let respuesta=JSON.parse(response);
-            $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");  
-            if(respuesta[0]){
-                $("#contenido_msg").text("Se ha Añadido un Nuevo Pedido");
-                PintarPedido(respuesta[1],respuesta[2],respuesta[3],respuesta[4]);
+    console.log(dniCliente);
+    
+    if((direccion=="")||(dniCliente==null)){
+        $("#contenido_msg").text("");
+        $("#modalMSG").css("display","block");
+        $("#contenido_msg").text("Error Campos Vacios"); 
+    }
+    else{
+        $.ajax({
+            type:"POST",
+            url:"./controladores/gestion_pedidos.php",
+            data: {funcion: "añadir",direccion,dniCliente},
+            datatype:"json",
+            success: function(response){
+                let respuesta=JSON.parse(response);
+                $("#contenido_msg").text("");
+                $("#modalMSG").css("display","block");  
+                if(respuesta[0]){
+                    $("#contenido_msg").text("Se ha Añadido un Nuevo Pedido");
+                    PintarPedido(respuesta[1],respuesta[2],respuesta[3],respuesta[4]);
+                }
+                else{
+                    $("#contenido_msg").text("Error Campos Vacios");
+                }
             }
-            else{
-                $("#contenido_msg").text("Error Campos Vacios");
-            }
-        }
-    });
+        });
+    }
 }
 
 function PintarPedido(idPedido,fecha,direccion,dniCliente){
@@ -147,6 +156,7 @@ function PintarPedido(idPedido,fecha,direccion,dniCliente){
                 div = document.createElement("div");
                     img=document.createElement("img");
                     img.setAttribute("src","img/menu.png");
+                    img.onclick=function(){Mostrar_lineas($(this))};
                     img.className="menu-lineas";
                     img.id="menu-lineas."+idPedido;
                 div.append(img);
@@ -233,25 +243,31 @@ function modificar_pedido() {
     let idPedido=$("#modal_idPedido").val();
     let direccion=$("#modal_direccion").val();
     let dniCliente=$("#select_dniCliente").val();
-    
-    $.ajax({
-        type:"POST",
-        url:"./controladores/gestion_pedidos.php",
-        data: {funcion:"modificar",idPedido,direccion,dniCliente},
-        datatype:"json",
-        success: function(response){
-            $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");
-            let respuesta=JSON.parse(response);
-            if(respuesta){
-                $("#contenido_msg").text("Se a Modificado el Pedido "+idPedido);
+    if((direccion=="")||(dniCliente==null)||(idPedido=="")){
+        $("#contenido_msg").text("");
+        $("#modalMSG").css("display","block");
+        $("#contenido_msg").text("Error Campos Vacios"); 
+    }
+    else{
+        $.ajax({
+            type:"POST",
+            url:"./controladores/gestion_pedidos.php",
+            data: {funcion:"modificar",idPedido,direccion,dniCliente},
+            datatype:"json",
+            success: function(response){
+                $("#contenido_msg").text("");
+                $("#modalMSG").css("display","block");
+                let respuesta=JSON.parse(response);
+                if(respuesta){
+                    $("#contenido_msg").text("Se a Modificado el Pedido "+idPedido);
+                }
+                else{
+                    $("#contenido_msg").text("Error Campos vacios");
+                }
+                listarPedidos();
             }
-            else{
-                $("#contenido_msg").text("Error Campos vacios");
-            }
-            listarPedidos();
-        }
-    });
+        });
+    }
 }
 
 function Mostrar_lineas(boton){
@@ -274,7 +290,6 @@ function lineas_pedido(idPedido, boton){
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
-            console.log(respuesta);
             fila=document.createElement("span");
             fila.id="fila-"+idPedido;
             let table=document.createElement("div");
@@ -385,27 +400,31 @@ function añadir_linea(boton) {
     let idProducto=$("#select_Productos").val();
     let nombre=$("#select_Productos option:selected").text();
     let cantidad=$("#modal_cantidad").val();
-    console.log(nombre);
     
-    $.ajax({
-        type:"POST",
-        url:"./controladores/gestion_pedidos.php",
-        data: {funcion: "añadir_linea",idPedido,idProducto,cantidad},
-        datatype:"json",
-        success: function(response){
-            $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");
-            let respuesta=JSON.parse(response);
-            if(respuesta){
-                let nlinea=respuesta[1];
-                $("#contenido_msg").text("Se a Añadido un producto al "+idPedido);
-                PintarLinea(nlinea,nombre,cantidad,boton);
+    if((idPedido=="")||(idProducto=="")||(nombre=="")||(cantidad=="")){
+        $("#contenido_msg").text("");
+        $("#modalMSG").css("display","block");
+        $("#contenido_msg").text("Error Campos Vacios"); 
+    }
+    else{
+        $.ajax({
+            type:"POST",
+            url:"./controladores/gestion_pedidos.php",
+            data: {funcion: "añadir_linea",idPedido,idProducto,cantidad},
+            datatype:"json",
+            success: function(response){
+                $("#contenido_msg").text("");
+                $("#modalMSG").css("display","block");
+                let respuesta=JSON.parse(response);
+                if(respuesta){
+                    let nlinea=respuesta[1];
+                    $("#contenido_msg").text("Se a Añadido un producto al "+idPedido);
+                    PintarLinea(nlinea,nombre,cantidad,boton);
+                }
+                
             }
-            
-        }
-    });
-
-   
+        });
+    }
 }
 
 function PintarLinea(nlinea,idProducto,cantidad,boton){

@@ -208,7 +208,7 @@ section {
         color: rgb(92, 7, 7);
     }
 
-    .boton_nuevo, .boton_añadir, .mod_linea{
+    .boton_nuevo, .boton_añadir, .mod_linea, .añadir_linea{
         background: #adadf8;
         border: 2px solid blue;
         color: rgb(7, 7, 138);

@@ -5,7 +5,6 @@
              $datos=limpiardatos($_POST);
              require "../src/Modelo.php";
              $base=new BBDD;
-             var_dump($_POST);
              $usuario= new Usuario($datos["DNI"],"","","","","");
              $estadoLogin=$usuario->ComprobarCliente($base->conexion);
              if ($estadoLogin===false) {

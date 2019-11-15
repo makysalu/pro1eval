@@ -112,29 +112,35 @@ function añadir_cliente() {
     let email=$("#modal_email").val();
     let pwd=$("#modal_pwd").val();
     
-    $.ajax({
-        type:"POST",
-        url:"./controladores/gestion_clientes.php",
-        data: {funcion:"añadir",dniCliente,nombre,direccion,email,pwd},
-        success: function(response){
-            let respuesta=JSON.parse(response);
-            $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");
-            if(respuesta[0]==false){
-                if(respuesta[1]==1){
-                    $("#contenido_msg").text("Error Campos Vacios");  
+    if((dniCliente=="")||(nombre==""),(direccion==""),(email=="")){
+        $("#contenido_msg").text("");
+        $("#modalMSG").css("display","block");
+        $("#contenido_msg").text("Error Campos Vacios");  
+    }
+    else{
+        $.ajax({
+            type:"POST",
+            url:"./controladores/gestion_clientes.php",
+            data: {funcion:"añadir",dniCliente,nombre,direccion,email,pwd},
+            success: function(response){
+                let respuesta=JSON.parse(response);
+                $("#contenido_msg").text("");
+                $("#modalMSG").css("display","block");
+                if(respuesta[0]==false){
+                    if(respuesta[1]==1){
+                        $("#contenido_msg").text("Error Campos Vacios");  
+                    }
+                    if(respuesta[1]==2){
+                        $("#contenido_msg").text("No se ha podido Introducir el Cliente"); 
+                    } 
                 }
-                if(respuesta[1]==2){
-                    $("#contenido_msg").text("No se ha podido Introducir el Cliente"); 
-                } 
+                else{
+                    $("#contenido_msg").text("Se ha Introducido un Nuevo Cliente");
+                    PintarCliente(dniCliente,nombre,direccion,email);
+                }   
             }
-            else{
-                $("#contenido_msg").text("Se ha Introducido un Nuevo Cliente");
-                PintarCliente(dniCliente,nombre,direccion,email);
-            }   
-        }
-    });
-   
+        });
+    }
 }
 function PintarCliente(dniCliente,nombre,direccion,email){
     span=document.createElement("span");
@@ -239,26 +245,32 @@ function modificar_cliente() {
     let nombre=$("#modal_nombre").val();
     let direccion=$("#modal_direccion").val();
     let email=$("#modal_email").val();
-    
-    $.ajax({
-        type:"POST",
-        url:"./controladores/gestion_clientes.php",
-        data: {funcion:"modificar",dniCliente,nombre,direccion,email},
-        datatype:"json",
-        success: function(response){     
-            let respuesta=JSON.parse(response);
-            $("#contenido_msg").text("");
-            $("#modalMSG").css("display","block");
-            console.log(respuesta);
-            if(respuesta[0]==false){
-                $("#contenido_msg").text("Error Campos Vacios");
+    if((dniCliente=="")||(nombre==""),(direccion==""),(email=="")){
+        $("#contenido_msg").text("");
+        $("#modalMSG").css("display","block");
+        $("#contenido_msg").text("Error Campos Vacios");  
+    }
+    else{
+        $.ajax({
+            type:"POST",
+            url:"./controladores/gestion_clientes.php",
+            data: {funcion:"modificar",dniCliente,nombre,direccion,email},
+            datatype:"json",
+            success: function(response){     
+                let respuesta=JSON.parse(response);
+                $("#contenido_msg").text("");
+                $("#modalMSG").css("display","block");
+                console.log(respuesta);
+                if(respuesta[0]==false){
+                    $("#contenido_msg").text("Error Campos Vacios");
+                }
+                else{
+                    $("#contenido_msg").text("Se ha Modificado el Cliente "+dniCliente);
+                }  
+                listarClientes(); 
             }
-            else{
-                $("#contenido_msg").text("Se ha Modificado el Cliente "+dniCliente);
-            }  
-            listarClientes(); 
-        }
-    });
+        });
+    }
 }
 
 function botones_cliente(){
