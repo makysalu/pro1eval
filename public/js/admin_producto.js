@@ -1,4 +1,6 @@
+/*Listar productos*/
 function listarProductos() {
+    // si esiste los elimina
     if($("#lista_admin")){
         $("#lista_admin").remove();
         $("#boton_lista").remove();
@@ -38,9 +40,11 @@ function listarProductos() {
             for(let i in respuesta){
                 span=document.createElement("span");
                 span.id="fila-"+cont;
+                //creamos la imagen
                 div = document.createElement("div");
                 div.className="img_producto";
                 div.id=respuesta[i].foto;
+                //añadir funcionalidad
                 div.onclick=function(){Mostrar_producto(this)};
                     let div2=document.createElement("div")
                         img=document.createElement("img");     
@@ -58,13 +62,16 @@ function listarProductos() {
                 div.innerText=respuesta[i].precio+"€";
                 span.append(div);
                 div = document.createElement("div");
+                    //añadir boton editar producto con el id del producto
                     let input = document.createElement("input");
                     input.id="boton_editar."+respuesta[i].idProducto;
+                    //añadir funcionalidad
                     input.onclick=function(){MODeditar_producto(this)};
                     input.className = "boton_editar";
                     input.setAttribute("type","button");
                     input.setAttribute("value","Modificar");
                 div.append(input);
+                    //añadir boton eliminar producto con el id del producto
                     input = document.createElement("input");
                     input.id="boton_eliminar."+respuesta[i].idProducto;
                     input.onclick=function(){confirmar_deleteP($(this))};
@@ -88,19 +95,20 @@ function listarProductos() {
     });
 }
 
+/*botones para producto*/
 function botones_producto(){
     $(".boton_cancelar").click(ocultar_modal);
     $(".cerrar_msg").click(cerrarMSG);
 }
-
+/*boton mostrar boton*/
 function Mostrar_producto(boton){
     $("#imagen_modal").attr("src","img/productos/"+boton.id);
     $("#modalIMG").css('display','block');
 }
 
+/*Modal añadir producto*/
 function MODañadir_producto() {
-    $(".boton_añadir").unbind();
-    $(".boton_añadir").click(añadir_producto);
+    //mostramos mosal añadir producto
     $("#titulo_modal").text("Añadir Producto");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","block");
@@ -108,25 +116,32 @@ function MODañadir_producto() {
     $("#modal_dniCliente").attr('readonly', false);
     $("#modal_dniCliente").css('background-color', "white");
     $("#modal_fileSpan").css('display','block');
+    //limiamos modal
     $("#modal_dniCliente").val("");
     $("#modal_nombre").val("");
     $("#modal_direccion").val("");
     $("#modal_email").val("");   
+    //añadimos funcion añadir producto
+    $(".boton_añadir").unbind();
+    $(".boton_añadir").click(añadir_producto);
 }
 
+/*Añadir producto*/
 function añadir_producto() {
+    //sacamos valores del modal añadir producto
     let nombre=$("#modal_nombre").val();
     let marca=$("#modal_marca").val();
     let categoria=$("#modal_categoria").val();
     let precio=$("#modal_precio").val();
     let files=$("#modal_file").prop("files")[0];
-    
+    //comprobamos campos vacios
     if((nombre=="")||(marca=="")||(categoria=="")||(precio=="")||(files==undefined)){
         $("#contenido_msg").text("");
         $("#modalMSG").css("display","block");
         $("#contenido_msg").text("Error Campos Vacios");   
     }
     else{
+        //añadimos todo a un array
         var formData = new FormData();
         formData.append('funcion', 'añadir');
         formData.append('nombre',nombre);
@@ -134,7 +149,7 @@ function añadir_producto() {
         formData.append('categoria',categoria);
         formData.append('precio',precio);
         formData.append('file',$("#modal_file").prop("files")[0]);
-    
+        //reali
         $.ajax({
             type:"POST",
             url:"./controladores/gestion_productos.php",

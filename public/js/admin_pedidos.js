@@ -1,10 +1,11 @@
+/*Pintamos todos los Pedidos*/
 function listarPedidos() {
+    //Si ya estan los eliminamos
     if($("#lista_admin").length){
-        console.log("existe");
-        
         $("#lista_admin").remove();
         $("#boton_lista").remove();
     }
+    //Realizamos la peticion que nos saca los pedidos
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
@@ -15,7 +16,6 @@ function listarPedidos() {
             let table=document.createElement("div");
             table.id="lista_admin";
                 let span=document.createElement("span");
-                span.id="fila-0";
                     div = document.createElement("div");
                     div.innerText="ID Pedido";
                     div.className="Titulo_lista";
@@ -52,22 +52,28 @@ function listarPedidos() {
                     div.innerText=respuesta[i].dniCliente;
                     span.append(div);                
                     div = document.createElement("div");
+                        //añadimos el boton para mostrar lineas con el id del pedido
                         img=document.createElement("img");
                         img.setAttribute("src","img/menu.png");
                         img.className="menu-lineas";
+                        //le damos funcionalidad
                         img.onclick=function(){Mostrar_lineas($(this))};
                         img.id="menu-lineas."+respuesta[i].idPedido;
                         div.append(img);
+                        //añadimos el boton para modificar pedido con el id del pedido
                         let input = document.createElement("input");
                         input.id="boton_editar."+respuesta[i].idPedido;
                         input.className = "boton_editar";
+                        //le añadimos funcionalidad
                         input.onclick=function(){MODeditar_pedido(this)};
                         input.setAttribute("type","button");
                         input.setAttribute("value","Modificar");
-                    div.append(input);
+                        div.append(input);
+                        //añadimos el boton para eliminar pedido con el id del pedido
                         input = document.createElement("input");
                         input.id="boton_eliminar."+respuesta[i].idPedido;
                         input.className ="boton_eliminar";
+                        //le añadimos la funcionalidad
                         input.onclick=function(){confirmar_deletePe($(this))};
                         input.setAttribute("type","button");
                         input.setAttribute("value","Eliminar");
@@ -75,9 +81,11 @@ function listarPedidos() {
                 span.append(div);
                 table.append(span);
             }  
+                    //añadimos boton para añadir nuevo pedido
                     input = document.createElement("input");
                     input.id="boton_lista";
                     input.className = "boton_nuevo";
+                    //le añadimos funcionalidad
                     input.onclick=function(){MODañadir_pedido($(this))};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Nuevo Pedido");
@@ -93,31 +101,37 @@ function botones_pedido(){
     $(".cerrar_msg").click(cerrarMSG);
 }
 
+/*Modal Añadir Pedido*/
 function MODañadir_pedido(boton) {
+    //Mostramos el modal añadir pedido
     $("#titulo_modal").text("Añadir Pedido");
     $(".modal_pedido").css("display","block");
     $(".boton_añadir").css("display","block");
     $(".boton_modificar").css("display","none");
     $("#modal_idPedidoSpan").css("display","none");
+    //limpiamos valores
     $("#modal_direccion").val("");
     $("#select_dniCliente").val("");
+    //funcion boton añadir
     $(".boton_añadir").unbind();
     $(".boton_añadir").click(añadir_pedido);
 
     
 }
 
+/*Añadimos pedido*/
 function añadir_pedido() {
+    //cogemos los valores del modal pedido
     let direccion=$("#modal_direccion").val();
     let dniCliente=$("#select_dniCliente").val();
-    console.log(dniCliente);
-    
+    //comprobamos campos vacios
     if((direccion=="")||(dniCliente==null)){
         $("#contenido_msg").text("");
         $("#modalMSG").css("display","block");
         $("#contenido_msg").text("Error Campos Vacios"); 
     }
     else{
+        //realizamos peticion para añadir pedido
         $.ajax({
             type:"POST",
             url:"./controladores/gestion_pedidos.php",
@@ -125,6 +139,7 @@ function añadir_pedido() {
             datatype:"json",
             success: function(response){
                 let respuesta=JSON.parse(response);
+                //sacamos respuesta de la peticion
                 $("#contenido_msg").text("");
                 $("#modalMSG").css("display","block");  
                 if(respuesta[0]){
@@ -139,6 +154,7 @@ function añadir_pedido() {
     }
 }
 
+/*Pintamos un pedido*/
 function PintarPedido(idPedido,fecha,direccion,dniCliente){
     span=document.createElement("span");
                 div = document.createElement("div");
@@ -154,22 +170,28 @@ function PintarPedido(idPedido,fecha,direccion,dniCliente){
                 div.innerText=dniCliente;
                 span.append(div);
                 div = document.createElement("div");
+                    //añadimos el boton para mostrar lineas con el id del pedido
                     img=document.createElement("img");
                     img.setAttribute("src","img/menu.png");
+                    //añadimos funcionalidad
                     img.onclick=function(){Mostrar_lineas($(this))};
                     img.className="menu-lineas";
                     img.id="menu-lineas."+idPedido;
                 div.append(img);
+                    //añadimos el boton para modificar pedido con el id del pedido
                     let input = document.createElement("input");
                     input.id="boton_editar."+idPedido;
                     input.className = "boton_editar";
+                    //añadimos funcionalidad
                     input.onclick=function(){MODeditar_pedido(this)};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Modificar");
                 div.append(input);
+                    //añadimos el boton para eliminar pedido con el id del pedido
                     input = document.createElement("input");
                     input.id="boton_eliminar."+"idPedido";
                     input.className = "boton_eliminar";
+                    //añadimos funcionalidad
                     input.onclick=function(){confirmar_deletePe($(this))};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Eliminar");
@@ -178,7 +200,9 @@ function PintarPedido(idPedido,fecha,direccion,dniCliente){
     $("#lista_admin").append(span);
 }
 
+/*Modal Editar Pedido*/
 function MODeditar_pedido(boton){
+    //mostramos modal pedido
     $("#titulo_modal").text("Modificar Pedido");
     $(".modal_pedido").css("display","block");
     $(".boton_añadir").css("display","none");
@@ -186,15 +210,20 @@ function MODeditar_pedido(boton){
     $("#modal_idPedidoSpan").css('display','block');
     $("#modal_idPedido").attr('readonly', true);
     $("#modal_idPedido").css('background-color', "#6d6d6d4b");
-
+    //sacamos el id del pedido
     boton=boton.id;
     boton = boton.split(".");
     idPedido=boton[1];
+
+    //Sacamos la informacion para rellenar el modal
     datospedido(idPedido);
-    
+    $(".boton.modificar").unbind();
+    $("·boton.modificar").click(modificar_pedido);
+
 }
 
 function datospedido(idPedido) {
+    //Sacamos toda la informacion del pedido
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
@@ -202,6 +231,7 @@ function datospedido(idPedido) {
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
+            //rellenamos el modal editar pedido
             $("#modal_idPedido").val(idPedido);
             $("#modal_direccion").val(respuesta["direccion"]);
             $("#select_dniCliente").val(respuesta["dniCliente"]);    
@@ -209,18 +239,25 @@ function datospedido(idPedido) {
     });
 }
 
+/* Modal confirmar eliminar*/
 function confirmar_deletePe(boton){
-    let idProducto=boton.attr("id");
-    idProducto = idProducto.split(".");
-    idProducto=idProducto[1];
+    //sacamos idPedido
+    let idPedido=boton.attr("id");
+    idPedido = idPedido.split(".");
+    idPedido=idPedido[1];
+    //posible cambio si me da tiempo añadir id al boton
     $("#modalconfirmar").css("display","block");
-    $("#confirmar-valor").val(idProducto);
+    $("#confirmar-valor").val(idPedido);
+    //añadimos la funcion al boton -> posible cambio añadiendo el id del pedido al boton
     $(".confirmar_msg").unbind();
     $(".confirmar_msg").click(function(){eliminar_pedido(boton)});
 }
 
+/*Modal Eliminar Pedido*/
 function eliminar_pedido(boton) {
+    //Sacamos idPedido 
     let idPedido=$("#confirmar-valor").val();
+    //Realizamos la peticion para eliminar el pedido
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
@@ -228,52 +265,63 @@ function eliminar_pedido(boton) {
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
+            //Sacamos la respuesta de la peticion
             $("#contenido_msg").text("");
             $("#modalMSG").css("display","block");
             if(respuesta){
                 $("#contenido_msg").text("El Pedido se Elimino Correctamente");
-            } 
+            }
+            //eliminamos la fila 
             boton.parent().parent().remove();
         }
     });
    
 }
 
+/*Modificamos el pedido*/
 function modificar_pedido() {
+    //sacamos informacion del modal modificar
     let idPedido=$("#modal_idPedido").val();
     let direccion=$("#modal_direccion").val();
     let dniCliente=$("#select_dniCliente").val();
+    //comprobamos campos vacios
     if((direccion=="")||(dniCliente==null)||(idPedido=="")){
         $("#contenido_msg").text("");
         $("#modalMSG").css("display","block");
         $("#contenido_msg").text("Error Campos Vacios"); 
     }
     else{
+        //realizamos peticion ajax para modificar el pedido
         $.ajax({
             type:"POST",
             url:"./controladores/gestion_pedidos.php",
             data: {funcion:"modificar",idPedido,direccion,dniCliente},
             datatype:"json",
             success: function(response){
+                let respuesta=JSON.parse(response);
+                //mostramos respuesta
                 $("#contenido_msg").text("");
                 $("#modalMSG").css("display","block");
-                let respuesta=JSON.parse(response);
                 if(respuesta){
                     $("#contenido_msg").text("Se a Modificado el Pedido "+idPedido);
                 }
                 else{
                     $("#contenido_msg").text("Error Campos vacios");
                 }
+                //volvemos a pintar pedidos
                 listarPedidos();
             }
         });
     }
 }
 
+/*Nos muestra las lineas del pedido al pulsar en el menu*/
 function Mostrar_lineas(boton){
+    //sacamos el id del pedido
     let idPedido=boton.attr("id");
     idPedido = idPedido.split(".");
     idPedido=idPedido[1];
+    //si esiste menu lo elimina sino lo crea
     if($("#fila-"+idPedido).length){
         $("#fila-"+idPedido).remove();
     }
@@ -283,6 +331,7 @@ function Mostrar_lineas(boton){
 }
 
 function lineas_pedido(idPedido, boton){
+    //realiza peticion para sacar todas las lineas del pedido
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
@@ -295,7 +344,6 @@ function lineas_pedido(idPedido, boton){
             let table=document.createElement("div");
             table.id="lista_lineas";
             let span=document.createElement("span");
-                span.id="fila-0";
                 div = document.createElement("div");
                 div.innerText="#ID";
                 div.className="Titulo_lineas";
@@ -325,10 +373,11 @@ function lineas_pedido(idPedido, boton){
                     div.innerText=respuesta[i].cantidad;
                     span.append(div);
                     div = document.createElement("div");
-                    div.id="linea-"+respuesta[i].nlinea;
+                        //crea boton para eliminar la linea con el id del pedido y la linea
                         input = document.createElement("input");
                         input.id="boton_eliminar."+respuesta[i].idPedido+"."+respuesta[i].nlinea;
                         input.className="eliminar_linea";
+                        //le da funcionalidad
                         input.onclick=function(){eliminar_linea($(this))};
                         input.setAttribute("type","button");
                         input.setAttribute("value","Eliminar");
@@ -336,6 +385,7 @@ function lineas_pedido(idPedido, boton){
                 span.append(div);
                 table.append(span);
             }
+            //creamos la fila con el boton añadir linea
             span=document.createElement("span");           
                 div = document.createElement("div");
                 span.append(div);
@@ -344,9 +394,11 @@ function lineas_pedido(idPedido, boton){
                 div = document.createElement("div");
                 span.append(div);
                 div = document.createElement("div");
+                    //creamos el boton añadir linea con el id del pedido
                     input = document.createElement("input");
                     input.className = "mod_linea";
                     input.id="boton_nuevo."+idPedido;
+                    //añadimos funcionalidad
                     input.onclick=function(){MODañadir_linea($(this))};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Añadir");
@@ -354,72 +406,86 @@ function lineas_pedido(idPedido, boton){
                 span.append(div);
             table.append(span);
             fila.append(table);
+            //creamos la linea debajo de la fila seleccionada
             boton.parent().parent().after(fila);
         }
     });
 }
 
+/*Eliminar linea pedido*/
 function eliminar_linea(boton) {
+    //sacamos id pedido y numero de linea
     let idPedido=boton.attr("id");
     idPedido = idPedido.split(".");
     nlinea=idPedido[2];
     idPedido=idPedido[1];
+    //realizamos la peticion ajax para eliminar la linea
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_pedidos.php",
         data: {funcion: "eliminar_linea",idPedido, nlinea},
         datatype:"json",
         success: function(response){
+            let respuesta=JSON.parse(response);
+            //mostramos respuesta
             $("#contenido_msg").text("");
             $("#modalMSG").css("display","block");
-            let respuesta=JSON.parse(response);
             if(respuesta){
                 $("#contenido_msg").text("Se a elimininado la linea "+nlinea+" del pedido "+idPedido);
             }
+            //eliminamos la linea
             boton.parent().parent().remove();
         }
     });
 }
 
+/*Modal Añadir Linea*/
 function MODañadir_linea(boton) {
+    //sacamos el id del pedido
     botonid=boton.attr("id");
     botonid = botonid.split(".");
     idPedido=botonid[1];
+    //mostramos la informacion en el modal
     $("#titulo_modal").text("Añadir Producto");
     $(".modal_linea").css("display","block");
     $("#modal_idPedido_linea").val(idPedido);
     $("#modal_idPedido").val();
     $("#modal_cantidad").val("");
+    //añadimos la funcionalidad al boton
     $(".añadir_linea").unbind();
     $(".añadir_linea").click(function(){añadir_linea(boton)});
     
 }
 
+/*Añade Linea del Pedido*/
 function añadir_linea(boton) {
+    //sacamos la informacion del modal añadir pedido
     let idPedido=$("#modal_idPedido_linea").val();
     let idProducto=$("#select_Productos").val();
     let nombre=$("#select_Productos option:selected").text();
     let cantidad=$("#modal_cantidad").val();
-    
+    //comprobamos campos vacios
     if((idPedido=="")||(idProducto=="")||(nombre=="")||(cantidad=="")){
         $("#contenido_msg").text("");
         $("#modalMSG").css("display","block");
         $("#contenido_msg").text("Error Campos Vacios"); 
     }
     else{
+        //realizamos la peticios
         $.ajax({
             type:"POST",
             url:"./controladores/gestion_pedidos.php",
             data: {funcion: "añadir_linea",idPedido,idProducto,cantidad},
             datatype:"json",
             success: function(response){
+                //mostramos respuesta dependiendo de la peticion
                 $("#contenido_msg").text("");
                 $("#modalMSG").css("display","block");
                 let respuesta=JSON.parse(response);
                 if(respuesta){
                     let nlinea=respuesta[1];
                     $("#contenido_msg").text("Se a Añadido un producto al "+idPedido);
-                    PintarLinea(nlinea,nombre,cantidad,boton);
+                    PintarLinea(nlinea,nombre,cantidad,boton,idPedido);
                 }
                 
             }
@@ -427,6 +493,7 @@ function añadir_linea(boton) {
     }
 }
 
+/*Pintamos Linea de Pedido*/
 function PintarLinea(nlinea,idProducto,cantidad,boton){
     span=document.createElement("span");
         div = document.createElement("div");
@@ -439,28 +506,36 @@ function PintarLinea(nlinea,idProducto,cantidad,boton){
         div.innerText=cantidad;
         span.append(div);
         div = document.createElement("div");
+            //creamos boton eliminar y le añadimos la id del pedido y el numero de linea
             input = document.createElement("input");
-            input.id="boton_eliminar."+nlinea;
+            input.id="boton_eliminar."+idPedido+"."+nlinea;
             input.className = "boton_eliminar";
+            //añadimos la funcionalidad 
             input.onclick=function(){eliminar_linea($(this))};
             input.setAttribute("type","button");
             input.setAttribute("value","Eliminar");
         div.append(input);
     span.append(div);
+    //Eliminamos la linea del pedido
     boton.parent().parent().before(span);
 }
 
+/*Ocultar Modal*/
 function ocultar_modal() {
+    //ocultamos todos los modales
     $(".modal_form").css("display","none");
     $("#modalIMG").css("display","none");
     $(".modal_pedido").css("display","none");
     $(".modal_linea").css("display","none");
 }
 
+/*Ocultamos Mensaje*/
 function cerrarMSG(){
+    //ocultamos los mensajes 
     $(".modalMSG").css("display","none");
 }
 
+/*Generamos un select con los DNIs*/
 function SelectDNIs() {
     $.ajax({
         type:"POST",
@@ -470,12 +545,13 @@ function SelectDNIs() {
         success: function(response){
             let respuesta=JSON.parse(response);
             for (let i in respuesta){
-                $("#select_dniCliente").append('<option value='+respuesta[i].dniCliente+'>'+respuesta[i].direccion+'</option>');
+                $("#select_dniCliente").append('<option value='+respuesta[i].dniCliente+'>'+respuesta[i].nombre+'</option>');
             }
         }
     });
 }
 
+/*Generamos un select con los Productos*/
 function SelectProductos() {
     $.ajax({
         type:"POST",

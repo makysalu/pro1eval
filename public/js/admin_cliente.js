@@ -1,8 +1,11 @@
+/*Pintamos los clientes*/
 function listarClientes() {
+    //si estiste lo elimina
     if($("#lista_admin")){
         $("#lista_admin").remove();
         $("#boton_lista").remove();
     }
+    //Realiza peticion ajax para sacar todos los clientes
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
@@ -54,15 +57,19 @@ function listarClientes() {
                     span.append(div);
                     div = document.createElement("div");
                     div.id="fila-"+cont;
+                        //crea boton para modificar cliente con el dni del cliente
                         let input = document.createElement("input");
                         input.id="boton_editar."+respuesta[i].dniCliente;
+                        //le añade la funcionalidad
                         input.onclick=function(){MODeditar_cliente(this)};
                         input.className = "boton_editar";
                         input.setAttribute("type","button");
                         input.setAttribute("value","Modificar");
                     div.append(input);
+                        //crea boton para eliminar cliente con el dni del cliente
                         input = document.createElement("input");
                         input.id="boton_eliminar."+respuesta[i].dniCliente;
+                        //le añadimos la funcionalidad
                         input.onclick=function(){confirmar_deleteC($(this))};
                         input.className = "boton_eliminar";
                         input.setAttribute("type","button");
@@ -71,10 +78,12 @@ function listarClientes() {
                 span.append(div);
             table.append(span);
             cont++;
-            }  
+            }       
+                    //pintamos boton para añadir cliene
                     input = document.createElement("input");
                     input.id="boton_lista";
                     input.className = "boton_nuevo";
+                    //añadimos funcionalidad
                     input.onclick=function(){MODañadir_cliente(this)};
                     input.setAttribute("type","button");
                     input.setAttribute("value","Nuevo Cliente");
@@ -86,10 +95,9 @@ function listarClientes() {
     });
 }
 
+/*Modal añadir cliente*/
 function MODañadir_cliente() {
-    $(".boton_añadir").unbind();
-    $(".boton_añadir").click(añadir_cliente);
-
+    //mostramos modal añadir cliente
     $("#titulo_modal").text("Añadir Cliente");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","block");
@@ -97,33 +105,40 @@ function MODañadir_cliente() {
     $("#modal_dniCliente").attr('readonly', false);
     $("#modal_dniCliente").css('background-color', "white");
     $("#modal_pwdSpan").css('display','block');
-
+    //limpiamos botones
     $("#modal_dniCliente").val("");
     $("#modal_nombre").val("");
     $("#modal_direccion").val("");
     $("#modal_email").val("");
     $("#modal_pwd").val("");
+    //añadimos el boton añadir
+    $(".boton_añadir").unbind();
+    $(".boton_añadir").click(añadir_cliente);
 }
 
+/*Añadir cliente*/
 function añadir_cliente() {
+    //sacamos valor del modal añadir cliente
     let dniCliente=$("#modal_dniCliente").val();
     let nombre=$("#modal_nombre").val();
     let direccion=$("#modal_direccion").val();
     let email=$("#modal_email").val();
     let pwd=$("#modal_pwd").val();
-    
+    //comprobamos campos vacios
     if((dniCliente=="")||(nombre==""),(direccion==""),(email=="")){
         $("#contenido_msg").text("");
         $("#modalMSG").css("display","block");
         $("#contenido_msg").text("Error Campos Vacios");  
     }
     else{
+        //realizapeticion para añadir cliente
         $.ajax({
             type:"POST",
             url:"./controladores/gestion_clientes.php",
             data: {funcion:"añadir",dniCliente,nombre,direccion,email,pwd},
             success: function(response){
                 let respuesta=JSON.parse(response);
+                //sacamos respuesta de la peticion
                 $("#contenido_msg").text("");
                 $("#modalMSG").css("display","block");
                 if(respuesta[0]==false){
@@ -142,6 +157,8 @@ function añadir_cliente() {
         });
     }
 }
+
+/*Pintar cliente*/
 function PintarCliente(dniCliente,nombre,direccion,email){
     span=document.createElement("span");
         div = document.createElement("div");
@@ -157,15 +174,19 @@ function PintarCliente(dniCliente,nombre,direccion,email){
         div.innerText=email;
         span.append(div);
         div = document.createElement("div");
+            //pintamos boton modificar cliente con el dnicliente
             let input = document.createElement("input");
             input.id="boton_editar."+dniCliente;
             input.className = "boton_editar";
+            //añadimos funcionalidad
             input.onclick=function(){MODeditar_cliente(this)};
             input.setAttribute("type","button");
             input.setAttribute("value","Modificar");
         div.append(input);
+            //creamos boton para eliminar cliente con el dnicliente
             input = document.createElement("input");
             input.id="boton_eliminar."+dniCliente;
+            //añadimos funcionalidad
             input.onclick=function(){confirmar_deleteC($(this))};
             input.className = "boton_eliminar";
             input.setAttribute("type","button");
@@ -177,24 +198,30 @@ function PintarCliente(dniCliente,nombre,direccion,email){
 }
 
 function MODeditar_cliente(boton){
-    $(".boton_modificar").unbind();
-    $(".boton_modificar").click(modificar_cliente);
+    //sacamos el dni del cliente
+    boton=boton.id;
+    boton = boton.split(".");
+    dniCliente=boton[1];
+    //mostramos modal para editar cliente
     $("#titulo_modal").text("Modificar Cliente");
     $(".modal_form").css("display","block");
     $(".boton_añadir").css("display","none");
     $(".boton_modificar").css("display","block");
+    $("#modal_dniCliente").val(dniCliente);
     $("#modal_dniCliente").attr('readonly', true);
     $("#modal_dniCliente").css('background-color', "#6d6d6d4b");
     $("#modal_pwdSpan").css('display','none');
-    boton=boton.id;
-    boton = boton.split(".");
-    dniCliente=boton[1];
-    $("#modal_dniCliente").val(dniCliente);
+    
+    //añadimos funcion modificar cliente
+    $(".boton_modificar").unbind();
+    $(".boton_modificar").click(modificar_cliente);
     datoscliente(dniCliente);
     
 }
 
+/*Sacar datos Cliente*/
 function datoscliente(dniCliente) {
+    //sacamos informacion del cliente
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
@@ -202,6 +229,7 @@ function datoscliente(dniCliente) {
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
+            //rellenamos el modal modificar pedido
             $("#modal_dniCliente").val(respuesta["dniCliente"]);
             $("#modal_nombre").val(respuesta["nombre"]);
             $("#modal_direccion").val(respuesta["direccion"]);
@@ -211,17 +239,22 @@ function datoscliente(dniCliente) {
     });
 }
 
+/*Confirmamos la eliminacion*/
 function confirmar_deleteC(boton){ 
+    //sacamos dniCliente
     let dniCliente=boton.attr("id");
     dniCliente = dniCliente.split(".");
     dniCliente=dniCliente[1];
-    
+    //mostramos confirmar
     $("#modalconfirmar").css("display","block");
+    //añadir funcionalidad
     $(".confirmar_msg").unbind();
     $(".confirmar_msg").click(function(){eliminar_cliente(boton,dniCliente)});   
 }
 
+/*Eliminamos Cliente*/
 function eliminar_cliente(boton,dniCliente){
+    //realizamos la peticion para eliminar cliente
     $.ajax({
         type:"POST",
         url:"./controladores/gestion_clientes.php",
@@ -229,6 +262,7 @@ function eliminar_cliente(boton,dniCliente){
         datatype:"json",
         success: function(response){
             let respuesta=JSON.parse(response);
+            //sacamos la respuesta
             if(respuesta){
                 $("#contenido_msg").text("");
                 $("#modalMSG").css("display","block");
@@ -240,11 +274,14 @@ function eliminar_cliente(boton,dniCliente){
     
 }
 
+/*modificamos cliente*/
 function modificar_cliente() {
+    //sacamos valores del modal modificar cliente
     let dniCliente=$("#modal_dniCliente").val();
     let nombre=$("#modal_nombre").val();
     let direccion=$("#modal_direccion").val();
     let email=$("#modal_email").val();
+    //comprobamos campos vacios
     if((dniCliente=="")||(nombre==""),(direccion==""),(email=="")){
         $("#contenido_msg").text("");
         $("#modalMSG").css("display","block");
@@ -258,6 +295,7 @@ function modificar_cliente() {
             datatype:"json",
             success: function(response){     
                 let respuesta=JSON.parse(response);
+                //sacar respuesta
                 $("#contenido_msg").text("");
                 $("#modalMSG").css("display","block");
                 console.log(respuesta);
@@ -273,15 +311,16 @@ function modificar_cliente() {
     }
 }
 
+/*botones para modales*/
 function botones_cliente(){
     $(".boton_cancelar").click(ocultar_modal);
     $(".cerrar_msg").click(cerrarMSG);
 }
-
+/*oculta modal*/
 function ocultar_modal() {
     $(".modal_form").css("display","none");
 }
-
+/*Cierra mensaje*/
 function cerrarMSG(){
     $(".modalMSG").css("display","none");
 }
