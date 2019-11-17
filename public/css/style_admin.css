@@ -190,22 +190,40 @@ section input{
     }
 
     .boton_modificar{
-        background: hsl(120, 39%, 75%);
+        background-color: hsl(120, 39%, 75%);
         border: 2px solid green;
-        color: green;
+        color: green !important;
+    }
+
+    .boton_modificar:hover{
+        background-color: green;
+        border: 2px solid hsl(120, 39%, 75%);
+        color: white !important;
     }
 
     .boton_cancelar{
         background: rgb(226, 167, 167);
         border: 2px solid red;
-        color: rgb(92, 7, 7);
+        color: rgb(92, 7, 7) !important;
+    }
+
+    .boton_cancelar:hover{
+        color: white !important;
+        border: 2px solid rgb(226, 167, 167);
+        background-color: rgb(92, 7, 7);
     }
 
     .boton_añadir, .añadir_linea{
         background: #adadf8;
         border: 2px solid blue;
-        color: rgb(7, 7, 138);
+        color: rgb(7, 7, 138) !important;
         border-radius: 5px;
+    }
+
+    .boton_añadir:hover, .añadir_linea:hover{
+        border: 2px solid #adadf8;
+        color: white !important;
+        background: rgb(7, 7, 138);
     }
     
     .boton_nuevo{
@@ -216,6 +234,11 @@ section input{
         width: 80px;
         background-color: #5c5c5c;
         border-radius: 5px;
+    }
+
+    .boton_nuevo:hover{
+        color: rgb(63, 63, 63);
+        background-color: #b3b3b3;
     }
 /*Modales*/
 .modal{
@@ -307,6 +330,10 @@ section input{
     border-radius: 5px;
 }
 
+.modalMSG input:hover{
+    color: rgb(63, 63, 63);
+    background-color: #b3b3b3;
+}
 /*Modal de IMG*/
 
 .modalIMG>div{
