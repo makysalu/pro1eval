@@ -1,5 +1,5 @@
 
-<div id="msgDNI">
+<div class="msgDNI">
     <div >
         <div></div>
             <div>El Correo o la Contraseña no son Validos</div>

@@ -4,7 +4,7 @@ body {
 	font-family: serif;
 }
 
-#header_admin {
+.header_admin {
 	z-index: 2;
 	background: #262D29;
 	color: white;
@@ -15,7 +15,7 @@ body {
 	position: fixed;
     border-bottom:  #668ECB groove 5px;
 }
-#header_admin a {
+.header_admin a {
     color: white;
     text-decoration: none;
 }
@@ -23,12 +23,12 @@ body {
 /*
  * Logo
  */
-#logo {
+.logo {
 	float: right;
 	margin-right: 20px;
 }
 
-#logo-header {
+.logo-header {
 	float: left;
 	text-align: right;
 	margin: 20px 10px;
@@ -41,12 +41,12 @@ body {
     filter: invert(100%);
 }
 
-#logo-header .site-name {
+.logo-header .site-name {
 	display: block;
 	font-size: 1.2em;
 }
 
-#logo-header .site-desc {
+.logo-header .site-desc {
 	display: block;
 	font-size: 0.6em;
 }
@@ -62,7 +62,7 @@ nav {
 	z-index: inherit;
 	position: fixed;
 	top: 80px;
-	width: 20%;
+	width: 200px;
 	height: 100%;
 	background:#555c59;
     line-height: 40px;
@@ -105,7 +105,7 @@ nav ul a {
 	
 /* pie de pagina*/
 
-#footer_admin {
+.footer_admin {
 	position: fixed;
 	width: 100%;
 	background: #333333;
@@ -113,11 +113,11 @@ nav ul a {
 	text-align: center;
     bottom: 0;
 }
-#footer_admin  p {
+.footer_admin  p {
 	margin: 10px;
 }
 
-#footer_admin a {
+.footer_admin a {
 	color: white;
 }
 
@@ -125,14 +125,18 @@ nav ul a {
 section {
     background: #FFFFFF;
     margin-top: 80px;
-	width: 80%;
-	margin-left: 20%;
+	margin-left: 200px;
     padding: 30px 40px 80px 40px;
     box-sizing: border-box;
+    font-family: robotos;
 }  
 
+section input{
+    font-family: Overpass;
+}
+
 /*tabla*/
- #lista_admin{
+ .lista_admin{
     width: 100%;
     padding: 40px;
     padding-top: 0;
@@ -140,21 +144,19 @@ section {
     grid-template-columns: 1fr;
     grid-template-rows: min-content 1fr;
     box-sizing: border-box;
-    font-family: robotos;
     }
     
-    #lista_admin span{
+    .lista_admin span{
         display: inline;
         display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+         grid-template-columns: 170px 1fr 1fr 1fr 180px;
     }
     
-    #lista_admin div{
+    .lista_admin div{
         padding:35px 25px;
         text-align:left;
         border-radius:2px;
         border-bottom:1px solid rgba(0,0,0,0.12);
-        /*line-height: 50px;*/
     }
 
     .img_producto{
@@ -168,7 +170,7 @@ section {
         height: auto;
     }
 
-    #lista_admin img{
+    .lista_admin img{
         width: 100%;
         height: auto;
       }
@@ -186,37 +188,37 @@ section {
         font-size: 1.5em;
         background-color: rgba(0,0,0,0.12);
     }
-    #lista_admin input{
-        width: 60px;
-        height: 30px;
-    }
-    #lista_admin input{
-        margin: 0 5px;
-        border-radius: 5px;
-        float: left;
-    }
 
-    .boton_editar, .boton_modificar{
+    .boton_modificar{
         background: hsl(120, 39%, 75%);
         border: 2px solid green;
         color: green;
     }
 
-    .boton_eliminar, .boton_cancelar, .eliminar_linea{
+    .boton_cancelar{
         background: rgb(226, 167, 167);
         border: 2px solid red;
         color: rgb(92, 7, 7);
     }
 
-    .boton_nuevo, .boton_añadir, .mod_linea, .añadir_linea{
+    .boton_añadir, .añadir_linea{
         background: #adadf8;
         border: 2px solid blue;
         color: rgb(7, 7, 138);
         border-radius: 5px;
     }
-
-    /*Modal*/
-.modal_form{
+    
+    .boton_nuevo{
+        float: left;
+        color: whitesmoke;
+        margin: 15px 10px;
+        height: 30px;
+        width: 80px;
+        background-color: #5c5c5c;
+        border-radius: 5px;
+    }
+/*Modales*/
+.modal{
     position: fixed;
     display: none;
     top: 0;
@@ -227,6 +229,8 @@ section {
     box-sizing: border-box;
 }
 
+
+    /*Modal*/
 .modal_form form{
     margin: 225px auto;
     width: 400px;
@@ -258,7 +262,6 @@ section {
 }
 
 .modal_form form input[type="button"]{
-    font-family: Overpass;
     color: black;
     float: right;
     height: 25px;
@@ -268,16 +271,6 @@ section {
 }
 
 /*Modal de Mensaje*/
-.modalMSG{
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.295);
-    z-index: 8;
-    box-sizing: border-box;
-    display: none;
-}
 
 .modalMSG>div{
     margin: 325px auto;
@@ -315,18 +308,8 @@ section {
 }
 
 /*Modal de IMG*/
-#modalIMG{
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.295);
-    z-index: 8;
-    box-sizing: border-box;
-    display: none;
-}
 
-#modalIMG>div{
+.modalIMG>div{
     margin: 225px auto;
     padding: 10px;
     width: 300px;
@@ -335,26 +318,26 @@ section {
     border-radius: 15px;
 }
 
-#modalIMG img:nth-child(1){
+.modalIMG img:nth-child(1){
     width: 100%;
     height: auto;
   }
 
   @supports(object-fit: cover){
-    #modalIMG img:nth-child(1){
+    .modalIMG img:nth-child(1){
         height: 100%;
         object-fit: cover;
         object-position: center center;
       }
   }
 
-  .menu-lineas{
-      float: left;
-      margin: 0;
+  .boton-menu{
+      float: right;
+      margin: 0 5px;
       width: 30px !important;
   }
 
-  #modalIMG img:nth-child(2){
+  .modalIMG img:nth-child(2){
       position: fixed;
       margin-left: 280px;
       top: 230px;
@@ -369,7 +352,7 @@ section {
     display: block;
   }
 
-  #lista_lineas{
+  .lista_lineas{
     width: 100%;
     grid-column-start: 1;
     grid-column-end: 6;
@@ -378,15 +361,14 @@ section {
     grid-template-columns: 1fr;
     grid-template-rows: min-content 1fr;
     box-sizing: border-box;
-    font-family: robotos;
     }
     
-    #lista_lineas span{
+    .lista_lineas span{
         display: inline;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 120px;
     }
-    #lista_lineas div{
+    .lista_lineas div{
         padding:10px 25px;
         text-align:center;
         border-radius:2px;
@@ -394,21 +376,11 @@ section {
         /*line-height: 50px;*/
     }
 
-    #lista_lineas input{
+    .lista_lineas input{
         margin: 0 40%;
     }
 
     /*Modal pedido*/
-.modal_pedido, .modal_linea{
-    position: fixed;
-    display: none;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.295);
-    z-index: 8;
-    box-sizing: border-box;
-}
 
 .modal_pedido form, .modal_linea form{
     margin: 225px auto;
@@ -441,7 +413,6 @@ section {
 }
 
 .modal_pedido form input[type="button"], .modal_linea form input[type="button"]{
-    font-family: Overpass;
     color: black;
     float: right;
     height: 25px;

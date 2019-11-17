@@ -1,7 +1,7 @@
-<header id="header_admin">
-  <div id="logo">
+<header class="header_admin">
+  <div class="logo">
     <img id="imagen_logo" src="img/icon.png" width="70" height="70"/>
-    <div id="logo-header">
+    <div class="logo-header">
         <span class="site-name"><?php echo $_SESSION["nombre"]; ?></span>
         <a href="validar.php"><span class="site-desc">Cerrar</span></a>
     </div>

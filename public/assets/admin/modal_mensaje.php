@@ -1,5 +1,5 @@
 
-<div id="modalMSG" class="modalMSG">
+<div id="modalMSG" class="modal modalMSG">
     <div >
         <div></div>
             <div id="contenido_msg">El Correo o la Contraseña no son Validos</div>

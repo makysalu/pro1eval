@@ -1,4 +1,4 @@
-<div id="modalconfirmar" class="modalMSG">
+<div id="modalconfirmar" class="modal modalMSG">
     <div >
         <div></div>
             <div>Estas Seguro que Quieres Eliminarlo</div>

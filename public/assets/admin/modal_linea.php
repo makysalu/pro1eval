@@ -1,4 +1,4 @@
-<div class="modal_linea">
+<div class="modal modal_linea">
     <form id="form_modal" action="">
         <h2 id="titulo_modal">Añadir Producto</h2>
         <input id="modal_idPedido_linea" name="idPedido" type="hidden"value="">

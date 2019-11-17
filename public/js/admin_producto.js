@@ -1,8 +1,8 @@
 /*Listar productos*/
 function listarProductos() {
     // si esiste los elimina
-    if($("#lista_admin")){
-        $("#lista_admin").remove();
+    if($(".lista_admin")){
+        $(".lista_admin").remove();
         $("#boton_lista").remove();
     }
     $.ajax({
@@ -13,7 +13,7 @@ function listarProductos() {
         success: function(response){   
             let respuesta=JSON.parse(response);       
             let table=document.createElement("div");
-            table.id="lista_admin";
+            table.className="lista_admin";
             let span=document.createElement("span");
                 span.id="fila-0";
                 let div = document.createElement("div");
@@ -62,23 +62,22 @@ function listarProductos() {
                 div.innerText=respuesta[i].precio+"€";
                 span.append(div);
                 div = document.createElement("div");
-                    //añadir boton editar producto con el id del producto
-                    let input = document.createElement("input");
-                    input.id="boton_editar."+respuesta[i].idProducto;
-                    //añadir funcionalidad
-                    input.onclick=function(){MODeditar_producto(this)};
-                    input.className = "boton_editar";
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Modificar");
-                div.append(input);
                     //añadir boton eliminar producto con el id del producto
-                    input = document.createElement("input");
-                    input.id="boton_eliminar."+respuesta[i].idProducto;
-                    input.onclick=function(){confirmar_deleteP($(this))};
-                    input.className = "boton_eliminar";
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Eliminar");
-                div.append(input);
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/close.png");
+                    img.id="boton_eliminar."+respuesta[i].idProducto;
+                    img.className = "boton_eliminar boton-menu";
+                    //añadimos funcionalidad
+                    img.onclick=function(){confirmar_deleteP($(this))};
+                div.append(img);
+                    //añadir boton editar producto con el id del producto
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/writing.png");
+                    img.id="boton_editar."+respuesta[i].idProducto;
+                    img.className = "boton_editar boton-menu";
+                    //añadir funcionalidad
+                    img.onclick=function(){MODeditar_producto(this)};
+                div.append(img);
                 span.append(div);
                 table.append(span);
             }  
@@ -87,7 +86,7 @@ function listarProductos() {
                     input.className = "boton_nuevo";
                     input.onclick=function(){MODañadir_producto(this)};
                     input.setAttribute("type","button");
-                    input.setAttribute("value","Nuevo Producto");
+                    input.setAttribute("value","Nuevo");
                 $("#gestion_productos").append(table);
                 $("#gestion_productos").append(input);
             botones_producto();
@@ -103,7 +102,7 @@ function botones_producto(){
 /*boton mostrar boton*/
 function Mostrar_producto(boton){
     $("#imagen_modal").attr("src","img/productos/"+boton.id);
-    $("#modalIMG").css('display','block');
+    $(".modalIMG").css('display','block');
 }
 
 /*Modal añadir producto*/
@@ -205,24 +204,24 @@ function PintarProducto(idProducto,foto,nombre,marca,precio){
                 div.innerText=precio+"€";
                 span.append(div);
                 div = document.createElement("div");
-                    let input = document.createElement("input");
-                    input.id="boton_editar."+idProducto;
-                    input.onclick=function(){MODeditar_producto(this)};
-                    console.log(input);
-                    
-                    input.className = "boton_editar";
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Modificar");
-                div.append(input);
-                    input = document.createElement("input");
-                    input.id="boton_eliminar."+"idProducto";
-                    input.onclick=function(){confirmar_deleteP($(this))};
-                    input.className = "boton_eliminar";
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Eliminar");
-                div.append(input);
+                    //añadir boton eliminar producto con el id del producto
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/close.png");
+                    img.id="boton_eliminar."+idProducto;
+                    img.className = "boton_eliminar boton-menu";
+                    //añadimos funcionalidad
+                img.onclick=function(){confirmar_deleteP($(this))};
+                div.append(img);
+                    //añadir boton editar producto con el id del producto
+                    img=document.createElement("img");
+                        img.setAttribute("src","img/writing.png");
+                        img.id="boton_editar."+idProducto;
+                        img.className = "boton_editar boton-menu";
+                    //añadir funcionalidad
+                    img.onclick=function(){MODeditar_producto(this)};
+                div.append(img);
                 span.append(div);
-    $("#lista_admin").append(span);
+    $(".lista_admin").append(span);
     botones_producto();
 }
 
@@ -341,8 +340,8 @@ function modificar_producto() {
 
 function ocultar_modal() {
     $(".modal_form").css("display","none");
-    $("#modalMSG").css("display","none");
-    $("#modalIMG").css("display","none");
+    $(".modalMSG").css("display","none");
+    $(".modalIMG").css("display","none");
 }
 
 function cerrarMSG(){

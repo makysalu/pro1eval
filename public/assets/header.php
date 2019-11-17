@@ -1,5 +1,5 @@
-<header id="cabecera">
-    <nav id="navegador_cabecera">
+<header class="cabecera">
+    <nav class="navegador_cabecera">
         <ul>
             <li class="menu_cabecera"><?php echo $_SESSION["nombre"];?></li>
             <a href="validar.php"><li class="menu_cabecera">Desconectar</li></a>
@@ -9,7 +9,7 @@
         URBAN SHOTS
     </div>
 </header>
-<nav id="navegador_principal"> 
+<nav class="navegador_principal"> 
    <ul>
        <a href="principal.php"><li class="menu_principal">Novedades</li></a>
        <li class="menu_principal">Categorias</li>

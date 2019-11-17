@@ -1,7 +1,7 @@
 <?php
    // $clientes= Usuario::listarClientes($base->conexion);
 ?>
-<div class="modal_pedido">
+<div class="modal modal_pedido">
     <form id="form_modal" action="">
         <h2 id="titulo_modal">Modificar Pedido</h2>
         <input type="hidden" id="modal_totallinea" value="">

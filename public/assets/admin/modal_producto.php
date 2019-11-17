@@ -1,5 +1,5 @@
 
-<div class="modal_form ">
+<div class="modal modal_form">
     
     <form id="form_modal" action="">
         <h2 id="titulo_modal">Modificar Producto</h2>

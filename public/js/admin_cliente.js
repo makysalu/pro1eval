@@ -1,8 +1,8 @@
 /*Pintamos los clientes*/
 function listarClientes() {
     //si estiste lo elimina
-    if($("#lista_admin")){
-        $("#lista_admin").remove();
+    if($(".lista_admin")){
+        $(".lista_admin").remove();
         $("#boton_lista").remove();
     }
     //Realiza peticion ajax para sacar todos los clientes
@@ -14,7 +14,7 @@ function listarClientes() {
         success: function(response){ 
             let respuesta=JSON.parse(response); 
             let table=document.createElement("div");
-            table.id="lista_admin";
+            table.className="lista_admin";
             let span=document.createElement("span");
                 span.id="fila-0";
                 let div = document.createElement("div");
@@ -57,24 +57,22 @@ function listarClientes() {
                     span.append(div);
                     div = document.createElement("div");
                     div.id="fila-"+cont;
-                        //crea boton para modificar cliente con el dni del cliente
-                        let input = document.createElement("input");
-                        input.id="boton_editar."+respuesta[i].dniCliente;
-                        //le añade la funcionalidad
-                        input.onclick=function(){MODeditar_cliente(this)};
-                        input.className = "boton_editar";
-                        input.setAttribute("type","button");
-                        input.setAttribute("value","Modificar");
-                    div.append(input);
                         //crea boton para eliminar cliente con el dni del cliente
-                        input = document.createElement("input");
-                        input.id="boton_eliminar."+respuesta[i].dniCliente;
+                        img=document.createElement("img");
+                        img.setAttribute("src","img/close.png");
+                        img.id="boton_eliminar."+respuesta[i].dniCliente;
+                        img.className = "boton_eliminar boton-menu";
                         //le añadimos la funcionalidad
-                        input.onclick=function(){confirmar_deleteC($(this))};
-                        input.className = "boton_eliminar";
-                        input.setAttribute("type","button");
-                        input.setAttribute("value","Eliminar");
-                    div.append(input);
+                        img.onclick=function(){confirmar_deleteC($(this))};
+                    div.append(img);
+                        //crea boton para modificar cliente con el dni del cliente
+                        img=document.createElement("img");
+                        img.setAttribute("src","img/writing.png");
+                        img.id="boton_editar."+respuesta[i].dniCliente;
+                        img.className = "boton_editar boton-menu";
+                        //le añade la funcionalidad
+                        img.onclick=function(){MODeditar_cliente(this)};
+                    div.append(img);
                 span.append(div);
             table.append(span);
             cont++;
@@ -86,7 +84,7 @@ function listarClientes() {
                     //añadimos funcionalidad
                     input.onclick=function(){MODañadir_cliente(this)};
                     input.setAttribute("type","button");
-                    input.setAttribute("value","Nuevo Cliente");
+                    input.setAttribute("value","Nuevo");
                 
                 $("#gestion_usuario").append(table);
                 $("#gestion_usuario").append(input);
@@ -175,25 +173,23 @@ function PintarCliente(dniCliente,nombre,direccion,email){
         span.append(div);
         div = document.createElement("div");
             //pintamos boton modificar cliente con el dnicliente
-            let input = document.createElement("input");
-            input.id="boton_editar."+dniCliente;
-            input.className = "boton_editar";
+            img=document.createElement("img");
+            img.setAttribute("src","img/writing.png");
+            img.id="boton_editar."+dniCliente;
+            img.className = "boton_editar boton-menu";
             //añadimos funcionalidad
-            input.onclick=function(){MODeditar_cliente(this)};
-            input.setAttribute("type","button");
-            input.setAttribute("value","Modificar");
-        div.append(input);
+            img.onclick=function(){MODeditar_cliente(this)};
+        div.append(img);
             //creamos boton para eliminar cliente con el dnicliente
-            input = document.createElement("input");
-            input.id="boton_eliminar."+dniCliente;
+            img=document.createElement("img");
+            img.setAttribute("src","img/close.png");
+            img.id="boton_eliminar."+dniCliente;
+            img.className = "boton_eliminar boton-menu";
             //añadimos funcionalidad
-            input.onclick=function(){confirmar_deleteC($(this))};
-            input.className = "boton_eliminar";
-            input.setAttribute("type","button");
-            input.setAttribute("value","Eliminar");
-        div.append(input);
+            img.onclick=function(){confirmar_deleteC($(this))};
+        div.append(img);
     span.append(div);
-    $("#lista_admin").append(span);
+    $(".lista_admin").append(span);
     botones_cliente();
 }
 

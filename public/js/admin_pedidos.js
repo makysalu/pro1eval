@@ -1,8 +1,8 @@
 /*Pintamos todos los Pedidos*/
 function listarPedidos() {
     //Si ya estan los eliminamos
-    if($("#lista_admin").length){
-        $("#lista_admin").remove();
+    if($(".lista_admin").length){
+        $(".lista_admin").remove();
         $("#boton_lista").remove();
     }
     //Realizamos la peticion que nos saca los pedidos
@@ -14,7 +14,7 @@ function listarPedidos() {
         success: function(response){   
             let respuesta=JSON.parse(response);       
             let table=document.createElement("div");
-            table.id="lista_admin";
+            table.className="lista_admin";
                 let span=document.createElement("span");
                     div = document.createElement("div");
                     div.innerText="ID Pedido";
@@ -52,32 +52,30 @@ function listarPedidos() {
                     div.innerText=respuesta[i].dniCliente;
                     span.append(div);                
                     div = document.createElement("div");
+                        //añadimos el boton para eliminar pedido con el id del pedido
+                        img=document.createElement("img");
+                        img.setAttribute("src","img/close.png");
+                        img.id="boton_eliminar."+respuesta[i].idPedido;
+                        img.className = "boton_eliminar boton-menu";
+                        //le añadimos la funcionalidad
+                        img.onclick=function(){confirmar_deletePe($(this))};
+                    div.append(img);
+                        //añadimos el boton para modificar pedido con el id del pedido
+                        img=document.createElement("img");
+                        img.setAttribute("src","img/writing.png");
+                        img.id="boton_editar."+respuesta[i].idPedido;
+                        img.className = "boton_editar boton-menu";
+                        //añadimos funcionalidad
+                        img.onclick=function(){MODeditar_pedido(this)};
+                    div.append(img);
                         //añadimos el boton para mostrar lineas con el id del pedido
                         img=document.createElement("img");
                         img.setAttribute("src","img/menu.png");
-                        img.className="menu-lineas";
+                        img.id="menu-lineas."+respuesta[i].idPedido;
+                        img.className="menu-lineas boton-menu";
                         //le damos funcionalidad
                         img.onclick=function(){Mostrar_lineas($(this))};
-                        img.id="menu-lineas."+respuesta[i].idPedido;
-                        div.append(img);
-                        //añadimos el boton para modificar pedido con el id del pedido
-                        let input = document.createElement("input");
-                        input.id="boton_editar."+respuesta[i].idPedido;
-                        input.className = "boton_editar";
-                        //le añadimos funcionalidad
-                        input.onclick=function(){MODeditar_pedido(this)};
-                        input.setAttribute("type","button");
-                        input.setAttribute("value","Modificar");
-                        div.append(input);
-                        //añadimos el boton para eliminar pedido con el id del pedido
-                        input = document.createElement("input");
-                        input.id="boton_eliminar."+respuesta[i].idPedido;
-                        input.className ="boton_eliminar";
-                        //le añadimos la funcionalidad
-                        input.onclick=function(){confirmar_deletePe($(this))};
-                        input.setAttribute("type","button");
-                        input.setAttribute("value","Eliminar");
-                    div.append(input);
+                    div.append(img);
                 span.append(div);
                 table.append(span);
             }  
@@ -88,7 +86,7 @@ function listarPedidos() {
                     //le añadimos funcionalidad
                     input.onclick=function(){MODañadir_pedido($(this))};
                     input.setAttribute("type","button");
-                    input.setAttribute("value","Nuevo Pedido");
+                    input.setAttribute("value","Nuevo");
                 $("#gestion_pedidos").append(table);
                 $("#gestion_pedidos").append(input);
             botones_pedido();
@@ -170,34 +168,34 @@ function PintarPedido(idPedido,fecha,direccion,dniCliente){
                 div.innerText=dniCliente;
                 span.append(div);
                 div = document.createElement("div");
+                    //añadimos el boton para eliminar pedido con el id del pedido
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/close.png");
+                    img.id="boton_eliminar."+idPedido;
+                    img.className = "boton_eliminar boton-menu";
+                    //le añadimos la funcionalidad
+                    img.onclick=function(){confirmar_deletePe($(this))};
+                div.append(img);
+                    //añadimos el boton para modificar pedido con el id del pedido
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/writing.png");
+                    img.id="boton_editar."+idPedido;
+                    img.className = "boton_editar boton-menu";
+                    //añadimos funcionalidad
+                    img.onclick=function(){MODeditar_pedido(this)};
+                div.append(img);
                     //añadimos el boton para mostrar lineas con el id del pedido
                     img=document.createElement("img");
                     img.setAttribute("src","img/menu.png");
-                    //añadimos funcionalidad
-                    img.onclick=function(){Mostrar_lineas($(this))};
-                    img.className="menu-lineas";
                     img.id="menu-lineas."+idPedido;
+                    img.className="menu-lineas boton-menu";
+                    //le damos funcionalidad
+                    img.onclick=function(){Mostrar_lineas($(this))};
                 div.append(img);
-                    //añadimos el boton para modificar pedido con el id del pedido
-                    let input = document.createElement("input");
-                    input.id="boton_editar."+idPedido;
-                    input.className = "boton_editar";
-                    //añadimos funcionalidad
-                    input.onclick=function(){MODeditar_pedido(this)};
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Modificar");
-                div.append(input);
-                    //añadimos el boton para eliminar pedido con el id del pedido
-                    input = document.createElement("input");
-                    input.id="boton_eliminar."+"idPedido";
-                    input.className = "boton_eliminar";
-                    //añadimos funcionalidad
-                    input.onclick=function(){confirmar_deletePe($(this))};
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Eliminar");
-                div.append(input);
+                div.append(img);
+                   
                 span.append(div);
-    $("#lista_admin").append(span);
+    $(".lista_admin").append(span);
 }
 
 /*Modal Editar Pedido*/
@@ -217,8 +215,8 @@ function MODeditar_pedido(boton){
 
     //Sacamos la informacion para rellenar el modal
     datospedido(idPedido);
-    $(".boton.modificar").unbind();
-    $("·boton.modificar").click(modificar_pedido);
+    $(".boton_modificar").unbind();
+    $(".boton_modificar").click(modificar_pedido);
 
 }
 
@@ -342,7 +340,7 @@ function lineas_pedido(idPedido, boton){
             fila=document.createElement("span");
             fila.id="fila-"+idPedido;
             let table=document.createElement("div");
-            table.id="lista_lineas";
+            table.className="lista_lineas";
             let span=document.createElement("span");
                 div = document.createElement("div");
                 div.innerText="#ID";
@@ -373,15 +371,14 @@ function lineas_pedido(idPedido, boton){
                     div.innerText=respuesta[i].cantidad;
                     span.append(div);
                     div = document.createElement("div");
-                        //crea boton para eliminar la linea con el id del pedido y la linea
-                        input = document.createElement("input");
-                        input.id="boton_eliminar."+respuesta[i].idPedido+"."+respuesta[i].nlinea;
-                        input.className="eliminar_linea";
-                        //le da funcionalidad
-                        input.onclick=function(){eliminar_linea($(this))};
-                        input.setAttribute("type","button");
-                        input.setAttribute("value","Eliminar");
-                    div.append(input);
+                    //añadimos el boton para eliminar pedido con el id del pedido
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/error.png");
+                    img.id="boton_eliminar."+respuesta[i].idPedido+"."+respuesta[i].nlinea;
+                    img.className="eliminar_linea boton-menu";
+                    //le añadimos la funcionalidad
+                    img.onclick=function(){eliminar_linea($(this))};
+                    div.append(img);
                 span.append(div);
                 table.append(span);
             }
@@ -394,15 +391,14 @@ function lineas_pedido(idPedido, boton){
                 div = document.createElement("div");
                 span.append(div);
                 div = document.createElement("div");
-                    //creamos el boton añadir linea con el id del pedido
-                    input = document.createElement("input");
-                    input.className = "mod_linea";
-                    input.id="boton_nuevo."+idPedido;
-                    //añadimos funcionalidad
-                    input.onclick=function(){MODañadir_linea($(this))};
-                    input.setAttribute("type","button");
-                    input.setAttribute("value","Añadir");
-                div.append(input);
+                //añadimos el boton para eliminar pedido con el id del pedido
+                    img=document.createElement("img");
+                    img.setAttribute("src","img/plus.png");
+                    img.id="boton_nuevo."+idPedido;
+                    img.className="mod_linea boton-menu";
+                    //le añadimos la funcionalidad
+                    img.onclick=function(){MODañadir_linea($(this))};
+                    div.append(img);
                 span.append(div);
             table.append(span);
             fila.append(table);
@@ -506,15 +502,14 @@ function PintarLinea(nlinea,idProducto,cantidad,boton){
         div.innerText=cantidad;
         span.append(div);
         div = document.createElement("div");
-            //creamos boton eliminar y le añadimos la id del pedido y el numero de linea
-            input = document.createElement("input");
-            input.id="boton_eliminar."+idPedido+"."+nlinea;
-            input.className = "boton_eliminar";
-            //añadimos la funcionalidad 
-            input.onclick=function(){eliminar_linea($(this))};
-            input.setAttribute("type","button");
-            input.setAttribute("value","Eliminar");
-        div.append(input);
+             //añadimos el boton para eliminar pedido con el id del pedido
+             img=document.createElement("img");
+             img.setAttribute("src","img/error.png");
+             img.id="boton_eliminar."+idPedido+"."+nlinea;
+             img.className="eliminar_linea boton-menu";
+             //le añadimos la funcionalidad
+             img.onclick=function(){eliminar_linea($(this))};
+             div.append(img);
     span.append(div);
     //Eliminamos la linea del pedido
     boton.parent().parent().before(span);
@@ -524,7 +519,7 @@ function PintarLinea(nlinea,idProducto,cantidad,boton){
 function ocultar_modal() {
     //ocultamos todos los modales
     $(".modal_form").css("display","none");
-    $("#modalIMG").css("display","none");
+    $(".modalIMG").css("display","none");
     $(".modal_pedido").css("display","none");
     $(".modal_linea").css("display","none");
 }

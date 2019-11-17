@@ -1,5 +1,5 @@
-<section id="seccion_productos">
-    <article id="productos_Cliente">
+<section class="seccion_productos">
+    <article class="productos_Cliente">
         <?php     
             foreach($productos as $producto){
                 echo "<div class='productoCliente'>";

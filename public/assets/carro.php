@@ -1,6 +1,6 @@
-<section id="carro">
+<section class="carro">
     <form action="" method="post">
-    <article id="productos_carro">
+    <article class="productos_carro">
         <div class="titulo_elemento">IMAGEN</div>
         <div class="titulo_elemento">PRODUCTO</div>
         <div class="titulo_elemento">UNIDADES</div>
