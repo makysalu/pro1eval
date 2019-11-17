@@ -172,14 +172,6 @@ function PintarCliente(dniCliente,nombre,direccion,email){
         div.innerText=email;
         span.append(div);
         div = document.createElement("div");
-            //pintamos boton modificar cliente con el dnicliente
-            img=document.createElement("img");
-            img.setAttribute("src","img/writing.png");
-            img.id="boton_editar."+dniCliente;
-            img.className = "boton_editar boton-menu";
-            //añadimos funcionalidad
-            img.onclick=function(){MODeditar_cliente(this)};
-        div.append(img);
             //creamos boton para eliminar cliente con el dnicliente
             img=document.createElement("img");
             img.setAttribute("src","img/close.png");
@@ -188,6 +180,15 @@ function PintarCliente(dniCliente,nombre,direccion,email){
             //añadimos funcionalidad
             img.onclick=function(){confirmar_deleteC($(this))};
         div.append(img);
+            //pintamos boton modificar cliente con el dnicliente
+            img=document.createElement("img");
+            img.setAttribute("src","img/writing.png");
+            img.id="boton_editar."+dniCliente;
+            img.className = "boton_editar boton-menu";
+            //añadimos funcionalidad
+            img.onclick=function(){MODeditar_cliente(this)};
+        div.append(img);
+            
     span.append(div);
     $(".lista_admin").append(span);
     botones_cliente();
