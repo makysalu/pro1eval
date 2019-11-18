@@ -178,9 +178,9 @@ class Usuario{
 
  class Carrito{
 
-    static function añadirLinea($idProducto,$nombre,$precio,$cantidad){
+    static function añadirLinea($idProducto,$nombre,$precio,$cantidad,$foto){
         $_SESSION["Carro"]["idProducto"][$_SESSION["total"]]=$_POST["idProducto"];
-        //$_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
+        $_SESSION["Carro"]["foto"][$_SESSION["total"]]=$_POST["foto"];
         $_SESSION["Carro"]["nombre"][$_SESSION["total"]]=$_POST["nombre"];
         $_SESSION["Carro"]["precio"][$_SESSION["total"]]=$_POST["precio"];
         $_SESSION["Carro"]["cantidad"][$_SESSION["total"]]=$_POST["cantidad"];
@@ -194,13 +194,13 @@ class Usuario{
            else{
             unset($_SESSION["Carro"]["idProducto"][$key]);
             $_SESSION["Carro"]["idProducto"]=array_values($_SESSION["Carro"]["idProducto"]);
+            unset($_SESSION["Carro"]["foto"][$key]);
+            $_SESSION["Carro"]["foto"]=array_values($_SESSION["Carro"]["foto"]);
             unset($_SESSION["Carro"]["nombre"][$key]);
             $_SESSION["Carro"]["nombre"]=array_values($_SESSION["Carro"]["nombre"]);
             unset($_SESSION["Carro"]["precio"][$key]);
             $_SESSION["Carro"]["precio"]=array_values($_SESSION["Carro"]["precio"]);
             unset($_SESSION["Carro"]["cantidad"][$key]);
-            //$_SESSION["Carro"]["foto"]=array_values($_SESSION["Carro"]["foto"]);
-            //unset($_SESSION["Carro"]["foto"][$key]);
             $_SESSION["Carro"]["cantidad"]=array_values($_SESSION["Carro"]["cantidad"]);
             $_SESSION["total"]=$_SESSION["total"]-1;
            }

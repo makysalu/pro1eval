@@ -5,7 +5,7 @@
             $total=0;
             if(isset($_POST["Comprar"])){
                 require "../src/Modelo.php";
-                Carrito::añadirLinea($_POST["idProducto"],$_POST["nombre"],$_POST["precio"],$_POST["cantidad"]);
+                Carrito::añadirLinea($_POST["idProducto"],$_POST["nombre"],$_POST["precio"],$_POST["cantidad"],$_POST["foto"]);
             }
             else if(isset($_POST["actualizar"])){
                 require "../src/Modelo.php";
