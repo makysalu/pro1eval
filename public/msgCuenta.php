@@ -2,7 +2,7 @@
     require "./assets/inicioHTML.php";
     require "./assets/header.php";
 ?>
-<div id="msgDNI">
+<div class="msgDNI">
     <div >
         <div></div>
             <div>El Correo o la Contraseña no son Validos</div>
