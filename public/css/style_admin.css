@@ -146,6 +146,11 @@ section input{
     box-sizing: border-box;
     }
     
+    @media screen and (max-width:1400px){
+        .lista_admin{
+            overflow-y: auto;
+        }
+    }
     .lista_admin span{
         display: inline;
         display: grid;
