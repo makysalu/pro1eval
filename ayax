@@ -1,0 +1,14 @@
+$.ajax({
+    type:     "post",
+    data:     {id: 0},
+    cache:    false,
+    url:      "doIt.php",
+    dataType: "text",
+    error: function (request, error) {
+        console.log(arguments);
+        alert(" Can't do because: " + error);
+    },
+    success: function () {
+        alert(" Done ! ");
+    }
+});
